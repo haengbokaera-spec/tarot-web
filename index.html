@@ -2,11 +2,75 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="refresh" content="0; url=auth.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>FreshSpirit</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #000;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .loading-box {
+      width: min(90%, 340px);
+      padding: 28px;
+      border: 2px solid #fff;
+      border-radius: 28px;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #ddd;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+  </style>
 </head>
+
 <body>
-  <p>Đang chuyển đến FreshSpirit...</p>
+  <div class="loading-box">
+    <h1>FreshSpirit</h1>
+    <p>Đang mở không gian tarot của bạn...</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+
+  <script>
+    async function routeUser() {
+      const { data } = await db.auth.getUser();
+
+      if (!data.user) {
+        window.location.href = "auth.html";
+        return;
+      }
+
+      const { data: profile, error } = await db
+        .from("profiles")
+        .select("birthday_month, birthday_day, birthday_year")
+        .eq("id", data.user.id)
+        .single();
+
+      if (error || !profile || !profile.birthday_month || !profile.birthday_day || !profile.birthday_year) {
+        window.location.href = "onboarding.html";
+        return;
+      }
+
+      window.location.href = "home.html";
+    }
+
+    routeUser();
+  </script>
 </body>
 </html>
