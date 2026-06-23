@@ -6,16 +6,33 @@
 
   <title>FreshSpirit</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=Lora:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    ::selection {
+      background: #FFD1DC;
+      color: #111;
+    }
+
+    ::-moz-selection {
+      background: #FFD1DC;
+      color: #111;
+    }
 
     body {
       background: #000;
       color: #111;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: "Be Vietnam Pro", Arial, Helvetica, sans-serif;
     }
 
-    button, input, select, textarea { font-family: inherit; }
+    button, input, select, textarea {
+      font-family: "Be Vietnam Pro", Arial, Helvetica, sans-serif;
+    }
+
     button { cursor: pointer; }
     .hidden { display: none !important; }
 
@@ -47,17 +64,20 @@
     }
 
     .logo {
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: -1px;
-      line-height: 1;
+      font-family: "Oswald", sans-serif;
+      font-size: 29px;
+      font-weight: 700;
+      letter-spacing: -0.6px;
+      line-height: 0.95;
+      text-transform: uppercase;
     }
 
     .tagline {
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 500;
       color: #555;
-      margin-top: 4px;
+      margin-top: 5px;
+      letter-spacing: -0.1px;
     }
 
     .top-actions {
@@ -72,7 +92,7 @@
       min-height: 34px;
       border: 1px solid #1f1f1f;
       border-radius: 999px;
-      font-weight: 800;
+      font-weight: 700;
       background: #fff;
       color: #111;
     }
@@ -114,7 +134,7 @@
       background: transparent;
       text-align: left;
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 700;
       padding: 8px 10px;
       border-radius: 14px;
     }
@@ -137,24 +157,38 @@
       margin-bottom: 14px;
     }
 
+    .card h1,
+    .card h2,
+    .journal-entry h2,
+    .tarot-item h2,
+    .quick-card strong,
+    .case-option strong,
+    .reader-name,
+    .reader-back h2,
+    .collab-title {
+      font-family: "Lora", serif;
+    }
+
     .card h1 {
-      font-size: 30px;
-      line-height: 1;
+      font-size: 28px;
+      line-height: 1.08;
       margin-bottom: 12px;
-      letter-spacing: -1px;
+      letter-spacing: -0.5px;
+      font-weight: 700;
     }
 
     .card h2 {
       font-size: 22px;
-      line-height: 1.12;
+      line-height: 1.15;
       margin-bottom: 10px;
+      font-weight: 700;
     }
 
     .card p {
-      font-size: 15px;
-      line-height: 1.48;
+      font-size: 14.5px;
+      line-height: 1.55;
       color: #333;
-      font-weight: 560;
+      font-weight: 500;
       margin-bottom: 12px;
     }
 
@@ -178,6 +212,7 @@
     }
 
     .auth-card h1 {
+      font-family: "Lora", serif;
       font-size: 25px;
       margin-bottom: 18px;
     }
@@ -194,7 +229,7 @@
       border: 1px solid #1f1f1f;
       border-radius: 999px;
       background: #fff;
-      font-weight: 850;
+      font-weight: 700;
     }
 
     .tabs .active {
@@ -214,8 +249,8 @@
       border: 1px solid #b9b9b9;
       border-radius: 18px;
       padding: 0 14px;
-      font-size: 15px;
-      font-weight: 650;
+      font-size: 14.5px;
+      font-weight: 500;
       outline: none;
       background: #fff;
     }
@@ -227,7 +262,7 @@
       min-height: 140px;
       padding: 14px;
       resize: vertical;
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
     .submit {
@@ -237,10 +272,14 @@
       border-radius: 18px;
       background: #111;
       color: #fff;
-      font-size: 17px;
-      font-weight: 850;
+      font-size: 16px;
+      font-weight: 700;
       margin-top: 8px;
       padding: 12px;
+      text-decoration: none;
+      display: grid;
+      place-items: center;
+      text-align: center;
     }
 
     .white-btn {
@@ -251,8 +290,12 @@
       background: #fff;
       color: #111;
       font-size: 15px;
-      font-weight: 850;
+      font-weight: 700;
       padding: 10px;
+      text-decoration: none;
+      display: grid;
+      place-items: center;
+      text-align: center;
     }
 
     .mini-btn {
@@ -263,7 +306,7 @@
       background: #111;
       color: #fff;
       font-size: 12px;
-      font-weight: 850;
+      font-weight: 700;
       padding: 8px;
     }
 
@@ -271,7 +314,7 @@
       min-height: 22px;
       margin-top: 12px;
       font-size: 14px;
-      font-weight: 750;
+      font-weight: 600;
       line-height: 1.4;
     }
 
@@ -293,7 +336,7 @@
       display: flex;
       gap: 10px;
       align-items: center;
-      font-weight: 700;
+      font-weight: 500;
       font-size: 14px;
       line-height: 1.35;
     }
@@ -330,13 +373,17 @@
       grid-row: span 2;
     }
 
-    .quick-card strong { font-size: 16px; }
+    .quick-card strong {
+      font-size: 17px;
+      line-height: 1.2;
+      font-weight: 700;
+    }
 
     .quick-card small {
       color: #555;
       font-size: 13px;
-      line-height: 1.35;
-      font-weight: 600;
+      line-height: 1.4;
+      font-weight: 500;
     }
 
     .fan {
@@ -404,12 +451,13 @@
     .tarot-item h2 {
       font-size: 15px;
       margin-bottom: 4px;
+      font-weight: 700;
     }
 
     .tarot-item small {
       display: block;
       font-size: 12px;
-      font-weight: 650;
+      font-weight: 500;
       color: #555;
       margin-bottom: 8px;
       line-height: 1.35;
@@ -418,9 +466,9 @@
     .tarot-item p {
       text-align: left;
       font-size: 13px;
-      line-height: 1.4;
+      line-height: 1.45;
       color: #333;
-      font-weight: 560;
+      font-weight: 500;
       margin-top: 8px;
     }
 
@@ -439,7 +487,7 @@
       background: #fff;
       padding: 13px;
       text-align: left;
-      font-weight: 850;
+      font-weight: 700;
     }
 
     .spread-btn.active {
@@ -452,7 +500,7 @@
       margin-top: 5px;
       font-size: 12px;
       line-height: 1.35;
-      font-weight: 600;
+      font-weight: 500;
       opacity: 0.78;
     }
 
@@ -470,14 +518,15 @@
       display: block;
       font-size: 16px;
       margin-bottom: 6px;
+      font-weight: 700;
     }
 
     .case-option small {
       display: block;
       color: #555;
       font-size: 13px;
-      line-height: 1.35;
-      font-weight: 600;
+      line-height: 1.4;
+      font-weight: 500;
     }
 
     .practice-case,
@@ -494,7 +543,7 @@
       display: block;
       color: #777;
       font-size: 12px;
-      font-weight: 850;
+      font-weight: 700;
       margin-bottom: 4px;
     }
 
@@ -502,6 +551,7 @@
       white-space: pre-wrap;
       font-size: 14px;
       line-height: 1.45;
+      font-weight: 600;
     }
 
     .journal-entry {
@@ -519,7 +569,7 @@
       border-radius: 999px;
       background: #fafafa;
       font-size: 12px;
-      font-weight: 850;
+      font-weight: 700;
       margin-bottom: 10px;
     }
 
@@ -551,7 +601,7 @@
 
     .journal-card-row p {
       font-size: 13px;
-      line-height: 1.4;
+      line-height: 1.45;
       margin-bottom: 0;
     }
 
@@ -589,7 +639,7 @@
       gap: 10px;
       padding: 0 14px;
       text-align: left;
-      font-weight: 850;
+      font-weight: 700;
       margin-bottom: 10px;
     }
 
@@ -601,6 +651,134 @@
       place-items: center;
       background: #111;
       color: #fff;
+    }
+
+    .book-section {
+      display: grid;
+      gap: 12px;
+    }
+
+    .reader-card {
+      width: 100%;
+      min-height: 342px;
+      perspective: 1000px;
+      border: none;
+      background: transparent;
+      padding: 0;
+      text-align: left;
+    }
+
+    .reader-inner {
+      position: relative;
+      width: 100%;
+      min-height: 342px;
+      transition: transform 0.65s ease;
+      transform-style: preserve-3d;
+    }
+
+    .reader-card.flipped .reader-inner {
+      transform: rotateY(180deg);
+    }
+
+    .reader-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border: 1px solid #1f1f1f;
+      border-radius: 24px;
+      background: #fff;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .reader-back {
+      transform: rotateY(180deg);
+      background: #fff8fb;
+    }
+
+    .reader-badge {
+      width: fit-content;
+      padding: 7px 10px;
+      border: 1px solid #111;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #FFD1DC;
+      margin-bottom: 12px;
+    }
+
+    .reader-name {
+      font-size: 25px;
+      line-height: 1.08;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .reader-desc {
+      font-size: 14.5px;
+      line-height: 1.55;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .reader-location {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border: 1px solid #111;
+      border-radius: 16px;
+      background: #fafafa;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .reader-hint {
+      font-size: 12px;
+      color: #777;
+      font-weight: 600;
+      margin-top: 16px;
+    }
+
+    .reader-back p {
+      font-size: 14.5px;
+      line-height: 1.55;
+      color: #222;
+      margin-bottom: 10px;
+    }
+
+    .collab-box {
+      border: 1px solid #111;
+      border-radius: 24px;
+      padding: 20px;
+      background: #fff8fb;
+      margin-top: 12px;
+    }
+
+    .collab-title {
+      font-size: 24px;
+      line-height: 1.15;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .collab-list {
+      display: grid;
+      gap: 10px;
+      margin: 14px 0;
+      list-style: none;
+    }
+
+    .collab-list li {
+      border: 1px solid #111;
+      border-radius: 16px;
+      padding: 12px 14px;
+      background: #fff;
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 500;
     }
 
     .bottom-nav {
@@ -625,7 +803,7 @@
       background: transparent;
       color: #111;
       font-size: 10px;
-      font-weight: 850;
+      font-weight: 700;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -643,6 +821,8 @@
     @media (max-width: 360px) {
       .cards-grid { grid-template-columns: 1fr; }
       .tarot-item img { height: auto; }
+      .logo { font-size: 25px; }
+      .black-btn { font-size: 12px; padding: 0 8px; }
     }
   </style>
 </head>
@@ -673,6 +853,8 @@
     let practiceSpread = null;
     let practiceCards = [];
     let practiceAiText = "";
+
+    let shopSection = "";
 
     const root = document.getElementById("root");
 
@@ -2259,38 +2441,142 @@ Trả lời bằng tiếng Việt.
     function renderShop() {
       root.innerHTML = layout(`
         <section class="card">
-          <h1>Cửa hàng FreshSpirit</h1>
-          <p>Chọn dịch vụ tarot phù hợp. Phần thanh toán thật sẽ được kết nối sau.</p>
+          <h1>Book FreshSpirit</h1>
+          <p>Chọn reader để xem profile, hoặc ứng tuyển làm cộng tác viên tarot cùng FreshSpirit.</p>
 
           <div class="quick-grid">
-            <button class="quick-card" onclick="shopMessage('Trải bài nhanh')">
-              <span>✨</span>
-              <strong>Trải bài nhanh</strong>
-              <small>49.000đ — Một câu hỏi trọng tâm.</small>
+            <button class="quick-card" onclick="openShopSection('readers')">
+              <span>🔮</span>
+              <strong>Tarot Readers</strong>
+              <small>Xem profile các reader hiện có và chọn người phù hợp.</small>
             </button>
 
-            <button class="quick-card" onclick="shopMessage('Trải bài chuyên sâu')">
-              <span>🌙</span>
-              <strong>Trải bài chuyên sâu</strong>
-              <small>149.000đ — Tình cảm, công việc, định hướng.</small>
-            </button>
-
-            <button class="quick-card" onclick="shopMessage('Mentor Tarot 1:1')">
-              <span>🃏</span>
-              <strong>Mentor Tarot 1:1</strong>
-              <small>299.000đ — Học và luyện đọc bài.</small>
+            <button class="quick-card" onclick="openShopSection('collab')">
+              <span>📝</span>
+              <strong>Apply as Collaborator</strong>
+              <small>Ứng tuyển cộng tác viên xem tarot cùng FreshSpirit.</small>
             </button>
           </div>
+        </section>
 
-          <p id="shopMessage" class="message"></p>
+        <section id="shopContent">
+          ${
+            shopSection === "readers"
+              ? readersSectionHtml()
+              : shopSection === "collab"
+                ? collabSectionHtml()
+                : ""
+          }
         </section>
       `, "shop");
     }
 
-    window.shopMessage = function(name) {
+    window.openShopSection = function(section) {
+      shopSection = section;
+      renderShop();
+    };
+
+    function readersSectionHtml() {
+      return `
+        <section class="card">
+          <h2>Choose your reader</h2>
+          <p>Chạm vào từng khung để lật sang mặt sau và đọc thêm về reader.</p>
+
+          <div class="book-section">
+            <button id="readerChau" class="reader-card" onclick="toggleReaderFlip('readerChau')">
+              <div class="reader-inner">
+                <div class="reader-face reader-front">
+                  <div>
+                    <div class="reader-badge">FreshSpirit Reader</div>
+                    <div class="reader-name">Reader Huynh Chau</div>
+                    <p class="reader-desc">Tarot Reader với hơn 1 năm kinh nghiệm.</p>
+                    <div class="reader-location">Location: Saigon</div>
+                  </div>
+                  <div class="reader-hint">Tap to view profile</div>
+                </div>
+
+                <div class="reader-face reader-back">
+                  <div>
+                    <h2>Reader Huynh Chau</h2>
+                    <p>Sun Cự Giải, AC Ma Kết, Moon Ma Kết</p>
+                    <p>MBTI: ENTJ</p>
+                    <p>Tarot và viết lách đã mang đến cho mình biết bao điều nhiệm màu, và niềm vui lớn nhất của mình là truyền cảm hứng cho người khác tin vào sức mạnh nội tại của chính họ.</p>
+                  </div>
+                  <div class="reader-hint">Tap to flip back</div>
+                </div>
+              </div>
+            </button>
+
+            <button id="readerLevi" class="reader-card" onclick="toggleReaderFlip('readerLevi')">
+              <div class="reader-inner">
+                <div class="reader-face reader-front">
+                  <div>
+                    <div class="reader-badge">FreshSpirit Reader</div>
+                    <div class="reader-name">Reader Levi</div>
+                    <p class="reader-desc">Tarot Reader với gần 3 năm kinh nghiệm.</p>
+                    <div class="reader-location">Location: KhanhHoa</div>
+                  </div>
+                  <div class="reader-hint">Tap to view profile</div>
+                </div>
+
+                <div class="reader-face reader-back">
+                  <div>
+                    <h2>Reader Levi</h2>
+                    <p>Sun Kim Ngưu, AC Sư Tử, Moon Xữ Nữ</p>
+                    <p>MBTI: INTP/INTJ</p>
+                    <p>Tarot Reader và Astrologer</p>
+                    <p>Đọc bài từ tâm, không phán xét.</p>
+                    <p>Mỗi buổi đọc bài là một không gian an toàn - nơi bạn có thể là chính mình, kể cả khi chính mình còn đang lạc lối.</p>
+                  </div>
+                  <div class="reader-hint">Tap to flip back</div>
+                </div>
+              </div>
+            </button>
+          </div>
+        </section>
+      `;
+    }
+
+    window.toggleReaderFlip = function(id) {
+      const card = document.getElementById(id);
+      if (card) card.classList.toggle("flipped");
+    };
+
+    function collabSectionHtml() {
+      return `
+        <section class="card">
+          <h2>Collaborate with FreshSpirit</h2>
+          <p>FreshSpirit đang tuyển cộng tác viên xem tarot cho các lượt trải bài trả phí.</p>
+
+          <div class="collab-box">
+            <div class="collab-title">Tuyển cộng tác viên Tarot Reader</div>
+
+            <p>Bạn muốn thực hành trải bài với querent thật, nâng cao kỹ năng đọc bài và có thêm thu nhập từ tarot?</p>
+
+            <ul class="collab-list">
+              <li>Hoa hồng cho mỗi trải bài: <strong>15% - 25%</strong> theo năng lực.</li>
+              <li>Có thưởng thêm nếu làm tốt, phản hồi ổn định và giữ chất lượng đọc bài.</li>
+              <li>Phù hợp với reader muốn luyện đọc thực tế, nghiêm túc và có trách nhiệm với querent.</li>
+            </ul>
+
+            <a class="submit" href="https://forms.gle/ưNuwNPS8u7AypTTX19" target="_blank">
+              Apply here
+            </a>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderShopOldMessage(name) {
       document.getElementById("shopMessage").textContent =
         `Bạn đã chọn "${name}". Chức năng thanh toán thật sẽ được kết nối sau.`;
-    };
+    }
+
+    function shopMessage(name) {
+      renderShopOldMessage(name);
+    }
+
+    window.shopMessage = shopMessage;
 
     window.toggleMenu = function() {
       const menu = document.getElementById("avatarMenu");
