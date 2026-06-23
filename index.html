@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fresh Spirit Tarot</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">✦ Fresh Spirit</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Readings</a>
+      <a href="#">Decks</a>
+      <a href="#">Rooms</a>
+    </nav>
+  </header>
+
+  <main class="hero">
+    <section class="hero-content">
+      <p class="tagline">Online Tarot Reading Room</p>
+      <h1>Explore your path through the cards</h1>
+      <p class="description">
+        Create a calm, magical space to draw tarot cards, reflect on your questions,
+        and receive intuitive guidance.
+      </p>
+
+      <div class="buttons">
+        <button onclick="drawCard()" class="primary-btn">Draw a Card</button>
+        <button class="secondary-btn">Create Room</button>
+      </div>
+    </section>
+
+    <section class="card-area">
+      <div id="tarotCard" class="tarot-card">
+        <div class="card-back">✦</div>
+      </div>
+
+      <h2 id="cardName">Your card is waiting</h2>
+      <p id="cardMeaning">Click “Draw a Card” to reveal your message.</p>
+    </section>
+  </main>
+
+  <section class="features">
+    <div class="feature">
+      <h3>1-Card Reading</h3>
+      <p>Quick answer for your current energy.</p>
+    </div>
+
+    <div class="feature">
+      <h3>3-Card Spread</h3>
+      <p>Past, present, and future guidance.</p>
+    </div>
+
+    <div class="feature">
+      <h3>Private Room</h3>
+      <p>Invite someone to join your tarot session.</p>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
