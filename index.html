@@ -21,7 +21,8 @@
 
     button,
     input,
-    select {
+    select,
+    textarea {
       font-family: inherit;
     }
 
@@ -62,12 +63,13 @@
       font-size: 23px;
       font-weight: 900;
       letter-spacing: -1px;
+      line-height: 1;
     }
 
     .tagline {
       font-size: 13px;
       font-weight: 700;
-      margin-top: 3px;
+      margin-top: 4px;
     }
 
     .top-actions {
@@ -230,9 +232,9 @@
     }
 
     .form input,
-    .form select {
+    .form select,
+    .form textarea {
       width: 100%;
-      height: 54px;
       border: 2px solid #c8c8c8;
       border-radius: 20px;
       padding: 0 16px;
@@ -242,9 +244,21 @@
       background: #fff;
     }
 
+    .form input,
+    .form select {
+      height: 54px;
+    }
+
+    .form textarea {
+      min-height: 150px;
+      padding: 14px 16px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
     .submit {
       width: 100%;
-      height: 58px;
+      min-height: 58px;
       border: 2px solid #111;
       border-radius: 21px;
       background: #000;
@@ -252,11 +266,12 @@
       font-size: 18px;
       font-weight: 900;
       margin-top: 8px;
+      padding: 12px;
     }
 
     .white-btn {
       width: 100%;
-      height: 52px;
+      min-height: 52px;
       border: 2px solid #111;
       border-radius: 20px;
       background: #fff;
@@ -264,6 +279,19 @@
       font-size: 16px;
       font-weight: 900;
       box-shadow: 0 4px 0 #000;
+      padding: 10px;
+    }
+
+    .mini-btn {
+      width: 100%;
+      min-height: 38px;
+      border: 2px solid #111;
+      border-radius: 14px;
+      background: #000;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      padding: 8px;
     }
 
     .message {
@@ -414,6 +442,7 @@
       border: 4px solid #111;
       border-radius: 12px;
       margin-bottom: 10px;
+      background: #fff;
     }
 
     .tarot-item h2 {
@@ -427,10 +456,10 @@
       font-weight: 800;
       color: #555;
       margin-bottom: 8px;
+      line-height: 1.35;
     }
 
     .tarot-item p {
-      display: none;
       text-align: left;
       font-size: 13px;
       line-height: 1.4;
@@ -439,53 +468,53 @@
       margin-top: 8px;
     }
 
-    .tarot-item.open p {
-      display: block;
+    .tarot-item.meaning-closed p {
+      display: none;
     }
 
-    .mini-btn {
+    .spread-grid {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .spread-btn {
       width: 100%;
-      height: 38px;
       border: 2px solid #111;
-      border-radius: 14px;
-      background: #000;
-      color: #fff;
-      font-size: 13px;
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: 0 4px 0 #000;
+      padding: 14px;
+      text-align: left;
       font-weight: 900;
     }
 
-    .draw-area {
-      min-height: 350px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      margin: 16px 0;
-    }
-
-    .card-back {
-      width: 185px;
-      height: 292px;
-      border: 8px solid #111;
-      border-radius: 18px;
-      background: linear-gradient(135deg, #111, #444);
+    .spread-btn.active {
+      background: #000;
       color: #fff;
-      box-shadow: 0 7px 0 #000;
-      display: grid;
-      place-items: center;
-      font-size: 58px;
     }
 
-    .draw-result img {
-      width: 185px;
-      border: 8px solid #111;
-      border-radius: 18px;
-      box-shadow: 0 7px 0 #000;
-      margin-bottom: 18px;
+    .spread-btn small {
+      display: block;
+      margin-top: 5px;
+      font-size: 12px;
+      line-height: 1.35;
+      font-weight: 700;
+      opacity: 0.8;
     }
 
-    .draw-result h2 {
-      font-size: 22px;
+    .practice-case {
+      border: 2px solid #111;
+      border-radius: 24px;
+      background: #f7f7f7;
+      padding: 16px;
+      margin-top: 14px;
+    }
+
+    .practice-case strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 14px;
     }
 
     .journal-entry {
@@ -524,6 +553,20 @@
       width: 80px;
       border: 4px solid #111;
       border-radius: 10px;
+      background: #fff;
+    }
+
+    .journal-card-row strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }
+
+    .journal-card-row p {
+      font-size: 13px;
+      line-height: 1.4;
+      margin-bottom: 0;
     }
 
     .profile-avatar {
@@ -561,6 +604,12 @@
       font-size: 12px;
       font-weight: 900;
       margin-bottom: 4px;
+    }
+
+    .info-row strong {
+      white-space: pre-wrap;
+      font-size: 14px;
+      line-height: 1.45;
     }
 
     .social-btn {
@@ -653,14 +702,189 @@
     let currentProfile = null;
     let authMode = "login";
     let currentView = "home";
-    let currentCard = null;
-    let cardsShown = [];
+
+    let practiceCase = null;
+    let practiceSpread = null;
+    let practiceCards = [];
+    let freshSpiritTakeText = "";
 
     const root = document.getElementById("root");
 
-    function moneyText(text) {
-      return text;
-    }
+    const PRACTICE_CASES = [
+      {
+        name: "Minh Anh",
+        age: 22,
+        topic: "Tình cảm",
+        question: "Người cũ có còn tình cảm với mình không?",
+        story: "Minh Anh vừa kết thúc một mối quan hệ kéo dài gần 2 năm. Hai người vẫn thỉnh thoảng xem story của nhau nhưng không ai chủ động nhắn tin. Querent muốn biết liệu người cũ còn cảm xúc thật không, hay chỉ là thói quen."
+      },
+      {
+        name: "Hoài",
+        age: 25,
+        topic: "Công việc",
+        question: "Mình có nên nghỉ việc hiện tại không?",
+        story: "Hoài đang làm ở một công ty ổn định nhưng cảm thấy bị bào mòn năng lượng. Sếp không quá tệ, lương tạm ổn, nhưng cô ấy thấy mình không phát triển thêm. Cô ấy đang cân nhắc nghỉ để học thêm kỹ năng mới."
+      },
+      {
+        name: "Gia Hân",
+        age: 19,
+        topic: "Học tập",
+        question: "Mình có chọn đúng ngành không?",
+        story: "Gia Hân vừa vào đại học nhưng cảm thấy ngành học không giống kỳ vọng. Bạn ấy không chắc đây là áp lực giai đoạn đầu hay thật sự đã chọn sai hướng."
+      },
+      {
+        name: "Tuấn",
+        age: 27,
+        topic: "Tình cảm",
+        question: "Người mình đang tìm hiểu có nghiêm túc không?",
+        story: "Tuấn đang nói chuyện với một người rất hợp vibe. Cả hai nhắn tin đều nhưng đối phương ít nói rõ cảm xúc. Tuấn muốn biết mối quan hệ này có tiềm năng đi xa không."
+      },
+      {
+        name: "Linh Chi",
+        age: 24,
+        topic: "Gia đình",
+        question: "Mình nên làm gì để bớt căng thẳng với mẹ?",
+        story: "Linh Chi thường xuyên cãi nhau với mẹ vì chuyện học, tiền bạc và tương lai. Hai mẹ con đều thương nhau nhưng cách nói chuyện dễ làm tổn thương nhau."
+      },
+      {
+        name: "Bảo Ngọc",
+        age: 21,
+        topic: "Bản thân",
+        question: "Điều gì đang cản mình tự tin hơn?",
+        story: "Bảo Ngọc hay so sánh bản thân với người khác. Bạn ấy có năng lực nhưng mỗi lần định bắt đầu điều gì mới lại sợ bị đánh giá."
+      },
+      {
+        name: "Khánh Vy",
+        age: 26,
+        topic: "Công việc",
+        question: "Dự án riêng của mình có tiềm năng không?",
+        story: "Khánh Vy muốn mở một dịch vụ nhỏ online nhưng sợ không có khách. Bạn ấy đã có ý tưởng, có kỹ năng, nhưng thiếu tự tin và chưa biết bắt đầu từ đâu."
+      },
+      {
+        name: "An",
+        age: 20,
+        topic: "Tình cảm",
+        question: "Crush nghĩ gì về mình?",
+        story: "An và crush học chung lớp. Hai người có vài lần nói chuyện riêng khá vui, nhưng crush lúc gần lúc xa. An muốn hiểu cảm nhận thật của đối phương."
+      },
+      {
+        name: "Mai Phương",
+        age: 29,
+        topic: "Tài chính",
+        question: "Mình nên tiết kiệm hay đầu tư trong giai đoạn này?",
+        story: "Mai Phương có một khoản tiền nhỏ sau vài năm đi làm. Cô ấy muốn dùng tiền thông minh hơn nhưng sợ rủi ro và thiếu kiến thức tài chính."
+      },
+      {
+        name: "Quỳnh",
+        age: 23,
+        topic: "Định hướng",
+        question: "Hướng đi nào phù hợp với mình trong 6 tháng tới?",
+        story: "Quỳnh cảm thấy mình đang đứng giữa nhiều lựa chọn: học thêm, đổi việc, xây thương hiệu cá nhân hoặc nghỉ ngơi một thời gian."
+      },
+      {
+        name: "Duy",
+        age: 28,
+        topic: "Tình cảm",
+        question: "Mình có nên chủ động quay lại không?",
+        story: "Duy chia tay trong lúc nóng giận. Sau vài tháng, bạn ấy thấy bản thân vẫn còn thương nhưng sợ quay lại sẽ lặp lại vấn đề cũ."
+      },
+      {
+        name: "Nhi",
+        age: 18,
+        topic: "Thi cử",
+        question: "Mình nên tập trung vào điều gì để thi tốt hơn?",
+        story: "Nhi đang ôn thi nhưng dễ mất động lực. Bạn ấy học nhiều nhưng vẫn thấy hoang mang, không biết mình đang yếu thật sự ở đâu."
+      }
+    ];
+
+    const PRACTICE_SPREADS = [
+      {
+        id: "one-card",
+        name: "1 lá — Thông điệp chính",
+        description: "Dùng khi querent cần một lời nhắn nhanh, rõ trọng tâm.",
+        positions: ["Thông điệp chính"]
+      },
+      {
+        id: "three-time",
+        name: "3 lá — Quá khứ / Hiện tại / Tương lai",
+        description: "Dùng để nhìn dòng chảy của một tình huống.",
+        positions: ["Quá khứ", "Hiện tại", "Tương lai"]
+      },
+      {
+        id: "three-advice",
+        name: "3 lá — Vấn đề / Lời khuyên / Kết quả",
+        description: "Dùng khi querent cần biết nên hành động thế nào.",
+        positions: ["Vấn đề cốt lõi", "Lời khuyên", "Kết quả tiềm năng"]
+      },
+      {
+        id: "love-five",
+        name: "5 lá — Tình cảm",
+        description: "Dùng cho câu hỏi tình yêu, crush, người cũ hoặc mối quan hệ mập mờ.",
+        positions: [
+          "Cảm xúc của querent",
+          "Cảm xúc của đối phương",
+          "Điều đang kết nối hai người",
+          "Trở ngại chính",
+          "Hướng phát triển"
+        ]
+      },
+      {
+        id: "career-five",
+        name: "5 lá — Công việc / học tập",
+        description: "Dùng cho định hướng nghề nghiệp, học tập, dự án cá nhân.",
+        positions: [
+          "Tình hình hiện tại",
+          "Điểm mạnh của querent",
+          "Điểm đang cản trở",
+          "Cơ hội nên chú ý",
+          "Bước hành động gần nhất"
+        ]
+      },
+      {
+        id: "choice-six",
+        name: "6 lá — Lựa chọn A / B",
+        description: "Dùng khi querent đang phân vân giữa hai hướng.",
+        positions: [
+          "Năng lượng lựa chọn A",
+          "Kết quả nếu chọn A",
+          "Bài học của A",
+          "Năng lượng lựa chọn B",
+          "Kết quả nếu chọn B",
+          "Bài học của B"
+        ]
+      },
+      {
+        id: "celtic-mini",
+        name: "7 lá — Celtic rút gọn",
+        description: "Dùng khi muốn đọc sâu hơn nhưng chưa cần trải Celtic 10 lá.",
+        positions: [
+          "Tình huống hiện tại",
+          "Thử thách",
+          "Gốc rễ vấn đề",
+          "Điều querent chưa nhìn rõ",
+          "Lời khuyên",
+          "Xu hướng sắp tới",
+          "Kết luận"
+        ]
+      },
+      {
+        id: "celtic-cross",
+        name: "10 lá — Celtic Cross",
+        description: "Dùng cho case phức tạp, cần đọc sâu nhiều tầng.",
+        positions: [
+          "Hiện tại",
+          "Thử thách",
+          "Gốc rễ",
+          "Quá khứ gần",
+          "Mục tiêu / điều đang hướng tới",
+          "Tương lai gần",
+          "Thái độ của querent",
+          "Môi trường xung quanh",
+          "Hy vọng / nỗi sợ",
+          "Kết quả tổng quan"
+        ]
+      }
+    ];
 
     function esc(text) {
       return String(text || "")
@@ -685,6 +909,45 @@
 
     function getHashView() {
       return location.hash.replace("#", "") || "home";
+    }
+
+    function pickRandom(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    function shuffledDeck() {
+      if (typeof getAllCards !== "function") return [];
+
+      const deck = [...getAllCards()];
+
+      for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = deck[i];
+        deck[i] = deck[j];
+        deck[j] = temp;
+      }
+
+      return deck;
+    }
+
+    function reversedMeaning(card) {
+      return `Nghĩa ngược: năng lượng của ${card.viName || card.name} đang bị chặn, lệch hướng hoặc chưa được dùng đúng cách. Khi đọc ngược, hãy xem đây là dấu hiệu của sự trì hoãn, mất cân bằng, né tránh hoặc bài học mà querent chưa thật sự tiếp nhận. Nghĩa xuôi gốc: ${card.meaning}`;
+    }
+
+    function cardMeaning(card) {
+      if (card.isReversed) return reversedMeaning(card);
+      return card.meaning;
+    }
+
+    function normalizeCards(cards) {
+      if (!cards) return [];
+      if (Array.isArray(cards)) return cards;
+
+      try {
+        return JSON.parse(cards);
+      } catch {
+        return [];
+      }
     }
 
     function go(view) {
@@ -930,7 +1193,10 @@
 
     function renderOnboarding() {
       const years = [];
-      for (let y = 2026; y >= 1940; y--) years.push(y);
+
+      for (let y = 2026; y >= 1940; y--) {
+        years.push(y);
+      }
 
       root.innerHTML = `
         <div class="app">
@@ -997,7 +1263,8 @@
       const message = document.getElementById("onboardingMessage");
       message.textContent = "Đang lưu...";
 
-      const reasons = [...document.querySelectorAll(".checkbox-list input:checked")].map(item => item.value);
+      const reasons = [...document.querySelectorAll(".checkbox-list input:checked")]
+        .map(item => item.value);
 
       const profileUpdate = {
         birthday_month: Number(document.getElementById("birthMonth").value),
@@ -1038,7 +1305,7 @@
       root.innerHTML = layout(`
         <section class="card">
           <h1>Do tarot anywhere</h1>
-          <p>Rút bài, lưu trải bài vào nhật ký và quay lại chiêm nghiệm bất cứ lúc nào.</p>
+          <p>Rút bài, luyện đọc case ảo, lưu trải bài vào nhật ký và quay lại chiêm nghiệm bất cứ lúc nào.</p>
 
           <div class="fan">
             <img src="images/cards/maj00.jpg" alt="The Fool">
@@ -1053,8 +1320,8 @@
           <div class="quick-grid">
             <button class="quick-card" onclick="go('room')">
               <span>✦</span>
-              <strong>New room</strong>
-              <small>Rút một lá bài ngẫu nhiên và lưu lại vào journal.</small>
+              <strong>Practice room</strong>
+              <small>Tìm querent ảo, chọn kiểu trải bài và luyện diễn giải.</small>
             </button>
 
             <button class="quick-card" onclick="go('cards')">
@@ -1066,7 +1333,7 @@
             <button class="quick-card" onclick="go('journal')">
               <span>☰</span>
               <strong>Your journal</strong>
-              <small>Xem lại những trải bài đã lưu.</small>
+              <small>Xem lại những case và trải bài đã lưu.</small>
             </button>
 
             <button class="quick-card" onclick="go('profile')">
@@ -1093,7 +1360,6 @@
 
     function renderCardsPage() {
       const allCards = typeof getAllCards === "function" ? getAllCards() : [];
-      cardsShown = allCards;
 
       root.innerHTML = layout(`
         <section class="card">
@@ -1134,7 +1400,7 @@
       }
 
       grid.innerHTML = cards.map((card, index) => `
-        <article class="tarot-item" id="tarotItem${index}">
+        <article class="tarot-item meaning-closed" id="tarotItem${index}">
           <img src="${esc(card.image)}" alt="${esc(card.name)}">
           <h2>${esc(card.name)}</h2>
           <small>${esc(card.viName)}</small>
@@ -1146,73 +1412,270 @@
 
     window.toggleMeaning = function(index) {
       const item = document.getElementById(`tarotItem${index}`);
-      if (item) item.classList.toggle("open");
+      if (!item) return;
+
+      item.classList.toggle("meaning-closed");
     };
 
     function renderRoom() {
-      currentCard = null;
+      if (!practiceCase) {
+        practiceCase = pickRandom(PRACTICE_CASES);
+      }
+
+      if (!practiceSpread) {
+        practiceSpread = PRACTICE_SPREADS[1];
+      }
 
       root.innerHTML = layout(`
-        <section class="card" style="text-align:center;">
-          <h1>Rút một lá bài</h1>
-          <p>Hãy giữ câu hỏi trong lòng, thở chậm lại và để bộ bài gửi đến bạn một thông điệp.</p>
+        <section class="card">
+          <h1>Practice</h1>
+          <p>
+            Luyện trải bài với querent ảo. Bấm Find a match để nhận case ngẫu nhiên,
+            chọn kiểu trải bài, rút bài và tự tập diễn giải như đang xem cho khách thật.
+          </p>
 
-          <div class="draw-area">
-            <div id="cardBack" class="card-back">✦</div>
+          <button class="submit" onclick="findPracticeMatch()">Find a match</button>
 
-            <div id="drawResult" class="draw-result hidden">
-              <img id="drawImage" src="" alt="Tarot card">
-              <h2 id="drawTitle"></h2>
-              <p id="drawMeaning"></p>
-            </div>
+          <div id="practiceCaseBox" class="practice-case">
+            ${practiceCaseHtml()}
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Chọn kiểu trải bài</h2>
+          <p id="spreadDescription">${esc(practiceSpread.description)}</p>
+
+          <div class="spread-grid">
+            ${PRACTICE_SPREADS.map(spread => `
+              <button
+                class="spread-btn ${spread.id === practiceSpread.id ? "active" : ""}"
+                onclick="changePracticeSpread('${spread.id}')"
+              >
+                ${esc(spread.name)}
+                <small>${esc(spread.description)}</small>
+              </button>
+            `).join("")}
           </div>
 
-          <button class="submit" onclick="drawCard()">Rút bài</button>
-          <button id="saveBtn" class="white-btn hidden" onclick="saveJournal()" style="margin-top:12px;">Lưu vào nhật ký</button>
+          <button class="submit" onclick="drawPracticeSpread()">
+            Rút bài cho case này
+          </button>
 
-          <p id="roomMessage" class="message"></p>
+          <p class="message" id="practiceMessage"></p>
+        </section>
+
+        <section id="practiceResult">
+          ${practiceCards.length ? practiceResultHtml() : ""}
         </section>
       `, "room");
+
+      if (freshSpiritTakeText && practiceCards.length) {
+        const takeBox = document.getElementById("freshSpiritTakeBox");
+
+        if (takeBox) {
+          takeBox.innerHTML = freshSpiritTakeHtml();
+        }
+      }
     }
 
-    window.drawCard = function() {
-      const message = document.getElementById("roomMessage");
+    function practiceCaseHtml() {
+      return `
+        <strong>${esc(practiceCase.name)}, ${esc(practiceCase.age)} tuổi</strong>
+        <p><strong>Chủ đề:</strong> ${esc(practiceCase.topic)}</p>
+        <p><strong>Câu hỏi:</strong> ${esc(practiceCase.question)}</p>
+        <p>${esc(practiceCase.story)}</p>
+      `;
+    }
 
-      if (typeof getRandomCard !== "function") {
-        message.textContent = "Chưa tìm thấy database tarot trong script.js.";
+    window.findPracticeMatch = function() {
+      practiceCase = pickRandom(PRACTICE_CASES);
+      practiceCards = [];
+      freshSpiritTakeText = "";
+      renderRoom();
+    };
+
+    window.changePracticeSpread = function(spreadId) {
+      practiceSpread = PRACTICE_SPREADS.find(spread => spread.id === spreadId) || PRACTICE_SPREADS[1];
+      practiceCards = [];
+      freshSpiritTakeText = "";
+      renderRoom();
+    };
+
+    window.drawPracticeSpread = function() {
+      const deck = shuffledDeck();
+
+      if (!deck.length) {
+        const message = document.getElementById("practiceMessage");
+
+        if (message) {
+          message.textContent = "Chưa tìm thấy database 78 lá trong script.js.";
+        }
+
         return;
       }
 
-      currentCard = getRandomCard();
+      practiceCards = practiceSpread.positions.map((position, index) => {
+        const baseCard = deck[index];
 
-      document.getElementById("cardBack").classList.add("hidden");
-      document.getElementById("drawResult").classList.remove("hidden");
-      document.getElementById("saveBtn").classList.remove("hidden");
+        return {
+          ...baseCard,
+          position,
+          isReversed: Math.random() < 0.25
+        };
+      });
 
-      document.getElementById("drawImage").src = currentCard.image;
-      document.getElementById("drawTitle").textContent = `${currentCard.name} — ${currentCard.viName}`;
-      document.getElementById("drawMeaning").textContent = currentCard.meaning;
-
-      message.textContent = "";
+      freshSpiritTakeText = "";
+      renderRoom();
     };
 
-    window.saveJournal = async function() {
+    function practiceResultHtml() {
+      return `
+        <section class="card">
+          <h2>${esc(practiceSpread.name)}</h2>
+          <p>
+            Case của ${esc(practiceCase.name)}: ${esc(practiceCase.question)}
+          </p>
+
+          <div class="cards-grid">
+            ${practiceCards.map((card, index) => `
+              <article class="tarot-item" id="practiceCard${index}">
+                <img
+                  src="${esc(card.image)}"
+                  alt="${esc(card.name)}"
+                  style="${card.isReversed ? "transform: rotate(180deg);" : ""}"
+                >
+
+                <h2>${esc(card.position)}</h2>
+
+                <small>
+                  ${esc(card.name)} — ${esc(card.viName)}
+                  ${card.isReversed ? " · Ngược" : " · Xuôi"}
+                </small>
+
+                <button class="mini-btn" onclick="toggleCardReverse(${index})">
+                  Đảo xuôi / ngược
+                </button>
+
+                <p>${esc(cardMeaning(card))}</p>
+              </article>
+            `).join("")}
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Phần luyện diễn giải của bạn</h2>
+          <p>
+            Viết thử như đang trả lời querent thật. Đừng chỉ dịch nghĩa từng lá,
+            hãy nối các lá lại thành một câu chuyện.
+          </p>
+
+          <div class="form">
+            <input id="readerTitle" type="text" placeholder="Tiêu đề ghi chú, ví dụ: Case tình cảm của ${esc(practiceCase.name)}">
+
+            <textarea
+              id="readerNotes"
+              placeholder="Viết phần diễn giải của bạn ở đây..."
+            ></textarea>
+          </div>
+
+          <button class="white-btn" onclick="getFreshSpiritTake()" style="margin-top:12px;">
+            Lấy góc nhìn FreshSpirit
+          </button>
+
+          <button class="submit" onclick="savePracticeJournal()" style="margin-top:12px;">
+            Thêm vào journal
+          </button>
+
+          <p id="roomMessage" class="message"></p>
+        </section>
+
+        <section id="freshSpiritTakeBox">
+          ${freshSpiritTakeText ? freshSpiritTakeHtml() : ""}
+        </section>
+      `;
+    }
+
+    window.toggleCardReverse = function(index) {
+      const card = practiceCards[index];
+
+      if (!card) return;
+
+      card.isReversed = !card.isReversed;
+      freshSpiritTakeText = "";
+      renderRoom();
+    };
+
+    function buildFreshSpiritTake() {
+      const cardLines = practiceCards.map(card => {
+        return `${card.position}: ${card.name} ${card.isReversed ? "ngược" : "xuôi"} — ${cardMeaning(card)}`;
+      });
+
+      const mainTone = practiceCards.some(card => card.isReversed)
+        ? "Trải bài này có năng lượng chưa hoàn toàn thông suốt. Một vài lá ngược cho thấy querent đang bị kẹt ở cảm xúc, niềm tin hoặc cách phản ứng cũ."
+        : "Trải bài này có năng lượng khá rõ. Các lá bài đang kể một câu chuyện liền mạch về tình huống hiện tại và hướng đi tiếp theo.";
+
+      return `
+${mainTone}
+
+Với case của ${practiceCase.name}, câu hỏi trọng tâm là: "${practiceCase.question}".
+
+Khi đọc cho querent, nên bắt đầu bằng việc phản ánh đúng trạng thái của họ, sau đó mới đưa lời khuyên.
+
+${cardLines.join(" ")}
+
+Tổng kết: đừng đọc từng lá rời rạc. Hãy nối các vị trí lại: tình huống hiện tại đang chỉ ra điều gì, trở ngại nằm ở đâu, và querent nên làm gì trước mắt. Câu trả lời tốt nhất nên vừa có sự đồng cảm, vừa có một bước hành động cụ thể.
+      `.trim();
+    }
+
+    function freshSpiritTakeHtml() {
+      return `
+        <section class="card">
+          <h2>Góc nhìn FreshSpirit</h2>
+          <p style="white-space:pre-wrap;">${esc(freshSpiritTakeText)}</p>
+        </section>
+      `;
+    }
+
+    window.getFreshSpiritTake = function() {
+      if (!practiceCards.length) return;
+
+      freshSpiritTakeText = buildFreshSpiritTake();
+
+      const takeBox = document.getElementById("freshSpiritTakeBox");
+
+      if (takeBox) {
+        takeBox.innerHTML = freshSpiritTakeHtml();
+      }
+    };
+
+    window.savePracticeJournal = async function() {
       const message = document.getElementById("roomMessage");
 
-      if (!currentCard) {
+      if (!practiceCards.length) {
         message.textContent = "Bạn cần rút bài trước.";
         return;
       }
 
-      message.textContent = "Đang lưu...";
+      const readerTitleInput = document.getElementById("readerTitle");
+      const readerNotesInput = document.getElementById("readerNotes");
+
+      const readerTitle = readerTitleInput ? readerTitleInput.value.trim() : "";
+      const readerNotes = readerNotesInput ? readerNotesInput.value.trim() : "";
+
+      const finalInterpretation = [
+        readerNotes ? `Diễn giải của reader:\n${readerNotes}` : "",
+        freshSpiritTakeText ? `Góc nhìn FreshSpirit:\n${freshSpiritTakeText}` : ""
+      ].filter(Boolean).join("\n\n");
+
+      message.textContent = "Đang lưu vào journal...";
 
       const { error } = await db.from("journal_entries").insert({
         user_id: currentUser.id,
-        title: `Rút 1 lá: ${currentCard.name}`,
-        spread_type: "one-card",
-        question: "Rút bài ngẫu nhiên trong FreshSpirit Room",
-        cards: [currentCard],
-        interpretation: currentCard.meaning
+        title: readerTitle || `${practiceSpread.name} — ${practiceCase.name}`,
+        spread_type: practiceSpread.id,
+        question: `${practiceCase.name}, ${practiceCase.age} tuổi · ${practiceCase.topic}: ${practiceCase.question}`,
+        cards: practiceCards,
+        interpretation: finalInterpretation || "Chưa có diễn giải."
       });
 
       if (error) {
@@ -1220,14 +1683,14 @@
         return;
       }
 
-      message.textContent = "Đã lưu vào nhật ký.";
+      message.textContent = "Đã lưu vào journal.";
     };
 
     function renderJournal() {
       root.innerHTML = layout(`
         <section class="card">
           <h1>Your journal</h1>
-          <p>Đây là nơi lưu lại những trải bài bạn đã rút.</p>
+          <p>Đây là nơi lưu lại những case thực hành, trải bài và phần diễn giải của bạn.</p>
         </section>
 
         <section id="journalList">
@@ -1256,36 +1719,61 @@
         journalList.innerHTML = `
           <section class="card">
             <h2>Chưa có trải bài nào</h2>
-            <p>Hãy vào phòng bốc bài, rút một lá và lưu vào journal.</p>
-            <button class="submit" onclick="go('room')">Đi rút bài</button>
+            <p>Hãy vào Practice, tìm một querent ảo, rút bài và lưu lại phần diễn giải.</p>
+            <button class="submit" onclick="go('room')">Đi practice</button>
           </section>
         `;
         return;
       }
 
-      journalList.innerHTML = data.map((entry, index) => {
-        const cards = Array.isArray(entry.cards) ? entry.cards : [];
-        const card = cards[0];
+      journalList.innerHTML = data.map((entry, entryIndex) => {
+        const cards = normalizeCards(entry.cards);
 
         return `
           <article class="journal-entry">
             <span class="date-pill">${new Date(entry.created_at).toLocaleDateString("vi-VN")}</span>
+
             <h2>${esc(entry.title || "Trải bài đã lưu")}</h2>
             <p>${esc(entry.question || "Không có câu hỏi cụ thể.")}</p>
 
-            ${card ? `
-              <div class="journal-card-row">
-                <img src="${esc(card.image)}" alt="${esc(card.name)}">
-                <div>
-                  <strong>${esc(card.name)} — ${esc(card.viName)}</strong>
-                  <p>${esc(entry.interpretation || card.meaning)}</p>
+            <button class="white-btn" onclick="toggleJournalDetail(${entryIndex})">
+              Đọc thêm
+            </button>
+
+            <div id="journalDetail${entryIndex}" class="hidden" style="margin-top:12px;">
+              ${cards.map(card => `
+                <div class="journal-card-row">
+                  <img
+                    src="${esc(card.image)}"
+                    alt="${esc(card.name)}"
+                    style="${card.isReversed ? "transform: rotate(180deg);" : ""}"
+                  >
+
+                  <div>
+                    <strong>
+                      ${esc(card.position || "Lá bài")} — ${esc(card.name)} / ${esc(card.viName)}
+                      ${card.isReversed ? " · Ngược" : " · Xuôi"}
+                    </strong>
+
+                    <p>${esc(card.isReversed ? reversedMeaning(card) : card.meaning)}</p>
+                  </div>
                 </div>
+              `).join("")}
+
+              <div class="info-row">
+                <small>Diễn giải đã lưu</small>
+                <strong>${esc(entry.interpretation || "Chưa có diễn giải.")}</strong>
               </div>
-            ` : ""}
+            </div>
           </article>
         `;
       }).join("");
     }
+
+    window.toggleJournalDetail = function(index) {
+      const box = document.getElementById(`journalDetail${index}`);
+      if (box) box.classList.toggle("hidden");
+    };
 
     function renderProfile() {
       root.innerHTML = layout(`
@@ -1372,7 +1860,6 @@
       }
 
       await loadProfile();
-      message.textContent = "Đã lưu hồ sơ.";
       renderProfile();
     }
 
@@ -1448,6 +1935,7 @@
 
     window.toggleHeart = function() {
       const heart = document.getElementById("heartBtn");
+
       if (!heart) return;
 
       heart.classList.toggle("liked");
@@ -1456,6 +1944,7 @@
 
     window.signOut = async function() {
       await db.auth.signOut();
+
       currentUser = null;
       currentProfile = null;
       currentView = "auth";
