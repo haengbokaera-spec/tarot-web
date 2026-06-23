@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>FreshSpirit - Journal</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .journal-header-card {
+      background: #fff;
+      border: 2px solid #111;
+      border-radius: 32px;
+      box-shadow: 0 5px 0 #000;
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+
+    .journal-header-card h1 {
+      font-size: 34px;
+      line-height: 1;
+      margin-bottom: 10px;
+      letter-spacing: -1px;
+    }
+
+    .journal-header-card p {
+      font-size: 15px;
+      line-height: 1.45;
+      color: #444;
+      font-weight: 700;
+    }
+
+    .journal-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .journal-entry {
+      background: #fff;
+      border: 2px solid #111;
+      border-radius: 28px;
+      box-shadow: 0 5px 0 #000;
+      padding: 18px;
+    }
+
+    .journal-date {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 7px 10px;
+      border: 2px solid #111;
+      border-radius: 999px;
+      background: #f4f4f4;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .journal-entry h2 {
+      font-size: 22px;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .journal-entry p {
+      font-size: 15px;
+      line-height: 1.45;
+      color: #333;
+      font-weight: 650;
+    }
+
+    .journal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .journal-btn {
+      height: 48px;
+      border: 2px solid #111;
+      border-radius: 18px;
+      background: #fff;
+      color: #000;
+      font-size: 14px;
+      font-weight: 900;
+      box-shadow: 0 4px 0 #000;
+    }
+
+    .journal-btn.black {
+      background: #000;
+      color: #fff;
+    }
+
+    .journal-detail,
+    .interpret-box {
+      margin-top: 14px;
+      padding: 14px;
+      border: 2px solid #111;
+      border-radius: 20px;
+      background: #f7f7f7;
+      text-align: left;
+    }
+
+    .journal-card-row {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+      align-items: start;
+    }
+
+    .journal-card-row img {
+      width: 80px;
+      border: 4px solid #111;
+      border-radius: 10px;
+      box-shadow: 0 3px 0 #000;
+      background: #fff;
+    }
+
+    .journal-card-row strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+
+    .journal-card-row small {
+      display: block;
+      font-size: 13px;
+      line-height: 1.4;
+      color: #333;
+      font-weight: 700;
+    }
+
+    .empty-journal {
+      background: #fff;
+      border: 2px solid #111;
+      border-radius: 28px;
+      box-shadow: 0 5px 0 #000;
+      padding: 22px;
+      text-align: center;
+    }
+
+    .empty-journal h2 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .empty-journal p {
+      font-size: 15px;
+      color: #444;
+      line-height: 1.45;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .loading-text {
+      text-align: center;
+      font-weight: 900;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body class="app-body">
+  <header class="mobile-header fixed-header">
+    <div>
+      <a href="home.html" class="app-logo">FreshSpirit</a>
+      <p>A new place for tarot</p>
+    </div>
+
+    <div class="header-actions">
+      <button class="icon-btn" onclick="window.location.href='shop.html'">♙</button>
+      <button id="heartBtn" class="icon-btn">♡</button>
+      <button class="black-btn" onclick="window.location.href='room.html'">+ Room</button>
+
+      <button id="avatarBtn" class="avatar-btn" type="button">
+        <span>☾</span>
+      </button>
+    </div>
+
+    <div id="avatarMenu" class="avatar-menu hidden">
+      <button onclick="window.location.href='profile.html'">
+        <span>☺</span>
+        Profile
+      </button>
+
+      <button onclick="window.location.href='room.html'">
+        <span>＋</span>
+        New room
+      </button>
+
+      <button onclick="window.location.href='home.html'">
+        <span>↩</span>
+        Return home
+      </button>
+
+      <button onclick="window.location.href='journal.html'">
+        <span>☰</span>
+        Journal
+      </button>
+
+      <button onclick="window.location.href='about.html'">
+        <span>↗</span>
+        About
+      </button>
+
+      <hr />
+
+      <button id="signOutBtn">
+        <span>×</span>
+        Sign out
+      </button>
+    </div>
+  </header>
+
+  <main class="home-page">
+    <section class="journal-header-card">
+      <h1>Your journal</h1>
+      <p>
+        Đây là nơi lưu lại những trải bài bạn đã rút, kèm ngày lưu và phần diễn giải để bạn có thể quay lại chiêm nghiệm.
+      </p>
+    </section>
+
+    <section id="journalList" class="journal-list">
+      <p class="loading-text">Đang tải nhật ký...</p>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button onclick="window.location.href='home.html'">
+      <span>☾</span>
+      home
+    </button>
+
+    <button onclick="window.location.href='home.html'">
+      <span>▣</span>
+      cards
+    </button>
+
+    <button onclick="window.location.href='room.html'">
+      <span>✦</span>
+      practice
+    </button>
+
+    <button onclick="window.location.href='shop.html'">
+      <span>♙</span>
+      book
+    </button>
+
+    <button id="bottomMoreBtn" class="active-bottom">
+      <span>☰</span>
+      more
+    </button>
+  </nav>
+
+  <button class="help-btn">?</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script src="script.js"></script>
+
+  <script>
+    let currentUser = null;
+
+    const journalList = document.getElementById("journalList");
+    const heartBtn = document.getElementById("heartBtn");
+    const avatarBtn = document.getElementById("avatarBtn");
+    const avatarMenu = document.getElementById("avatarMenu");
+    const bottomMoreBtn = document.getElementById("bottomMoreBtn");
+    const signOutBtn = document.getElementById("signOutBtn");
+
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+
+      return date.toLocaleDateString("vi-VN", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+      });
+    }
+
+    function normalizeCards(cards) {
+      if (!cards) return [];
+
+      if (Array.isArray(cards)) return cards;
+
+      try {
+        return JSON.parse(cards);
+      } catch {
+        return [];
+      }
+    }
+
+    async function protectPage() {
+      const { data } = await db.auth.getUser();
+
+      if (!data.user) {
+        window.location.href = "auth.html";
+        return;
+      }
+
+      currentUser = data.user;
+      loadJournal();
+    }
+
+    async function loadJournal() {
+      journalList.innerHTML = `<p class="loading-text">Đang tải nhật ký...</p>`;
+
+      const { data, error } = await db
+        .from("journal_entries")
+        .select("*")
+        .eq("user_id", currentUser.id)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        journalList.innerHTML = `
+          <div class="empty-journal">
+            <h2>Không tải được nhật ký</h2>
+            <p>${error.message}</p>
+          </div>
+        `;
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        journalList.innerHTML = `
+          <div class="empty-journal">
+            <h2>Chưa có trải bài nào</h2>
+            <p>Hãy vào phòng bốc bài, rút một lá và lưu vào nhật ký để xem lại sau.</p>
+            <button class="submit-btn" onclick="window.location.href='room.html'">
+              Đi rút bài
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      journalList.innerHTML = "";
+
+      data.forEach((entry) => {
+        const cards = normalizeCards(entry.cards);
+        const firstCard = cards[0];
+
+        const article = document.createElement("article");
+        article.className = "journal-entry";
+
+        article.innerHTML = `
+          <span class="journal-date">${formatDate(entry.created_at)}</span>
+
+          <h2>${entry.title || "Trải bài đã lưu"}</h2>
+
+          <p>
+            ${entry.question || "Không có câu hỏi cụ thể."}
+          </p>
+
+          <div class="journal-actions">
+            <button class="journal-btn black read-more-btn" type="button">
+              Đọc thêm
+            </button>
+
+            <button class="journal-btn help-interpret-btn" type="button">
+              Giúp tôi diễn giải
+            </button>
+          </div>
+
+          <div class="journal-detail hidden">
+            ${
+              firstCard
+                ? `
+                  <div class="journal-card-row">
+                    <img src="${firstCard.image}" alt="${firstCard.name}">
+                    <div>
+                      <strong>${firstCard.name} — ${firstCard.viName || ""}</strong>
+                      <small>${entry.interpretation || firstCard.meaning || "Chưa có diễn giải."}</small>
+                    </div>
+                  </div>
+                `
+                : `<p>Không có dữ liệu lá bài.</p>`
+            }
+          </div>
+
+          <div class="interpret-box hidden">
+            ${
+              cards.length > 0
+                ? cards.map((card) => `
+                    <div class="journal-card-row">
+                      <img src="${card.image}" alt="${card.name}">
+                      <div>
+                        <strong>${card.name} — ${card.viName || ""}</strong>
+                        <small>${card.meaning || "Chưa có nghĩa lá bài."}</small>
+                      </div>
+                    </div>
+                  `).join("")
+                : `<p>Không có lá bài để diễn giải.</p>`
+            }
+          </div>
+        `;
+
+        const readMoreBtn = article.querySelector(".read-more-btn");
+        const helpBtn = article.querySelector(".help-interpret-btn");
+        const detailBox = article.querySelector(".journal-detail");
+        const interpretBox = article.querySelector(".interpret-box");
+
+        readMoreBtn.addEventListener("click", () => {
+          detailBox.classList.toggle("hidden");
+
+          if (detailBox.classList.contains("hidden")) {
+            readMoreBtn.textContent = "Đọc thêm";
+          } else {
+            readMoreBtn.textContent = "Thu gọn";
+          }
+        });
+
+        helpBtn.addEventListener("click", () => {
+          interpretBox.classList.toggle("hidden");
+
+          if (interpretBox.classList.contains("hidden")) {
+            helpBtn.textContent = "Giúp tôi diễn giải";
+          } else {
+            helpBtn.textContent = "Ẩn diễn giải";
+          }
+        });
+
+        journalList.appendChild(article);
+      });
+    }
+
+    heartBtn.addEventListener("click", () => {
+      heartBtn.classList.toggle("liked");
+      heartBtn.textContent = heartBtn.classList.contains("liked") ? "♥" : "♡";
+    });
+
+    function toggleMenu() {
+      avatarMenu.classList.toggle("hidden");
+    }
+
+    avatarBtn.addEventListener("click", toggleMenu);
+    bottomMoreBtn.addEventListener("click", toggleMenu);
+
+    signOutBtn.addEventListener("click", async () => {
+      await db.auth.signOut();
+      window.location.href = "auth.html";
+    });
+
+    document.addEventListener("click", (event) => {
+      const clickedInsideMenu = avatarMenu.contains(event.target);
+      const clickedAvatar = avatarBtn.contains(event.target);
+      const clickedMore = bottomMoreBtn.contains(event.target);
+
+      if (!clickedInsideMenu && !clickedAvatar && !clickedMore) {
+        avatarMenu.classList.add("hidden");
+      }
+    });
+
+    protectPage();
+  </script>
+</body>
+</html>
