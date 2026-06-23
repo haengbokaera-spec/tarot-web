@@ -47,3 +47,24 @@ function drawCard() {
     tarotCard.style.transform = "rotateY(0deg) scale(1)";
   }, 500);
 }
+
+function createRoom() {
+  const roomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+  const roomUrl = `${window.location.origin}/room.html?room=${roomCode}`;
+
+  const roomBox = document.getElementById("roomBox");
+  const roomLink = document.getElementById("roomLink");
+
+  roomLink.textContent = roomUrl;
+  roomLink.href = roomUrl;
+
+  roomBox.classList.remove("hidden");
+}
+
+function drawRoomCard() {
+  const randomIndex = Math.floor(Math.random() * cards.length);
+  const selectedCard = cards[randomIndex];
+
+  document.getElementById("roomCardName").textContent = selectedCard.name;
+  document.getElementById("roomCardMeaning").textContent = selectedCard.meaning;
+}
