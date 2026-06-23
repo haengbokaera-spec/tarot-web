@@ -102,7 +102,7 @@
       home
     </button>
 
-    <button onclick="window.location.href='home.html'">
+    <button onclick="window.location.href='cards.html'">
       <span>▣</span>
       cards
     </button>
@@ -210,12 +210,7 @@
 
     heartBtn.addEventListener("click", () => {
       heartBtn.classList.toggle("liked");
-
-      if (heartBtn.classList.contains("liked")) {
-        heartBtn.textContent = "♥";
-      } else {
-        heartBtn.textContent = "♡";
-      }
+      heartBtn.textContent = heartBtn.classList.contains("liked") ? "♥" : "♡";
     });
 
     function toggleMenu() {
