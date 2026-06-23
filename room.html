@@ -4,120 +4,243 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>FreshSpirit Room</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Patrick+Hand&family=Gaegu:wght@300;400;700&display=swap" rel="stylesheet">
+  <title>FreshSpirit - Phòng bốc bài</title>
 
   <link rel="stylesheet" href="style.css" />
 </head>
 
-<body>
-  <header class="site-header">
-    <a href="index.html" class="logo">FreshSpirit</a>
+<body class="app-body">
+  <header class="mobile-header fixed-header">
+    <div>
+      <a href="home.html" class="app-logo">FreshSpirit</a>
+      <p>A new place for tarot</p>
+    </div>
 
-    <nav class="main-nav">
-      <div class="nav-row">
-        <a href="index.html#platform">Nền tảng của chúng tôi⌄</a>
-        <a href="index.html#team">Đội ngũ</a>
-        <a href="index.html#decks">Bộ bài số</a>
-      </div>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="window.location.href='shop.html'">♙</button>
+      <button id="heartBtn" class="icon-btn">♡</button>
+      <button class="black-btn" onclick="drawCard()">+ Room</button>
 
-      <div class="nav-row">
-        <a href="index.html#booking">Đặt lịch xem bài</a>
-        <a href="index.html#blog">Blog</a>
-      </div>
-    </nav>
+      <button id="avatarBtn" class="avatar-btn" type="button">
+        <span>☾</span>
+      </button>
+    </div>
 
-    <button onclick="drawRoomCard()" class="login-btn">Rút bài</button>
+    <div id="avatarMenu" class="avatar-menu hidden">
+      <button onclick="window.location.href='profile.html'">
+        <span>☺</span>
+        Profile
+      </button>
+
+      <button onclick="window.location.href='room.html'">
+        <span>＋</span>
+        New room
+      </button>
+
+      <button onclick="window.location.href='home.html'">
+        <span>↩</span>
+        Return home
+      </button>
+
+      <button onclick="window.location.href='journal.html'">
+        <span>☰</span>
+        Journal
+      </button>
+
+      <button onclick="window.location.href='about.html'">
+        <span>↗</span>
+        About
+      </button>
+
+      <hr />
+
+      <button id="signOutBtn">
+        <span>×</span>
+        Sign out
+      </button>
+    </div>
   </header>
 
-  <main>
-    <section class="hero-section">
-      <div class="hero-card">
-        <div class="hero-visual">
-          <div class="arch-frame">
-            <div class="avatar avatar-left"></div>
-            <div class="avatar avatar-right"></div>
+  <main class="home-page">
+    <section class="room-card-screen">
+      <p class="room-kicker">FreshSpirit Room</p>
 
-            <div class="floating-deck">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </div>
+      <h1>Rút một lá bài</h1>
+
+      <p class="room-intro">
+        Hãy giữ câu hỏi trong lòng, thở chậm lại và để bộ bài gửi đến bạn một thông điệp.
+      </p>
+
+      <div class="draw-area">
+        <div id="cardBack" class="large-card-back">
+          <span>✦</span>
+          <small>FreshSpirit</small>
         </div>
 
-        <div class="hero-copy">
-          <h1>Phòng tarot riêng của bạn</h1>
-
-          <p>
-            Chia sẻ mã phòng này cho người khác để bắt đầu một phiên xem bài riêng tư
-            cùng FreshSpirit.
-          </p>
-
-          <div class="black-panel room-black-panel">
-            <div class="result-box">
-              <h3>Mã phòng: <span id="roomCode">...</span></h3>
-              <p id="roomText">Bấm “Rút bài” để nhận thông điệp tarot cho phòng này.</p>
-            </div>
-          </div>
-
-          <div class="hero-buttons room-buttons">
-            <button onclick="drawRoomCard()" class="btn btn-purple">Rút bài</button>
-            <a href="index.html" class="btn btn-light room-home-btn">Về trang chủ</a>
-          </div>
-        </div>
-
-        <div class="corner-decks">
-          <div class="corner-card card-one">
-            <div class="card-label">I</div>
-            <div class="fake-art art-one"></div>
-          </div>
-
-          <div class="corner-card card-two">
-            <div class="card-label">IIII</div>
-            <div class="fake-art art-two"></div>
-          </div>
+        <div id="cardResult" class="draw-result hidden">
+          <img id="drawnCardImage" src="" alt="Tarot card" />
+          <h2 id="drawnCardTitle">Tên lá bài</h2>
+          <p id="drawnCardMeaning">Ý nghĩa lá bài sẽ hiện ở đây.</p>
         </div>
       </div>
+
+      <button onclick="drawCard()" class="submit-btn room-main-btn">
+        Rút bài
+      </button>
+
+      <button id="saveJournalBtn" class="outline-wide-btn hidden" type="button">
+        Lưu vào nhật ký
+      </button>
+
+      <p id="roomMessage" class="auth-message"></p>
     </section>
   </main>
 
-  <footer class="footer">
-    <div>
-      <strong>FreshSpirit</strong>
-      <p>Interactive online tarot platform</p>
-    </div>
+  <nav class="bottom-nav">
+    <button onclick="window.location.href='home.html'">
+      <span>☾</span>
+      home
+    </button>
 
-    <nav>
-      <a href="index.html#platform">Nền tảng</a>
-      <a href="index.html#team">Đội ngũ</a>
-      <a href="index.html#decks">Bộ bài số</a>
-      <a href="index.html#booking">Đặt lịch</a>
-      <a href="index.html#blog">Blog</a>
-    </nav>
+    <button onclick="window.location.href='home.html'">
+      <span>▣</span>
+      cards
+    </button>
 
-    <p>© 2026, FreshSpirit Worlds.</p>
-  </footer>
+    <button class="active-bottom" onclick="window.location.href='room.html'">
+      <span>✦</span>
+      practice
+    </button>
 
+    <button onclick="window.location.href='shop.html'">
+      <span>♙</span>
+      book
+    </button>
+
+    <button id="bottomMoreBtn">
+      <span>☰</span>
+      more
+    </button>
+  </nav>
+
+  <button class="help-btn">?</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
   <script src="script.js"></script>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const room = params.get("room");
-    const roomCode = document.getElementById("roomCode");
+    let currentUser = null;
+    let currentCard = null;
 
-    if (roomCode) {
-      roomCode.textContent = room || "KHÔNG CÓ MÃ";
+    const heartBtn = document.getElementById("heartBtn");
+    const avatarBtn = document.getElementById("avatarBtn");
+    const avatarMenu = document.getElementById("avatarMenu");
+    const bottomMoreBtn = document.getElementById("bottomMoreBtn");
+    const signOutBtn = document.getElementById("signOutBtn");
+    const saveJournalBtn = document.getElementById("saveJournalBtn");
+
+    const cardBack = document.getElementById("cardBack");
+    const cardResult = document.getElementById("cardResult");
+    const drawnCardImage = document.getElementById("drawnCardImage");
+    const drawnCardTitle = document.getElementById("drawnCardTitle");
+    const drawnCardMeaning = document.getElementById("drawnCardMeaning");
+    const roomMessage = document.getElementById("roomMessage");
+
+    async function protectPage() {
+      const { data } = await db.auth.getUser();
+
+      if (!data.user) {
+        window.location.href = "auth.html";
+        return;
+      }
+
+      currentUser = data.user;
     }
+
+    function drawCard() {
+      if (typeof getRandomCard !== "function") {
+        roomMessage.textContent = "Chưa tìm thấy database tarot trong script.js.";
+        return;
+      }
+
+      currentCard = getRandomCard();
+
+      drawnCardImage.src = currentCard.image;
+      drawnCardImage.alt = currentCard.name;
+      drawnCardTitle.textContent = `${currentCard.name} — ${currentCard.viName}`;
+      drawnCardMeaning.textContent = currentCard.meaning;
+
+      cardBack.classList.add("hidden");
+      cardResult.classList.remove("hidden");
+      saveJournalBtn.classList.remove("hidden");
+
+      roomMessage.textContent = "";
+    }
+
+    saveJournalBtn.addEventListener("click", async () => {
+      if (!currentUser) {
+        roomMessage.textContent = "Bạn cần đăng nhập để lưu trải bài.";
+        return;
+      }
+
+      if (!currentCard) {
+        roomMessage.textContent = "Bạn cần rút bài trước khi lưu.";
+        return;
+      }
+
+      roomMessage.textContent = "Đang lưu vào nhật ký...";
+
+      const { error } = await db.from("journal_entries").insert({
+        user_id: currentUser.id,
+        title: `Rút 1 lá: ${currentCard.name}`,
+        spread_type: "one-card",
+        question: "Rút bài ngẫu nhiên trong FreshSpirit Room",
+        cards: [currentCard],
+        interpretation: currentCard.meaning
+      });
+
+      if (error) {
+        roomMessage.textContent = error.message;
+        return;
+      }
+
+      roomMessage.textContent = "Đã lưu vào nhật ký.";
+    });
+
+    heartBtn.addEventListener("click", () => {
+      heartBtn.classList.toggle("liked");
+
+      if (heartBtn.classList.contains("liked")) {
+        heartBtn.textContent = "♥";
+      } else {
+        heartBtn.textContent = "♡";
+      }
+    });
+
+    function toggleMenu() {
+      avatarMenu.classList.toggle("hidden");
+    }
+
+    avatarBtn.addEventListener("click", toggleMenu);
+    bottomMoreBtn.addEventListener("click", toggleMenu);
+
+    signOutBtn.addEventListener("click", async () => {
+      await db.auth.signOut();
+      window.location.href = "auth.html";
+    });
+
+    document.addEventListener("click", (event) => {
+      const clickedInsideMenu = avatarMenu.contains(event.target);
+      const clickedAvatar = avatarBtn.contains(event.target);
+      const clickedMore = bottomMoreBtn.contains(event.target);
+
+      if (!clickedInsideMenu && !clickedAvatar && !clickedMore) {
+        avatarMenu.classList.add("hidden");
+      }
+    });
+
+    protectPage();
   </script>
 </body>
 </html>
