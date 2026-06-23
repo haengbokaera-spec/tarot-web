@@ -4,66 +4,152 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fresh Spirit Tarot</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
+  <div class="bg-orb orb-one"></div>
+  <div class="bg-orb orb-two"></div>
+
   <header class="navbar">
-    <div class="logo">✦ Fresh Spirit</div>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="#">Readings</a>
-      <a href="#">Decks</a>
-      <a href="#">Rooms</a>
+    <a class="brand" href="index.html">
+      <span class="brand-mark">✦</span>
+      <span>Fresh Spirit</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="#readings">Readings</a>
+      <a href="#deck">Deck</a>
+      <a href="#room">Rooms</a>
+      <a href="#journal">Journal</a>
     </nav>
+
+    <button onclick="createRoom()" class="nav-button">Start</button>
   </header>
 
   <main class="hero">
-    <section class="hero-content">
-      <p class="tagline">Online Tarot Reading Room</p>
-      <h1>Explore your path through the cards</h1>
-      <p class="description">
-        Create a calm, magical space to draw tarot cards, reflect on your questions,
-        and receive intuitive guidance.
+    <section class="hero-left">
+      <p class="eyebrow">ONLINE TAROT READING SPACE</p>
+
+      <h1>Find clarity through cards, symbols, and intuition.</h1>
+
+      <p class="hero-text">
+        A calm digital tarot room for personal reflection, 1-card readings,
+        3-card spreads, and private reading sessions.
       </p>
 
-      <div class="buttons">
-        <button onclick="drawCard()" class="primary-btn">Draw a Card</button>
-        <button onclick="createRoom()" class="secondary-btn">Create Room</button>
+      <div class="hero-actions">
+        <button onclick="drawOneCard()" class="primary-btn">Draw a Card</button>
+        <button onclick="createRoom()" class="ghost-btn">Create Room</button>
+      </div>
+
+      <div id="roomBox" class="room-box hidden">
+        <p>Private room created</p>
+        <a id="roomLink" href="#" target="_blank"></a>
       </div>
     </section>
 
-    <section class="card-area">
-      <div id="tarotCard" class="tarot-card">
-        <div class="card-back">✦</div>
-      </div>
+    <section class="hero-right">
+      <div class="moon-frame">
+        <div class="moon"></div>
 
-      <h2 id="cardName">Your card is waiting</h2>
-      <p id="cardMeaning">Click “Draw a Card” to reveal your message.</p>
+        <div class="card-stack">
+          <div class="mini-card card-a"></div>
+          <div class="mini-card card-b"></div>
 
-      <div id="roomBox" class="room-box hidden">
-        <p>Your private room:</p>
-        <a id="roomLink" href="#" target="_blank"></a>
+          <div id="mainCard" class="main-card">
+            <div class="card-inner">
+              <div class="card-symbol">☾</div>
+              <div class="card-line"></div>
+              <p id="cardName">The Unknown</p>
+              <small id="cardMeaning">Ask. Breathe. Reveal.</small>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
-  <section class="features">
-    <div class="feature">
-      <h3>1-Card Reading</h3>
-      <p>Quick answer for your current energy.</p>
+  <section id="readings" class="reading-section">
+    <div class="section-heading">
+      <p class="eyebrow">READING MODES</p>
+      <h2>Choose your spread</h2>
     </div>
 
-    <div class="feature">
-      <h3>3-Card Spread</h3>
-      <p>Past, present, and future guidance.</p>
+    <div class="reading-grid">
+      <article class="glass-card">
+        <span class="number">01</span>
+        <h3>One Card</h3>
+        <p>Quick answer for your current energy.</p>
+        <button onclick="drawOneCard()">Reveal</button>
+      </article>
+
+      <article class="glass-card">
+        <span class="number">02</span>
+        <h3>Past · Present · Future</h3>
+        <p>A simple 3-card spread for emotional clarity.</p>
+        <button onclick="drawThreeCards()">Draw 3 Cards</button>
+      </article>
+
+      <article class="glass-card">
+        <span class="number">03</span>
+        <h3>Private Room</h3>
+        <p>Create a shareable room for a reading session.</p>
+        <button onclick="createRoom()">Create</button>
+      </article>
     </div>
 
-    <div class="feature">
-      <h3>Private Room</h3>
-      <p>Invite someone to join your tarot session.</p>
+    <div id="spreadResult" class="spread-result hidden">
+      <div class="spread-card">
+        <p>Past</p>
+        <h3 id="pastCard">—</h3>
+      </div>
+
+      <div class="spread-card">
+        <p>Present</p>
+        <h3 id="presentCard">—</h3>
+      </div>
+
+      <div class="spread-card">
+        <p>Future</p>
+        <h3 id="futureCard">—</h3>
+      </div>
     </div>
   </section>
+
+  <section id="deck" class="deck-section">
+    <div class="section-heading">
+      <p class="eyebrow">DIGITAL DECK</p>
+      <h2>A soft, mystical card experience</h2>
+    </div>
+
+    <div class="deck-row">
+      <div class="deck-card">☉</div>
+      <div class="deck-card">☽</div>
+      <div class="deck-card">✦</div>
+      <div class="deck-card">♃</div>
+      <div class="deck-card">♄</div>
+    </div>
+  </section>
+
+  <section id="room" class="cta-section">
+    <p class="eyebrow">PRIVATE SESSION</p>
+    <h2>Create your own tarot room</h2>
+    <p>
+      Generate a room link, send it to someone, and start a shared reading space.
+    </p>
+    <button onclick="createRoom()" class="primary-btn">Create Room</button>
+  </section>
+
+  <footer id="journal">
+    <p>Fresh Spirit Tarot · Digital reading room</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
