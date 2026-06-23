@@ -1,55 +1,116 @@
 const tarotDatabase = {
-  oneCard: [
+  cards: [
     {
-      title: "The Fool",
-      meaning: "Khởi đầu mới đang mở ra. Hãy tin vào hành trình dù bạn chưa thấy hết con đường phía trước."
+      name: "The Fool",
+      viName: "Kẻ Khờ",
+      meaning: "Một khởi đầu mới đang mở ra. Hãy bước đi với sự tò mò, nhưng đừng bỏ qua trực giác của mình."
     },
     {
-      title: "The Magician",
-      meaning: "Bạn đã có đủ công cụ trong tay. Tập trung năng lượng và chủ động hành động."
+      name: "The Magician",
+      viName: "Nhà Ảo Thuật",
+      meaning: "Bạn có đủ công cụ để tạo ra thay đổi. Điều cần nhất bây giờ là tập trung và hành động rõ ràng."
     },
     {
-      title: "The High Priestess",
-      meaning: "Câu trả lời nằm trong trực giác của bạn. Đừng vội, hãy lắng nghe bản thân."
+      name: "The High Priestess",
+      viName: "Nữ Tư Tế",
+      meaning: "Câu trả lời chưa cần nói ra ngay. Hãy lắng nghe cảm giác bên trong trước khi quyết định."
     },
     {
-      title: "The Empress",
-      meaning: "Sự nuôi dưỡng, phát triển và cảm xúc đủ đầy đang đến gần."
+      name: "The Empress",
+      viName: "Nữ Hoàng",
+      meaning: "Sự phát triển, chăm sóc và cảm xúc đủ đầy đang xuất hiện. Đây là lúc nuôi dưỡng điều quan trọng."
     },
     {
-      title: "The Lovers",
-      meaning: "Một lựa chọn quan trọng liên quan đến trái tim và sự đồng điệu."
+      name: "The Emperor",
+      viName: "Hoàng Đế",
+      meaning: "Bạn cần cấu trúc, giới hạn và sự ổn định. Đừng để cảm xúc làm mất định hướng."
     },
     {
-      title: "The Chariot",
-      meaning: "Tiến lên với quyết tâm. Điều quan trọng là hướng đi, không chỉ là tốc độ."
+      name: "The Lovers",
+      viName: "Những Người Yêu Nhau",
+      meaning: "Một lựa chọn liên quan đến trái tim, giá trị cá nhân hoặc sự kết nối đang cần được nhìn thẳng."
     },
     {
-      title: "Strength",
-      meaning: "Sức mạnh thật sự đến từ sự bình tĩnh, kiên nhẫn và khả năng tự chủ."
+      name: "The Chariot",
+      viName: "Cỗ Xe",
+      meaning: "Tiến lên bằng ý chí và kỷ luật. Bạn có thể thắng nếu biết mình đang đi về đâu."
     },
     {
-      title: "The Hermit",
-      meaning: "Lùi lại một bước để quan sát. Sự tĩnh lặng sẽ giúp bạn thấy rõ hơn."
+      name: "Strength",
+      viName: "Sức Mạnh",
+      meaning: "Sức mạnh thật sự nằm ở sự bình tĩnh. Dịu dàng nhưng không yếu mềm."
     },
     {
-      title: "The Star",
-      meaning: "Hy vọng và chữa lành đang quay trở lại. Hãy tiếp tục tin tưởng."
+      name: "The Hermit",
+      viName: "Ẩn Sĩ",
+      meaning: "Bạn cần khoảng lặng để nhìn rõ vấn đề. Không phải mọi câu trả lời đều đến từ bên ngoài."
     },
     {
-      title: "The Moon",
-      meaning: "Mọi chuyện chưa hoàn toàn rõ ràng. Hãy đi chậm và tin vào cảm nhận của mình."
+      name: "Wheel of Fortune",
+      viName: "Bánh Xe Số Phận",
+      meaning: "Tình huống đang chuyển động. Hãy linh hoạt vì một chu kỳ mới có thể đang bắt đầu."
     },
     {
-      title: "The Sun",
-      meaning: "Niềm vui, sự sáng tỏ và thành công đang dần xuất hiện."
+      name: "Justice",
+      viName: "Công Lý",
+      meaning: "Sự thật, trách nhiệm và lựa chọn công bằng là trọng tâm. Điều gì gieo ra sẽ có kết quả tương ứng."
+    },
+    {
+      name: "The Hanged Man",
+      viName: "Người Treo Ngược",
+      meaning: "Hãy đổi góc nhìn. Việc tạm dừng không phải thất bại, mà là cơ hội để hiểu sâu hơn."
+    },
+    {
+      name: "Death",
+      viName: "Cái Chết",
+      meaning: "Một giai đoạn cũ cần khép lại. Sự kết thúc này mở đường cho chuyển hóa mới."
+    },
+    {
+      name: "Temperance",
+      viName: "Tiết Chế",
+      meaning: "Cân bằng là chìa khóa. Đừng ép mọi thứ xảy ra quá nhanh."
+    },
+    {
+      name: "The Devil",
+      viName: "Ác Quỷ",
+      meaning: "Có điều gì đó đang ràng buộc bạn: nỗi sợ, ham muốn, thói quen hoặc một mối quan hệ không lành mạnh."
+    },
+    {
+      name: "The Tower",
+      viName: "Tòa Tháp",
+      meaning: "Một sự thật có thể làm lung lay cấu trúc cũ. Nhưng điều không vững thì cần được phá bỏ."
+    },
+    {
+      name: "The Star",
+      viName: "Ngôi Sao",
+      meaning: "Hy vọng và chữa lành đang trở lại. Bạn chưa mất đường, chỉ là cần tin vào tiến trình."
+    },
+    {
+      name: "The Moon",
+      viName: "Mặt Trăng",
+      meaning: "Mọi chuyện chưa rõ ràng. Đừng vội kết luận khi còn bị cảm xúc hoặc ảo ảnh che mắt."
+    },
+    {
+      name: "The Sun",
+      viName: "Mặt Trời",
+      meaning: "Sự rõ ràng, niềm vui và năng lượng tích cực đang xuất hiện. Đây là lá bài của ánh sáng."
+    },
+    {
+      name: "Judgement",
+      viName: "Phán Xét",
+      meaning: "Một lời gọi thức tỉnh đang đến. Bạn cần nhìn lại quá khứ để bước sang phiên bản mới."
+    },
+    {
+      name: "The World",
+      viName: "Thế Giới",
+      meaning: "Một chu kỳ đang hoàn tất. Thành quả, sự trưởng thành và cảm giác trọn vẹn đang đến gần."
     }
   ]
 };
 
-function getRandomItem(list) {
-  const index = Math.floor(Math.random() * list.length);
-  return list[index];
+function getRandomCard() {
+  const index = Math.floor(Math.random() * tarotDatabase.cards.length);
+  return tarotDatabase.cards[index];
 }
 
 function openWebApp() {
@@ -61,47 +122,15 @@ function openWebApp() {
 }
 
 function drawOneCard() {
-  const card = getRandomItem(tarotDatabase.oneCard);
+  const card = getRandomCard();
 
-  const resultBox = document.getElementById("resultBox");
   const resultTitle = document.getElementById("resultTitle");
   const resultText = document.getElementById("resultText");
 
-  if (!resultBox || !resultTitle || !resultText) return;
+  if (!resultTitle || !resultText) return;
 
-  resultTitle.textContent = `Lá bài của bạn: ${card.title}`;
+  resultTitle.textContent = `${card.name} — ${card.viName}`;
   resultText.textContent = card.meaning;
-
-  resultBox.classList.remove("hidden");
-}
-
-function drawThreeCards() {
-  const cards = [];
-  const usedTitles = new Set();
-
-  while (cards.length < 3) {
-    const card = getRandomItem(tarotDatabase.oneCard);
-
-    if (!usedTitles.has(card.title)) {
-      cards.push(card);
-      usedTitles.add(card.title);
-    }
-  }
-
-  const resultBox = document.getElementById("resultBox");
-  const resultTitle = document.getElementById("resultTitle");
-  const resultText = document.getElementById("resultText");
-
-  if (!resultBox || !resultTitle || !resultText) return;
-
-  resultTitle.textContent = "Trải bài 3 lá";
-  resultText.innerHTML = `
-    <strong>Quá khứ:</strong> ${cards[0].title} — ${cards[0].meaning}<br><br>
-    <strong>Hiện tại:</strong> ${cards[1].title} — ${cards[1].meaning}<br><br>
-    <strong>Tương lai:</strong> ${cards[2].title} — ${cards[2].meaning}
-  `;
-
-  resultBox.classList.remove("hidden");
 }
 
 function createRoom() {
@@ -111,10 +140,23 @@ function createRoom() {
   const roomBox = document.getElementById("roomBox");
   const roomLink = document.getElementById("roomLink");
 
-  if (!roomBox || !roomLink) return;
+  if (roomBox && roomLink) {
+    roomLink.textContent = roomUrl;
+    roomLink.href = roomUrl;
+    roomBox.classList.remove("hidden");
+  } else {
+    window.location.href = roomUrl;
+  }
+}
 
-  roomLink.textContent = roomUrl;
-  roomLink.href = roomUrl;
+function drawRoomCard() {
+  const card = getRandomCard();
 
-  roomBox.classList.remove("hidden");
+  const roomTitle = document.getElementById("roomTitle");
+  const roomText = document.getElementById("roomText");
+
+  if (!roomTitle || !roomText) return;
+
+  roomTitle.textContent = `${card.name} — ${card.viName}`;
+  roomText.textContent = card.meaning;
 }
