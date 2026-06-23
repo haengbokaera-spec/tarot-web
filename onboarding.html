@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>FreshSpirit - Bắt đầu</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="app-body">
+  <header class="mobile-header">
+    <div>
+      <a href="home.html" class="app-logo">FreshSpirit</a>
+      <p>A new place for tarot</p>
+    </div>
+
+    <div class="header-actions">
+      <button class="icon-btn">▢</button>
+      <button class="icon-btn">♡</button>
+      <button class="black-btn" onclick="window.location.href='room.html'">+ Room</button>
+    </div>
+  </header>
+
+  <main class="auth-page">
+    <!-- STEP 1: BIRTHDAY -->
+    <section id="birthdayStep" class="auth-card onboarding-card">
+      <h1>Thật vui vì bạn đã ở đây!</h1>
+
+      <p class="onboarding-question">
+        Bạn sinh vào ngày nào? 🕯️
+      </p>
+
+      <div class="birthday-grid">
+        <select id="birthdayMonth">
+          <option value="">Tháng</option>
+          <option value="January">Tháng 1</option>
+          <option value="February">Tháng 2</option>
+          <option value="March">Tháng 3</option>
+          <option value="April">Tháng 4</option>
+          <option value="May">Tháng 5</option>
+          <option value="June">Tháng 6</option>
+          <option value="July">Tháng 7</option>
+          <option value="August">Tháng 8</option>
+          <option value="September">Tháng 9</option>
+          <option value="October">Tháng 10</option>
+          <option value="November">Tháng 11</option>
+          <option value="December">Tháng 12</option>
+        </select>
+
+        <select id="birthdayDay">
+          <option value="">Ngày</option>
+        </select>
+
+        <select id="birthdayYear">
+          <option value="">Năm</option>
+        </select>
+      </div>
+
+      <button id="saveBirthdayBtn" class="submit-btn" type="button">
+        Tiếp tục
+      </button>
+
+      <p id="birthdayMessage" class="auth-message"></p>
+    </section>
+
+    <!-- STEP 2: REASONS -->
+    <section id="reasonStep" class="auth-card onboarding-card hidden">
+      <h1>Chào mừng đến với FreshSpirit!</h1>
+
+      <p class="onboarding-question">
+        Điều gì đã đưa bạn đến đây?
+      </p>
+
+      <div class="checkbox-list">
+        <label>
+          <input type="checkbox" value="Tôi muốn học tarot" />
+          <span>Tôi muốn học tarot</span>
+        </label>
+
+        <label>
+          <input type="checkbox" value="Tôi cần hỗ trợ diễn giải bài" />
+          <span>Tôi cần hỗ trợ diễn giải bài</span>
+        </label>
+
+        <label>
+          <input type="checkbox" value="Tôi muốn có nghi thức và chiêm nghiệm hằng ngày" />
+          <span>Tôi muốn có nghi thức và chiêm nghiệm hằng ngày</span>
+        </label>
+
+        <label>
+          <input type="checkbox" value="Tôi muốn có ý tưởng trải bài và mẹo thực hành" />
+          <span>Tôi muốn có ý tưởng trải bài và mẹo thực hành</span>
+        </label>
+
+        <label>
+          <input type="checkbox" value="Tôi làm việc với thần linh hoặc năng lượng tâm linh" />
+          <span>Tôi làm việc với thần linh hoặc năng lượng tâm linh</span>
+        </label>
+
+        <label>
+          <input type="checkbox" value="Tôi đọc tarot chuyên nghiệp" />
+          <span>Tôi đọc tarot chuyên nghiệp</span>
+        </label>
+
+        <label>
+          <input type="checkbox" value="Tôi muốn đặt lịch xem bài" />
+          <span>Tôi muốn đặt lịch xem bài</span>
+        </label>
+
+        <label>
+          <input type="checkbox" value="Tôi thích nội dung của FreshSpirit" />
+          <span>Tôi thích nội dung của FreshSpirit</span>
+        </label>
+      </div>
+
+      <button id="saveReasonsBtn" class="submit-btn" type="button">
+        Gửi
+      </button>
+
+      <p id="reasonMessage" class="auth-message"></p>
+    </section>
+
+    <!-- STEP 3: SOURCE -->
+    <section id="sourceStep" class="auth-card onboarding-card hidden">
+      <button id="backToReasonsBtn" class="back-btn" type="button">← Quay lại</button>
+
+      <h1>Cảm ơn bạn đã tham gia!</h1>
+
+      <select id="heardFrom" class="large-select">
+        <option value="">Bạn biết đến FreshSpirit từ đâu?</option>
+        <option value="Bạn bè / truyền miệng">Bạn bè / truyền miệng</option>
+        <option value="TikTok">TikTok</option>
+        <option value="Instagram">Instagram</option>
+        <option value="Facebook">Facebook</option>
+        <option value="Threads">Threads</option>
+        <option value="YouTube">YouTube</option>
+        <option value="Khác">Khác</option>
+      </select>
+
+      <input
+        id="tiktokHandle"
+        class="large-input"
+        type="text"
+        placeholder="TikTok của bạn @ nếu có"
+      />
+
+      <button id="finishOnboardingBtn" class="submit-btn" type="button">
+        Tiếp tục
+      </button>
+
+      <p id="sourceMessage" class="auth-message"></p>
+    </section>
+
+    <button class="help-btn">?</button>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+
+  <script>
+    let currentUser = null;
+
+    const birthdayStep = document.getElementById("birthdayStep");
+    const reasonStep = document.getElementById("reasonStep");
+    const sourceStep = document.getElementById("sourceStep");
+
+    const birthdayDay = document.getElementById("birthdayDay");
+    const birthdayYear = document.getElementById("birthdayYear");
+
+    function showStep(step) {
+      birthdayStep.classList.add("hidden");
+      reasonStep.classList.add("hidden");
+      sourceStep.classList.add("hidden");
+
+      step.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function fillDateOptions() {
+      for (let day = 1; day <= 31; day++) {
+        const option = document.createElement("option");
+        option.value = day;
+        option.textContent = day;
+        birthdayDay.appendChild(option);
+      }
+
+      const currentYear = new Date().getFullYear();
+
+      for (let year = currentYear; year >= 1940; year--) {
+        const option = document.createElement("option");
+        option.value = year;
+        option.textContent = year;
+        birthdayYear.appendChild(option);
+      }
+    }
+
+    async function checkUser() {
+      const { data } = await db.auth.getUser();
+
+      if (!data.user) {
+        window.location.href = "auth.html";
+        return;
+      }
+
+      currentUser = data.user;
+
+      const { data: profile } = await db
+        .from("profiles")
+        .select("*")
+        .eq("id", currentUser.id)
+        .single();
+
+      if (profile && profile.birthday_month && profile.birthday_day && profile.birthday_year) {
+        showStep(reasonStep);
+      } else {
+        showStep(birthdayStep);
+      }
+    }
+
+    document.getElementById("saveBirthdayBtn").addEventListener("click", async () => {
+      const month = document.getElementById("birthdayMonth").value;
+      const day = document.getElementById("birthdayDay").value;
+      const year = document.getElementById("birthdayYear").value;
+      const message = document.getElementById("birthdayMessage");
+
+      if (!month || !day || !year) {
+        message.textContent = "Vui lòng chọn đủ tháng, ngày và năm sinh.";
+        return;
+      }
+
+      message.textContent = "Đang lưu sinh nhật...";
+
+      const { error } = await db.from("profiles").upsert({
+        id: currentUser.id,
+        email: currentUser.email,
+        display_name:
+          currentUser.user_metadata?.display_name || "Người dùng FreshSpirit",
+        birthday_month: month,
+        birthday_day: Number(day),
+        birthday_year: Number(year),
+        updated_at: new Date().toISOString()
+      });
+
+      if (error) {
+        message.textContent = error.message;
+        return;
+      }
+
+      message.textContent = "Đã lưu sinh nhật.";
+      setTimeout(() => showStep(reasonStep), 500);
+    });
+
+    document.getElementById("saveReasonsBtn").addEventListener("click", async () => {
+      const message = document.getElementById("reasonMessage");
+      const selected = Array.from(
+        document.querySelectorAll(".checkbox-list input:checked")
+      ).map((input) => input.value);
+
+      if (selected.length === 0) {
+        message.textContent = "Vui lòng chọn ít nhất một lý do.";
+        return;
+      }
+
+      message.textContent = "Đang lưu lựa chọn...";
+
+      await db
+        .from("onboarding_answers")
+        .delete()
+        .eq("user_id", currentUser.id);
+
+      const rows = selected.map((answer) => ({
+        user_id: currentUser.id,
+        answer
+      }));
+
+      const { error } = await db.from("onboarding_answers").insert(rows);
+
+      if (error) {
+        message.textContent = error.message;
+        return;
+      }
+
+      showStep(sourceStep);
+    });
+
+    document.getElementById("backToReasonsBtn").addEventListener("click", () => {
+      showStep(reasonStep);
+    });
+
+    document.getElementById("finishOnboardingBtn").addEventListener("click", async () => {
+      const heardFrom = document.getElementById("heardFrom").value;
+      const tiktokHandle = document.getElementById("tiktokHandle").value.trim();
+      const message = document.getElementById("sourceMessage");
+
+      if (!heardFrom) {
+        message.textContent = "Vui lòng chọn bạn biết đến FreshSpirit từ đâu.";
+        return;
+      }
+
+      message.textContent = "Đang hoàn tất...";
+
+      const { error } = await db.from("profiles").update({
+        heard_from: heardFrom,
+        tiktok_handle: tiktokHandle,
+        updated_at: new Date().toISOString()
+      }).eq("id", currentUser.id);
+
+      if (error) {
+        message.textContent = error.message;
+        return;
+      }
+
+      window.location.href = "home.html";
+    });
+
+    fillDateOptions();
+    checkUser();
+  </script>
+</body>
+</html>
