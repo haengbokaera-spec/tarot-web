@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>FreshSpirit Room</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="header-left">
+      <a href="index.html" class="logo">FreshSpirit</a>
+    </div>
+
+    <nav class="main-nav">
+      <div class="nav-row nav-row-top">
+        <a href="index.html">Trang chủ</a>
+        <a href="index.html#app">Web app</a>
+        <a href="#">Bộ bài số</a>
+      </div>
+
+      <div class="nav-row nav-row-bottom">
+        <a href="#">Đặt lịch xem bài</a>
+        <a href="#">Blog</a>
+      </div>
+    </nav>
+
+    <div class="header-right">
+      <button onclick="drawRoomCard()" class="login-btn">Rút bài</button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero-card">
+      <div class="hero-image-wrap">
+        <div class="arch-image">
+          <div class="avatar avatar-one"></div>
+          <div class="avatar avatar-two"></div>
+
+          <div class="hanging-cards">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-content">
+        <h1>Phòng tarot riêng của bạn</h1>
+
+        <p>
+          Chia sẻ mã phòng này cho người khác để bắt đầu một phiên xem bài riêng tư.
+        </p>
+
+        <div class="result-box">
+          <h3>Mã phòng: <span id="roomCode">...</span></h3>
+          <p id="roomMessage">Bấm “Rút bài” để nhận thông điệp cho phòng này.</p>
+        </div>
+
+        <div class="hero-actions">
+          <button onclick="drawRoomCard()" class="primary-btn">
+            Rút bài trong phòng
+          </button>
+
+          <a href="index.html" class="ios-btn" style="display:flex;align-items:center;justify-content:center;text-decoration:none;">
+            Về trang chủ
+          </a>
+        </div>
+      </div>
+
+      <div class="corner-cards">
+        <div class="tarot-corner tarot-one">
+          <div class="tarot-top">I</div>
+          <div class="tarot-art sun-art"></div>
+        </div>
+
+        <div class="tarot-corner tarot-two">
+          <div class="tarot-top">IIII</div>
+          <div class="tarot-art moon-art"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const room = params.get("room");
+
+    document.getElementById("roomCode").textContent = room || "KHÔNG CÓ MÃ";
+
+    function drawRoomCard() {
+      const card = getRandomItem(tarotDatabase.oneCard);
+
+      const roomMessage = document.getElementById("roomMessage");
+
+      roomMessage.innerHTML = `
+        <strong>${card.title}</strong><br><br>
+        ${card.meaning}
+      `;
+    }
+  </script>
+</body>
+</html>
