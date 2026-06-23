@@ -7,70 +7,1468 @@
   <title>FreshSpirit</title>
 
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000;
+      color: #000;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    button,
+    input,
+    select {
+      font-family: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .app {
+      width: min(100%, 390px);
       min-height: 100vh;
+      margin: 0 auto;
+      background: #f4f4f4;
+      padding-bottom: 92px;
+    }
+
+    .topbar {
+      width: min(100%, 390px);
+      height: 88px;
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      background: #f4f4f4;
+      border-bottom: 2px solid #111;
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .tagline {
+      font-size: 13px;
+      font-weight: 700;
+      margin-top: 3px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .icon-btn,
+    .black-btn,
+    .avatar-btn {
+      height: 38px;
+      border: 2px solid #111;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 900;
+      background: #fff;
+      color: #000;
+    }
+
+    .icon-btn {
+      width: 38px;
+      font-size: 18px;
+    }
+
+    .black-btn {
+      padding: 0 10px;
       background: #000;
       color: #fff;
-      font-family: Arial, Helvetica, sans-serif;
-      display: grid;
-      place-items: center;
-      text-align: center;
     }
 
-    .loading-box {
-      width: min(90%, 340px);
-      padding: 28px;
-      border: 2px solid #fff;
-      border-radius: 28px;
+    .avatar-btn {
+      width: 38px;
+      border-radius: 999px;
+      font-size: 18px;
     }
 
-    h1 {
-      font-size: 30px;
+    .liked {
+      background: #000 !important;
+      color: #fff !important;
+    }
+
+    .menu {
+      position: fixed;
+      top: 96px;
+      right: calc((100vw - min(100vw, 390px)) / 2 + 12px);
+      width: 210px;
+      background: #fff;
+      border: 2px solid #111;
+      border-radius: 22px;
+      box-shadow: 0 6px 0 #000;
+      padding: 10px;
+      z-index: 80;
+    }
+
+    .menu button {
+      width: 100%;
+      min-height: 42px;
+      border: none;
+      background: transparent;
+      text-align: left;
+      font-size: 15px;
+      font-weight: 900;
+      padding: 8px 10px;
+      border-radius: 14px;
+    }
+
+    .menu button:hover {
+      background: #eee;
+    }
+
+    .menu hr {
+      border: none;
+      border-top: 2px solid #111;
+      margin: 8px 0;
+    }
+
+    .page {
+      padding: 108px 14px 20px;
+    }
+
+    .card {
+      background: #fff;
+      border: 2px solid #111;
+      border-radius: 32px;
+      box-shadow: 0 5px 0 #000;
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+
+    .card h1 {
+      font-size: 32px;
+      line-height: 1;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+    }
+
+    .card h2 {
+      font-size: 23px;
+      line-height: 1.1;
       margin-bottom: 10px;
     }
 
-    p {
-      color: #ddd;
+    .card p {
       font-size: 15px;
       line-height: 1.45;
+      color: #333;
+      font-weight: 650;
+      margin-bottom: 14px;
+    }
+
+    .auth-page {
+      min-height: 100vh;
+      width: min(100%, 390px);
+      margin: 0 auto;
+      background: #f4f4f4;
+      padding: 26px 14px;
+      display: grid;
+      place-items: center;
+    }
+
+    .auth-card {
+      width: 100%;
+      background: #fff;
+      border: 2px solid #111;
+      border-radius: 38px;
+      box-shadow: 0 5px 0 #000;
+      padding: 26px 18px;
+      text-align: center;
+    }
+
+    .auth-card h1 {
+      font-size: 26px;
+      margin-bottom: 18px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .tabs button {
+      flex: 1;
+      height: 44px;
+      border: 2px solid #111;
+      border-radius: 16px;
+      background: #fff;
+      font-weight: 900;
+    }
+
+    .tabs .active {
+      background: #000;
+      color: #fff;
+    }
+
+    .form {
+      display: grid;
+      gap: 11px;
+    }
+
+    .form input,
+    .form select {
+      width: 100%;
+      height: 54px;
+      border: 2px solid #c8c8c8;
+      border-radius: 20px;
+      padding: 0 16px;
+      font-size: 16px;
+      font-weight: 800;
+      outline: none;
+      background: #fff;
+    }
+
+    .submit {
+      width: 100%;
+      height: 58px;
+      border: 2px solid #111;
+      border-radius: 21px;
+      background: #000;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 900;
+      margin-top: 8px;
+    }
+
+    .white-btn {
+      width: 100%;
+      height: 52px;
+      border: 2px solid #111;
+      border-radius: 20px;
+      background: #fff;
+      color: #000;
+      font-size: 16px;
+      font-weight: 900;
+      box-shadow: 0 4px 0 #000;
+    }
+
+    .message {
+      min-height: 22px;
+      margin-top: 14px;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
+    .birthday-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .checkbox-list {
+      display: grid;
+      gap: 10px;
+      margin: 14px 0;
+      text-align: left;
+    }
+
+    .checkbox-list label {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-weight: 800;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .checkbox-list input {
+      width: 26px;
+      height: 26px;
+      accent-color: #000;
+    }
+
+    .quick-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .quick-card {
+      min-height: 96px;
+      border: 2px solid #111;
+      border-radius: 22px;
+      background: #f7f7f7;
+      box-shadow: 0 4px 0 #000;
+      padding: 16px;
+      text-align: left;
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 4px 12px;
+    }
+
+    .quick-card span {
+      width: 40px;
+      height: 40px;
+      border: 2px solid #111;
+      border-radius: 999px;
+      background: #000;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      grid-row: span 2;
+    }
+
+    .quick-card strong {
+      font-size: 17px;
+    }
+
+    .quick-card small {
+      color: #555;
+      font-size: 13px;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .fan {
+      position: relative;
+      height: 190px;
+      margin-top: 20px;
+    }
+
+    .fan img {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 112px;
+      height: 176px;
+      object-fit: cover;
+      border: 6px solid #111;
+      border-radius: 12px;
+      box-shadow: 0 5px 0 #000;
+    }
+
+    .fan img:nth-child(1) {
+      transform: translateX(-120px) rotate(-12deg);
+    }
+
+    .fan img:nth-child(2) {
+      transform: translateX(-56px) translateY(-10px);
+      z-index: 2;
+    }
+
+    .fan img:nth-child(3) {
+      transform: translateX(10px) rotate(12deg);
+    }
+
+    .featured {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .featured img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border: 4px solid #111;
+      border-radius: 10px;
+      box-shadow: 0 3px 0 #000;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .tarot-item {
+      background: #fff;
+      border: 2px solid #111;
+      border-radius: 22px;
+      box-shadow: 0 4px 0 #000;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .tarot-item img {
+      width: 100%;
+      height: 205px;
+      object-fit: cover;
+      border: 4px solid #111;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+
+    .tarot-item h2 {
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .tarot-item small {
+      display: block;
+      font-size: 12px;
+      font-weight: 800;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    .tarot-item p {
+      display: none;
+      text-align: left;
+      font-size: 13px;
+      line-height: 1.4;
+      color: #333;
+      font-weight: 650;
+      margin-top: 8px;
+    }
+
+    .tarot-item.open p {
+      display: block;
+    }
+
+    .mini-btn {
+      width: 100%;
+      height: 38px;
+      border: 2px solid #111;
+      border-radius: 14px;
+      background: #000;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .draw-area {
+      min-height: 350px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin: 16px 0;
+    }
+
+    .card-back {
+      width: 185px;
+      height: 292px;
+      border: 8px solid #111;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #111, #444);
+      color: #fff;
+      box-shadow: 0 7px 0 #000;
+      display: grid;
+      place-items: center;
+      font-size: 58px;
+    }
+
+    .draw-result img {
+      width: 185px;
+      border: 8px solid #111;
+      border-radius: 18px;
+      box-shadow: 0 7px 0 #000;
+      margin-bottom: 18px;
+    }
+
+    .draw-result h2 {
+      font-size: 22px;
+    }
+
+    .journal-entry {
+      background: #fff;
+      border: 2px solid #111;
+      border-radius: 28px;
+      box-shadow: 0 5px 0 #000;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .date-pill {
+      display: inline-block;
+      padding: 7px 10px;
+      border: 2px solid #111;
+      border-radius: 999px;
+      background: #f4f4f4;
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .journal-card-row {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 12px;
+      align-items: start;
+      margin-top: 12px;
+      padding: 12px;
+      border: 2px solid #111;
+      border-radius: 18px;
+      background: #f7f7f7;
+    }
+
+    .journal-card-row img {
+      width: 80px;
+      border: 4px solid #111;
+      border-radius: 10px;
+    }
+
+    .profile-avatar {
+      width: 112px;
+      height: 112px;
+      border: 2px solid #111;
+      border-radius: 999px;
+      margin: 0 auto 16px;
+      background: #f4f4f4;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      font-size: 46px;
+      font-weight: 900;
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .info-row {
+      border: 2px solid #111;
+      border-radius: 18px;
+      padding: 12px 14px;
+      background: #f7f7f7;
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    .info-row small {
+      display: block;
+      color: #777;
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    .social-btn {
+      width: 100%;
+      min-height: 58px;
+      border: 2px solid #111;
+      border-radius: 20px;
+      background: #fff;
+      color: #000;
+      text-decoration: none;
+      box-shadow: 0 4px 0 #000;
+      display: grid;
+      grid-template-columns: 42px 1fr 24px;
+      align-items: center;
+      gap: 10px;
+      padding: 0 16px;
+      text-align: left;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .social-btn span:first-child {
+      width: 38px;
+      height: 38px;
+      border: 2px solid #111;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: #000;
+      color: #fff;
+    }
+
+    .bottom-nav {
+      width: min(100%, 390px);
+      height: 74px;
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      background: #fff;
+      border-top: 2px solid #111;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      z-index: 60;
+    }
+
+    .bottom-nav button {
+      border: none;
+      background: #fff;
+      color: #111;
+      font-size: 11px;
+      font-weight: 900;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+    }
+
+    .bottom-nav span {
+      font-size: 21px;
+    }
+
+    .bottom-nav .active {
+      background: #000;
+      color: #fff;
+    }
+
+    @media (max-width: 360px) {
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tarot-item img {
+        height: auto;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="loading-box">
-    <h1>FreshSpirit</h1>
-    <p>Đang mở không gian tarot của bạn...</p>
-  </div>
+  <div id="root"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase.js"></script>
+  <script src="script.js"></script>
 
   <script>
-    async function routeUser() {
-      const { data } = await db.auth.getUser();
+    let currentUser = null;
+    let currentProfile = null;
+    let authMode = "login";
+    let currentView = "home";
+    let currentCard = null;
+    let cardsShown = [];
 
-      if (!data.user) {
-        window.location.href = "auth.html";
-        return;
-      }
+    const root = document.getElementById("root");
 
-      const { data: profile, error } = await db
-        .from("profiles")
-        .select("birthday_month, birthday_day, birthday_year")
-        .eq("id", data.user.id)
-        .single();
-
-      if (error || !profile || !profile.birthday_month || !profile.birthday_day || !profile.birthday_year) {
-        window.location.href = "onboarding.html";
-        return;
-      }
-
-      window.location.href = "home.html";
+    function moneyText(text) {
+      return text;
     }
 
-    routeUser();
+    function esc(text) {
+      return String(text || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function hasBirthday(profile) {
+      return profile &&
+        profile.birthday_month &&
+        profile.birthday_day &&
+        profile.birthday_year;
+    }
+
+    function birthdayText(profile) {
+      if (!hasBirthday(profile)) return "Chưa có sinh nhật";
+      return `${profile.birthday_day} / ${profile.birthday_month} / ${profile.birthday_year}`;
+    }
+
+    function getHashView() {
+      return location.hash.replace("#", "") || "home";
+    }
+
+    function go(view) {
+      location.hash = view;
+      currentView = view;
+      render();
+    }
+
+    window.go = go;
+
+    async function loadProfile() {
+      if (!currentUser) return null;
+
+      const { data, error } = await db
+        .from("profiles")
+        .select("*")
+        .eq("id", currentUser.id)
+        .maybeSingle();
+
+      if (!data && !error) {
+        await db.from("profiles").upsert({
+          id: currentUser.id,
+          email: currentUser.email,
+          display_name: "Người dùng FreshSpirit",
+          updated_at: new Date().toISOString()
+        });
+      }
+
+      currentProfile = data || {
+        id: currentUser.id,
+        email: currentUser.email,
+        display_name: "Người dùng FreshSpirit"
+      };
+
+      return currentProfile;
+    }
+
+    async function init() {
+      const { data } = await db.auth.getUser();
+      currentUser = data.user || null;
+
+      if (currentUser) {
+        await loadProfile();
+      }
+
+      currentView = getHashView();
+
+      if (!currentUser) {
+        currentView = "auth";
+      } else if (!hasBirthday(currentProfile)) {
+        currentView = "onboarding";
+      }
+
+      render();
+    }
+
+    function layout(content, active = "home") {
+      return `
+        <div class="app">
+          <header class="topbar">
+            <div onclick="go('home')">
+              <div class="logo">FreshSpirit</div>
+              <div class="tagline">A new place for tarot</div>
+            </div>
+
+            <div class="top-actions">
+              <button class="icon-btn" onclick="go('shop')">♙</button>
+              <button id="heartBtn" class="icon-btn" onclick="toggleHeart()">♡</button>
+              <button class="black-btn" onclick="go('room')">+ Room</button>
+              <button class="avatar-btn" onclick="toggleMenu()">☾</button>
+            </div>
+          </header>
+
+          <div id="avatarMenu" class="menu hidden">
+            <button onclick="go('profile')">☺ Profile</button>
+            <button onclick="go('room')">＋ New room</button>
+            <button onclick="go('home')">↩ Return home</button>
+            <button onclick="go('journal')">☰ Journal</button>
+            <button onclick="go('about')">↗ About</button>
+            <hr>
+            <button onclick="signOut()">× Sign out</button>
+          </div>
+
+          <main class="page">
+            ${content}
+          </main>
+
+          <nav class="bottom-nav">
+            <button class="${active === "home" ? "active" : ""}" onclick="go('home')">
+              <span>☾</span>home
+            </button>
+
+            <button class="${active === "cards" ? "active" : ""}" onclick="go('cards')">
+              <span>▣</span>cards
+            </button>
+
+            <button class="${active === "room" ? "active" : ""}" onclick="go('room')">
+              <span>✦</span>practice
+            </button>
+
+            <button class="${active === "shop" ? "active" : ""}" onclick="go('shop')">
+              <span>♙</span>book
+            </button>
+
+            <button class="${active === "more" ? "active" : ""}" onclick="toggleMenu()">
+              <span>☰</span>more
+            </button>
+          </nav>
+        </div>
+      `;
+    }
+
+    function render() {
+      if (!currentUser || currentView === "auth") {
+        renderAuth();
+        return;
+      }
+
+      if (!hasBirthday(currentProfile)) {
+        renderOnboarding();
+        return;
+      }
+
+      if (currentView === "cards") renderCardsPage();
+      else if (currentView === "room") renderRoom();
+      else if (currentView === "journal") renderJournal();
+      else if (currentView === "profile") renderProfile();
+      else if (currentView === "about") renderAbout();
+      else if (currentView === "shop") renderShop();
+      else renderHome();
+    }
+
+    function renderAuth() {
+      root.innerHTML = `
+        <div class="auth-page">
+          <section class="auth-card">
+            <h1>${authMode === "login" ? "Đăng nhập FreshSpirit" : "Tạo tài khoản FreshSpirit"}</h1>
+
+            <div class="tabs">
+              <button class="${authMode === "login" ? "active" : ""}" onclick="setAuthMode('login')">Log in</button>
+              <button class="${authMode === "signup" ? "active" : ""}" onclick="setAuthMode('signup')">Sign up</button>
+            </div>
+
+            <form id="authForm" class="form">
+              ${authMode === "signup" ? `
+                <input id="displayName" type="text" placeholder="Tên hiển thị" required>
+              ` : ""}
+
+              <input id="email" type="email" placeholder="Email" required>
+              <input id="password" type="password" placeholder="Mật khẩu tối thiểu 6 ký tự" required>
+
+              <button class="submit" type="submit">
+                ${authMode === "login" ? "Đăng nhập" : "Tạo tài khoản"}
+              </button>
+            </form>
+
+            <p class="message" id="authMessage"></p>
+          </section>
+        </div>
+      `;
+
+      document.getElementById("authForm").addEventListener("submit", handleAuth);
+    }
+
+    window.setAuthMode = function(mode) {
+      authMode = mode;
+      renderAuth();
+    };
+
+    async function handleAuth(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const authMessage = document.getElementById("authMessage");
+
+      if (password.length < 6) {
+        authMessage.textContent = "Mật khẩu phải có ít nhất 6 ký tự.";
+        return;
+      }
+
+      if (authMode === "login") {
+        authMessage.textContent = "Đang đăng nhập...";
+
+        const { data, error } = await db.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) {
+          authMessage.textContent = error.message;
+          return;
+        }
+
+        currentUser = data.user;
+        await loadProfile();
+
+        currentView = hasBirthday(currentProfile) ? "home" : "onboarding";
+        location.hash = currentView;
+        render();
+        return;
+      }
+
+      const displayName = document.getElementById("displayName").value.trim() || "Người dùng FreshSpirit";
+
+      authMessage.textContent = "Đang tạo tài khoản...";
+
+      const { data, error } = await db.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            display_name: displayName
+          }
+        }
+      });
+
+      if (error) {
+        authMessage.textContent = error.message;
+        return;
+      }
+
+      if (!data.session) {
+        authMessage.textContent = "Tài khoản đã tạo nhưng chưa đăng nhập được. Kiểm tra Supabase đã tắt Confirm email chưa.";
+        return;
+      }
+
+      currentUser = data.user;
+
+      await db.from("profiles").upsert({
+        id: currentUser.id,
+        email: currentUser.email,
+        display_name: displayName,
+        updated_at: new Date().toISOString()
+      });
+
+      await loadProfile();
+
+      currentView = "onboarding";
+      location.hash = "onboarding";
+      render();
+    }
+
+    function renderOnboarding() {
+      const years = [];
+      for (let y = 2026; y >= 1940; y--) years.push(y);
+
+      root.innerHTML = `
+        <div class="app">
+          <main class="page" style="padding-top: 28px;">
+            <section class="card">
+              <h1>Trước khi bắt đầu</h1>
+              <p>FreshSpirit cần lưu sinh nhật của bạn. Sinh nhật chỉ được cài lần đầu và không chỉnh lại trong hồ sơ.</p>
+
+              <form id="onboardingForm" class="form">
+                <div class="birthday-grid">
+                  <select id="birthMonth" required>
+                    <option value="">Tháng</option>
+                    ${Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join("")}
+                  </select>
+
+                  <select id="birthDay" required>
+                    <option value="">Ngày</option>
+                    ${Array.from({ length: 31 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join("")}
+                  </select>
+
+                  <select id="birthYear" required>
+                    <option value="">Năm</option>
+                    ${years.map(y => `<option value="${y}">${y}</option>`).join("")}
+                  </select>
+                </div>
+
+                <p>Bạn đến FreshSpirit để làm gì?</p>
+
+                <div class="checkbox-list">
+                  <label><input type="checkbox" value="Tự xem tarot cho bản thân"> Tự xem tarot cho bản thân</label>
+                  <label><input type="checkbox" value="Luyện đọc bài cho querent"> Luyện đọc bài cho querent</label>
+                  <label><input type="checkbox" value="Lưu nhật ký trải bài"> Lưu nhật ký trải bài</label>
+                  <label><input type="checkbox" value="Học ý nghĩa 78 lá"> Học ý nghĩa 78 lá</label>
+                </div>
+
+                <select id="heardFrom">
+                  <option value="">Bạn biết FreshSpirit từ đâu?</option>
+                  <option value="Bạn bè / truyền miệng">Bạn bè / truyền miệng</option>
+                  <option value="TikTok">TikTok</option>
+                  <option value="Instagram">Instagram</option>
+                  <option value="Facebook">Facebook</option>
+                  <option value="Threads">Threads</option>
+                  <option value="YouTube">YouTube</option>
+                  <option value="Khác">Khác</option>
+                </select>
+
+                <input id="tiktokHandle" type="text" placeholder="TikTok của bạn, nếu có">
+
+                <button class="submit" type="submit">Bắt đầu</button>
+              </form>
+
+              <p id="onboardingMessage" class="message"></p>
+            </section>
+          </main>
+        </div>
+      `;
+
+      document.getElementById("onboardingForm").addEventListener("submit", saveOnboarding);
+    }
+
+    async function saveOnboarding(event) {
+      event.preventDefault();
+
+      const message = document.getElementById("onboardingMessage");
+      message.textContent = "Đang lưu...";
+
+      const reasons = [...document.querySelectorAll(".checkbox-list input:checked")].map(item => item.value);
+
+      const profileUpdate = {
+        birthday_month: Number(document.getElementById("birthMonth").value),
+        birthday_day: Number(document.getElementById("birthDay").value),
+        birthday_year: Number(document.getElementById("birthYear").value),
+        heard_from: document.getElementById("heardFrom").value,
+        tiktok_handle: document.getElementById("tiktokHandle").value.trim(),
+        updated_at: new Date().toISOString()
+      };
+
+      const { error } = await db
+        .from("profiles")
+        .update(profileUpdate)
+        .eq("id", currentUser.id);
+
+      if (error) {
+        message.textContent = error.message;
+        return;
+      }
+
+      if (reasons.length > 0) {
+        await db.from("onboarding_answers").insert(
+          reasons.map(reason => ({
+            user_id: currentUser.id,
+            answer: reason
+          }))
+        );
+      }
+
+      await loadProfile();
+
+      currentView = "home";
+      location.hash = "home";
+      render();
+    }
+
+    function renderHome() {
+      root.innerHTML = layout(`
+        <section class="card">
+          <h1>Do tarot anywhere</h1>
+          <p>Rút bài, lưu trải bài vào nhật ký và quay lại chiêm nghiệm bất cứ lúc nào.</p>
+
+          <div class="fan">
+            <img src="images/cards/maj00.jpg" alt="The Fool">
+            <img src="images/cards/maj01.jpg" alt="The Magician">
+            <img src="images/cards/maj02.jpg" alt="High Priestess">
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Start your reading</h2>
+
+          <div class="quick-grid">
+            <button class="quick-card" onclick="go('room')">
+              <span>✦</span>
+              <strong>New room</strong>
+              <small>Rút một lá bài ngẫu nhiên và lưu lại vào journal.</small>
+            </button>
+
+            <button class="quick-card" onclick="go('cards')">
+              <span>▣</span>
+              <strong>Explore cards</strong>
+              <small>Xem đủ 78 lá Rider Waite và nghĩa ngắn từng lá.</small>
+            </button>
+
+            <button class="quick-card" onclick="go('journal')">
+              <span>☰</span>
+              <strong>Your journal</strong>
+              <small>Xem lại những trải bài đã lưu.</small>
+            </button>
+
+            <button class="quick-card" onclick="go('profile')">
+              <span>☺</span>
+              <strong>Your profile</strong>
+              <small>Xem hồ sơ và sinh nhật đã lưu.</small>
+            </button>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Featured cards</h2>
+          <p>Một vài lá bài nổi bật trong bộ Rider Waite.</p>
+
+          <div class="featured">
+            <img src="images/cards/maj19.jpg" alt="The Sun">
+            <img src="images/cards/maj07.jpg" alt="The Chariot">
+            <img src="images/cards/cups01.jpg" alt="Ace of Cups">
+            <img src="images/cards/wands04.jpg" alt="Four of Wands">
+          </div>
+        </section>
+      `, "home");
+    }
+
+    function renderCardsPage() {
+      const allCards = typeof getAllCards === "function" ? getAllCards() : [];
+      cardsShown = allCards;
+
+      root.innerHTML = layout(`
+        <section class="card">
+          <h1>Tarot cards</h1>
+          <p>Xem nhanh 78 lá Rider Waite trong FreshSpirit.</p>
+
+          <div class="form">
+            <input id="cardSearch" type="text" placeholder="Tìm lá bài...">
+          </div>
+        </section>
+
+        <section id="cardsGrid" class="cards-grid"></section>
+      `, "cards");
+
+      renderCardGrid(allCards);
+
+      document.getElementById("cardSearch").addEventListener("input", function() {
+        const keyword = this.value.trim().toLowerCase();
+
+        const filtered = allCards.filter(card =>
+          card.name.toLowerCase().includes(keyword) ||
+          card.viName.toLowerCase().includes(keyword) ||
+          card.meaning.toLowerCase().includes(keyword)
+        );
+
+        renderCardGrid(filtered);
+      });
+    }
+
+    function renderCardGrid(cards) {
+      const grid = document.getElementById("cardsGrid");
+
+      if (!grid) return;
+
+      if (!cards.length) {
+        grid.innerHTML = `<section class="card"><p>Không tìm thấy lá bài phù hợp.</p></section>`;
+        return;
+      }
+
+      grid.innerHTML = cards.map((card, index) => `
+        <article class="tarot-item" id="tarotItem${index}">
+          <img src="${esc(card.image)}" alt="${esc(card.name)}">
+          <h2>${esc(card.name)}</h2>
+          <small>${esc(card.viName)}</small>
+          <button class="mini-btn" onclick="toggleMeaning(${index})">Xem nghĩa</button>
+          <p>${esc(card.meaning)}</p>
+        </article>
+      `).join("");
+    }
+
+    window.toggleMeaning = function(index) {
+      const item = document.getElementById(`tarotItem${index}`);
+      if (item) item.classList.toggle("open");
+    };
+
+    function renderRoom() {
+      currentCard = null;
+
+      root.innerHTML = layout(`
+        <section class="card" style="text-align:center;">
+          <h1>Rút một lá bài</h1>
+          <p>Hãy giữ câu hỏi trong lòng, thở chậm lại và để bộ bài gửi đến bạn một thông điệp.</p>
+
+          <div class="draw-area">
+            <div id="cardBack" class="card-back">✦</div>
+
+            <div id="drawResult" class="draw-result hidden">
+              <img id="drawImage" src="" alt="Tarot card">
+              <h2 id="drawTitle"></h2>
+              <p id="drawMeaning"></p>
+            </div>
+          </div>
+
+          <button class="submit" onclick="drawCard()">Rút bài</button>
+          <button id="saveBtn" class="white-btn hidden" onclick="saveJournal()" style="margin-top:12px;">Lưu vào nhật ký</button>
+
+          <p id="roomMessage" class="message"></p>
+        </section>
+      `, "room");
+    }
+
+    window.drawCard = function() {
+      const message = document.getElementById("roomMessage");
+
+      if (typeof getRandomCard !== "function") {
+        message.textContent = "Chưa tìm thấy database tarot trong script.js.";
+        return;
+      }
+
+      currentCard = getRandomCard();
+
+      document.getElementById("cardBack").classList.add("hidden");
+      document.getElementById("drawResult").classList.remove("hidden");
+      document.getElementById("saveBtn").classList.remove("hidden");
+
+      document.getElementById("drawImage").src = currentCard.image;
+      document.getElementById("drawTitle").textContent = `${currentCard.name} — ${currentCard.viName}`;
+      document.getElementById("drawMeaning").textContent = currentCard.meaning;
+
+      message.textContent = "";
+    };
+
+    window.saveJournal = async function() {
+      const message = document.getElementById("roomMessage");
+
+      if (!currentCard) {
+        message.textContent = "Bạn cần rút bài trước.";
+        return;
+      }
+
+      message.textContent = "Đang lưu...";
+
+      const { error } = await db.from("journal_entries").insert({
+        user_id: currentUser.id,
+        title: `Rút 1 lá: ${currentCard.name}`,
+        spread_type: "one-card",
+        question: "Rút bài ngẫu nhiên trong FreshSpirit Room",
+        cards: [currentCard],
+        interpretation: currentCard.meaning
+      });
+
+      if (error) {
+        message.textContent = error.message;
+        return;
+      }
+
+      message.textContent = "Đã lưu vào nhật ký.";
+    };
+
+    function renderJournal() {
+      root.innerHTML = layout(`
+        <section class="card">
+          <h1>Your journal</h1>
+          <p>Đây là nơi lưu lại những trải bài bạn đã rút.</p>
+        </section>
+
+        <section id="journalList">
+          <p class="message">Đang tải journal...</p>
+        </section>
+      `, "more");
+
+      loadJournal();
+    }
+
+    async function loadJournal() {
+      const journalList = document.getElementById("journalList");
+
+      const { data, error } = await db
+        .from("journal_entries")
+        .select("*")
+        .eq("user_id", currentUser.id)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        journalList.innerHTML = `<section class="card"><p>${esc(error.message)}</p></section>`;
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        journalList.innerHTML = `
+          <section class="card">
+            <h2>Chưa có trải bài nào</h2>
+            <p>Hãy vào phòng bốc bài, rút một lá và lưu vào journal.</p>
+            <button class="submit" onclick="go('room')">Đi rút bài</button>
+          </section>
+        `;
+        return;
+      }
+
+      journalList.innerHTML = data.map((entry, index) => {
+        const cards = Array.isArray(entry.cards) ? entry.cards : [];
+        const card = cards[0];
+
+        return `
+          <article class="journal-entry">
+            <span class="date-pill">${new Date(entry.created_at).toLocaleDateString("vi-VN")}</span>
+            <h2>${esc(entry.title || "Trải bài đã lưu")}</h2>
+            <p>${esc(entry.question || "Không có câu hỏi cụ thể.")}</p>
+
+            ${card ? `
+              <div class="journal-card-row">
+                <img src="${esc(card.image)}" alt="${esc(card.name)}">
+                <div>
+                  <strong>${esc(card.name)} — ${esc(card.viName)}</strong>
+                  <p>${esc(entry.interpretation || card.meaning)}</p>
+                </div>
+              </div>
+            ` : ""}
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderProfile() {
+      root.innerHTML = layout(`
+        <section class="card" style="text-align:center;">
+          <div class="profile-avatar">
+            ${
+              currentProfile.avatar_url
+                ? `<img src="${esc(currentProfile.avatar_url)}" alt="Avatar">`
+                : "☾"
+            }
+          </div>
+
+          <h1>${esc(currentProfile.display_name || "Người dùng FreshSpirit")}</h1>
+          <p>${esc(currentProfile.email || currentUser.email)}</p>
+
+          <div class="info-row">
+            <small>Sinh nhật</small>
+            <strong>${birthdayText(currentProfile)}</strong>
+          </div>
+
+          <div class="info-row">
+            <small>TikTok</small>
+            <strong>${esc(currentProfile.tiktok_handle || "Chưa thêm")}</strong>
+          </div>
+
+          <div class="info-row">
+            <small>Biết đến FreshSpirit từ</small>
+            <strong>${esc(currentProfile.heard_from || "Chưa thêm")}</strong>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Chỉnh sửa hồ sơ</h2>
+
+          <form id="profileForm" class="form">
+            <input id="profileName" type="text" placeholder="Tên hiển thị" value="${esc(currentProfile.display_name || "")}">
+            <input id="profileAvatar" type="url" placeholder="Link ảnh đại diện" value="${esc(currentProfile.avatar_url || "")}">
+            <input id="profileTiktok" type="text" placeholder="TikTok" value="${esc(currentProfile.tiktok_handle || "")}">
+
+            <select id="profileHeardFrom">
+              <option value="">Bạn biết FreshSpirit từ đâu?</option>
+              <option value="Bạn bè / truyền miệng">Bạn bè / truyền miệng</option>
+              <option value="TikTok">TikTok</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Facebook">Facebook</option>
+              <option value="Threads">Threads</option>
+              <option value="YouTube">YouTube</option>
+              <option value="Khác">Khác</option>
+            </select>
+
+            <button class="submit" type="submit">Lưu hồ sơ</button>
+          </form>
+
+          <p id="profileMessage" class="message"></p>
+        </section>
+      `, "more");
+
+      document.getElementById("profileHeardFrom").value = currentProfile.heard_from || "";
+      document.getElementById("profileForm").addEventListener("submit", saveProfile);
+    }
+
+    async function saveProfile(event) {
+      event.preventDefault();
+
+      const message = document.getElementById("profileMessage");
+      message.textContent = "Đang lưu...";
+
+      const updates = {
+        display_name: document.getElementById("profileName").value.trim() || "Người dùng FreshSpirit",
+        avatar_url: document.getElementById("profileAvatar").value.trim(),
+        tiktok_handle: document.getElementById("profileTiktok").value.trim(),
+        heard_from: document.getElementById("profileHeardFrom").value,
+        updated_at: new Date().toISOString()
+      };
+
+      const { error } = await db
+        .from("profiles")
+        .update(updates)
+        .eq("id", currentUser.id);
+
+      if (error) {
+        message.textContent = error.message;
+        return;
+      }
+
+      await loadProfile();
+      message.textContent = "Đã lưu hồ sơ.";
+      renderProfile();
+    }
+
+    function renderAbout() {
+      root.innerHTML = layout(`
+        <section class="card">
+          <h1>About FreshSpirit</h1>
+          <p>FreshSpirit là không gian dành cho tarot, trực giác và những cuộc trò chuyện sâu sắc.</p>
+
+          <a class="social-btn" href="https://www.threads.com/@freshspirit.tarot" target="_blank">
+            <span>𐙚</span><strong>Threads<br><small>@freshspirit.tarot</small></strong><span>↗</span>
+          </a>
+
+          <a class="social-btn" href="https://www.instagram.com/freshspirit.tarot" target="_blank">
+            <span>◎</span><strong>Instagram<br><small>@freshspirit.tarot</small></strong><span>↗</span>
+          </a>
+
+          <a class="social-btn" href="https://www.facebook.com/share/1afMZGvmZE/?mibextid=wwXIfr" target="_blank">
+            <span>f</span><strong>Facebook<br><small>FreshSpirit Tarot</small></strong><span>↗</span>
+          </a>
+
+          <a class="social-btn" href="https://www.tiktok.com/@freshspirit.tarot" target="_blank">
+            <span>♪</span><strong>TikTok<br><small>@freshspirit.tarot</small></strong><span>↗</span>
+          </a>
+
+          <a class="social-btn" href="https://youtube.com/@freshspirittarot?si=ztlbn7sAeAv5lUz0" target="_blank">
+            <span>▶</span><strong>YouTube<br><small>@freshspirittarot</small></strong><span>↗</span>
+          </a>
+        </section>
+      `, "more");
+    }
+
+    function renderShop() {
+      root.innerHTML = layout(`
+        <section class="card">
+          <h1>Cửa hàng FreshSpirit</h1>
+          <p>Chọn dịch vụ tarot phù hợp. Phần thanh toán thật sẽ được kết nối sau.</p>
+
+          <div class="quick-grid">
+            <button class="quick-card" onclick="shopMessage('Trải bài nhanh')">
+              <span>✦</span>
+              <strong>Trải bài nhanh</strong>
+              <small>49.000đ — Một câu hỏi trọng tâm.</small>
+            </button>
+
+            <button class="quick-card" onclick="shopMessage('Trải bài chuyên sâu')">
+              <span>☾</span>
+              <strong>Trải bài chuyên sâu</strong>
+              <small>149.000đ — Tình cảm, công việc, định hướng.</small>
+            </button>
+
+            <button class="quick-card" onclick="shopMessage('Mentor Tarot 1:1')">
+              <span>♙</span>
+              <strong>Mentor Tarot 1:1</strong>
+              <small>299.000đ — Học và luyện đọc bài.</small>
+            </button>
+          </div>
+
+          <p id="shopMessage" class="message"></p>
+        </section>
+      `, "shop");
+    }
+
+    window.shopMessage = function(name) {
+      document.getElementById("shopMessage").textContent =
+        `Bạn đã chọn "${name}". Chức năng thanh toán thật sẽ được kết nối sau.`;
+    };
+
+    window.toggleMenu = function() {
+      const menu = document.getElementById("avatarMenu");
+      if (menu) menu.classList.toggle("hidden");
+    };
+
+    window.toggleHeart = function() {
+      const heart = document.getElementById("heartBtn");
+      if (!heart) return;
+
+      heart.classList.toggle("liked");
+      heart.textContent = heart.classList.contains("liked") ? "♥" : "♡";
+    };
+
+    window.signOut = async function() {
+      await db.auth.signOut();
+      currentUser = null;
+      currentProfile = null;
+      currentView = "auth";
+      location.hash = "";
+      renderAuth();
+    };
+
+    window.addEventListener("hashchange", () => {
+      currentView = getHashView();
+      render();
+    });
+
+    init();
   </script>
 </body>
 </html>
