@@ -23,10 +23,20 @@
       color: #111;
     }
 
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
+      overscroll-behavior-x: none;
+      -webkit-text-size-adjust: 100%;
+    }
+
     body {
       background: #000;
       color: #111;
       font-family: "Be Vietnam Pro", Arial, Helvetica, sans-serif;
+      touch-action: pan-y;
     }
 
     button, input, select, textarea {
@@ -42,6 +52,7 @@
       margin: 0 auto;
       background: #f7f7f5;
       padding-bottom: 86px;
+      overflow-x: hidden;
     }
 
     .topbar {
@@ -249,7 +260,7 @@
       border: 1px solid #b9b9b9;
       border-radius: 18px;
       padding: 0 14px;
-      font-size: 14.5px;
+      font-size: 16px;
       font-weight: 500;
       outline: none;
       background: #fff;
@@ -390,6 +401,7 @@
       position: relative;
       height: 184px;
       margin-top: 20px;
+      overflow: hidden;
     }
 
     .fan img {
