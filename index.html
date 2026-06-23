@@ -11,7 +11,7 @@
   <header class="navbar">
     <div class="logo">✦ Fresh Spirit</div>
     <nav>
-      <a href="#">Home</a>
+      <a href="index.html">Home</a>
       <a href="#">Readings</a>
       <a href="#">Decks</a>
       <a href="#">Rooms</a>
@@ -29,7 +29,7 @@
 
       <div class="buttons">
         <button onclick="drawCard()" class="primary-btn">Draw a Card</button>
-        <button class="secondary-btn">Create Room</button>
+        <button onclick="createRoom()" class="secondary-btn">Create Room</button>
       </div>
     </section>
 
@@ -40,6 +40,11 @@
 
       <h2 id="cardName">Your card is waiting</h2>
       <p id="cardMeaning">Click “Draw a Card” to reveal your message.</p>
+
+      <div id="roomBox" class="room-box hidden">
+        <p>Your private room:</p>
+        <a id="roomLink" href="#" target="_blank"></a>
+      </div>
     </section>
   </main>
 
