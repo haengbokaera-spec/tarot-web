@@ -11,174 +11,158 @@
 
     body {
       background: #000;
-      color: #000;
+      color: #111;
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    button, input, select, textarea {
-      font-family: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    .hidden {
-      display: none !important;
-    }
+    button, input, select, textarea { font-family: inherit; }
+    button { cursor: pointer; }
+    .hidden { display: none !important; }
 
     .app {
       width: min(100%, 390px);
       min-height: 100vh;
       margin: 0 auto;
-      background: #f4f4f4;
-      padding-bottom: 92px;
+      background: #f7f7f5;
+      padding-bottom: 86px;
     }
 
     .topbar {
-      width: min(100%, 390px);
-      height: 88px;
+      width: min(94%, 370px);
+      min-height: 70px;
       position: fixed;
-      top: 0;
+      top: 10px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 50;
-      background: #f4f4f4;
-      border-bottom: 2px solid #111;
-      padding: 12px;
+      background: rgba(247, 247, 245, 0.94);
+      backdrop-filter: blur(14px);
+      border: 1px solid #1f1f1f;
+      border-radius: 26px;
+      padding: 10px 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .logo {
-      font-size: 23px;
+      font-size: 22px;
       font-weight: 900;
       letter-spacing: -1px;
       line-height: 1;
     }
 
     .tagline {
-      font-size: 13px;
-      font-weight: 700;
+      font-size: 12px;
+      font-weight: 600;
+      color: #555;
       margin-top: 4px;
     }
 
     .top-actions {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
     }
 
     .icon-btn,
     .black-btn,
     .avatar-btn {
-      height: 38px;
-      border: 2px solid #111;
-      border-radius: 14px;
-      font-size: 14px;
-      font-weight: 900;
+      min-height: 34px;
+      border: 1px solid #1f1f1f;
+      border-radius: 999px;
+      font-weight: 800;
       background: #fff;
-      color: #000;
+      color: #111;
     }
 
-    .icon-btn {
-      width: 38px;
-      font-size: 18px;
+    .icon-btn, .avatar-btn {
+      width: 34px;
+      font-size: 17px;
     }
 
     .black-btn {
       padding: 0 10px;
-      background: #000;
+      background: #111;
       color: #fff;
-    }
-
-    .avatar-btn {
-      width: 38px;
-      border-radius: 999px;
-      font-size: 18px;
+      font-size: 13px;
+      white-space: nowrap;
     }
 
     .liked {
-      background: #000 !important;
+      background: #111 !important;
       color: #fff !important;
     }
 
     .menu {
       position: fixed;
-      top: 96px;
-      right: calc((100vw - min(100vw, 390px)) / 2 + 12px);
+      top: 88px;
+      right: calc((100vw - min(94vw, 370px)) / 2);
       width: 210px;
       background: #fff;
-      border: 2px solid #111;
+      border: 1px solid #1f1f1f;
       border-radius: 22px;
-      box-shadow: 0 6px 0 #000;
       padding: 10px;
       z-index: 80;
     }
 
     .menu button {
       width: 100%;
-      min-height: 42px;
+      min-height: 40px;
       border: none;
       background: transparent;
       text-align: left;
-      font-size: 15px;
-      font-weight: 900;
+      font-size: 14px;
+      font-weight: 800;
       padding: 8px 10px;
       border-radius: 14px;
     }
 
-    .menu button:hover {
-      background: #eee;
-    }
+    .menu button:hover { background: #f1f1ef; }
 
     .menu hr {
       border: none;
-      border-top: 2px solid #111;
+      border-top: 1px solid #222;
       margin: 8px 0;
     }
 
-    .page {
-      padding: 108px 14px 20px;
-    }
+    .page { padding: 96px 14px 20px; }
 
     .card {
       background: #fff;
-      border: 2px solid #111;
-      border-radius: 32px;
-      box-shadow: 0 5px 0 #000;
-      padding: 22px;
-      margin-bottom: 18px;
+      border: 1px solid #1f1f1f;
+      border-radius: 26px;
+      padding: 20px;
+      margin-bottom: 14px;
     }
 
     .card h1 {
-      font-size: 32px;
+      font-size: 30px;
       line-height: 1;
       margin-bottom: 12px;
       letter-spacing: -1px;
     }
 
     .card h2 {
-      font-size: 23px;
-      line-height: 1.1;
+      font-size: 22px;
+      line-height: 1.12;
       margin-bottom: 10px;
     }
 
     .card p {
       font-size: 15px;
-      line-height: 1.45;
+      line-height: 1.48;
       color: #333;
-      font-weight: 650;
-      margin-bottom: 14px;
+      font-weight: 560;
+      margin-bottom: 12px;
     }
 
     .auth-page {
       min-height: 100vh;
       width: min(100%, 390px);
       margin: 0 auto;
-      background: #f4f4f4;
+      background: #f7f7f5;
       padding: 26px 14px;
       display: grid;
       place-items: center;
@@ -187,15 +171,14 @@
     .auth-card {
       width: 100%;
       background: #fff;
-      border: 2px solid #111;
-      border-radius: 38px;
-      box-shadow: 0 5px 0 #000;
-      padding: 26px 18px;
+      border: 1px solid #1f1f1f;
+      border-radius: 30px;
+      padding: 24px 18px;
       text-align: center;
     }
 
     .auth-card h1 {
-      font-size: 26px;
+      font-size: 25px;
       margin-bottom: 18px;
     }
 
@@ -207,91 +190,88 @@
 
     .tabs button {
       flex: 1;
-      height: 44px;
-      border: 2px solid #111;
-      border-radius: 16px;
+      height: 42px;
+      border: 1px solid #1f1f1f;
+      border-radius: 999px;
       background: #fff;
-      font-weight: 900;
+      font-weight: 850;
     }
 
     .tabs .active {
-      background: #000;
+      background: #111;
       color: #fff;
     }
 
     .form {
       display: grid;
-      gap: 11px;
+      gap: 10px;
     }
 
     .form input,
     .form select,
     .form textarea {
       width: 100%;
-      border: 2px solid #c8c8c8;
-      border-radius: 20px;
-      padding: 0 16px;
-      font-size: 16px;
-      font-weight: 800;
+      border: 1px solid #b9b9b9;
+      border-radius: 18px;
+      padding: 0 14px;
+      font-size: 15px;
+      font-weight: 650;
       outline: none;
       background: #fff;
     }
 
     .form input,
-    .form select {
-      height: 54px;
-    }
+    .form select { height: 52px; }
 
     .form textarea {
-      min-height: 150px;
-      padding: 14px 16px;
+      min-height: 140px;
+      padding: 14px;
       resize: vertical;
       line-height: 1.45;
     }
 
     .submit {
       width: 100%;
-      min-height: 58px;
-      border: 2px solid #111;
-      border-radius: 21px;
-      background: #000;
+      min-height: 54px;
+      border: 1px solid #111;
+      border-radius: 18px;
+      background: #111;
       color: #fff;
-      font-size: 18px;
-      font-weight: 900;
+      font-size: 17px;
+      font-weight: 850;
       margin-top: 8px;
       padding: 12px;
     }
 
     .white-btn {
       width: 100%;
-      min-height: 52px;
-      border: 2px solid #111;
-      border-radius: 20px;
+      min-height: 50px;
+      border: 1px solid #111;
+      border-radius: 18px;
       background: #fff;
-      color: #000;
-      font-size: 16px;
-      font-weight: 900;
-      box-shadow: 0 4px 0 #000;
+      color: #111;
+      font-size: 15px;
+      font-weight: 850;
       padding: 10px;
     }
 
     .mini-btn {
       width: 100%;
-      min-height: 38px;
-      border: 2px solid #111;
+      min-height: 36px;
+      border: 1px solid #111;
       border-radius: 14px;
-      background: #000;
+      background: #111;
       color: #fff;
-      font-size: 13px;
-      font-weight: 900;
+      font-size: 12px;
+      font-weight: 850;
       padding: 8px;
     }
 
     .message {
       min-height: 22px;
-      margin-top: 14px;
+      margin-top: 12px;
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 750;
       line-height: 1.4;
     }
 
@@ -313,62 +293,54 @@
       display: flex;
       gap: 10px;
       align-items: center;
-      font-weight: 800;
+      font-weight: 700;
       font-size: 14px;
       line-height: 1.35;
     }
 
     .checkbox-list input {
-      width: 26px;
-      height: 26px;
-      accent-color: #000;
+      width: 24px;
+      height: 24px;
+      accent-color: #111;
     }
 
-    .quick-grid {
-      display: grid;
-      gap: 12px;
-    }
+    .quick-grid { display: grid; gap: 10px; }
 
     .quick-card {
-      min-height: 96px;
-      border: 2px solid #111;
-      border-radius: 22px;
-      background: #f7f7f7;
-      box-shadow: 0 4px 0 #000;
-      padding: 16px;
+      min-height: 92px;
+      border: 1px solid #1f1f1f;
+      border-radius: 20px;
+      background: #fafafa;
+      padding: 15px;
       text-align: left;
       display: grid;
-      grid-template-columns: 42px 1fr;
+      grid-template-columns: 38px 1fr;
       gap: 4px 12px;
     }
 
     .quick-card span {
-      width: 40px;
-      height: 40px;
-      border: 2px solid #111;
+      width: 36px;
+      height: 36px;
       border-radius: 999px;
-      background: #000;
+      background: #111;
       color: #fff;
       display: grid;
       place-items: center;
-      font-size: 20px;
+      font-size: 19px;
       grid-row: span 2;
     }
 
-    .quick-card strong {
-      font-size: 17px;
-    }
-
+    .quick-card strong { font-size: 16px; }
     .quick-card small {
       color: #555;
       font-size: 13px;
       line-height: 1.35;
-      font-weight: 700;
+      font-weight: 600;
     }
 
     .fan {
       position: relative;
-      height: 190px;
+      height: 184px;
       margin-top: 20px;
     }
 
@@ -376,26 +348,17 @@
       position: absolute;
       top: 0;
       left: 50%;
-      width: 112px;
-      height: 176px;
+      width: 108px;
+      height: 172px;
       object-fit: cover;
-      border: 6px solid #111;
-      border-radius: 12px;
-      box-shadow: 0 5px 0 #000;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
     }
 
-    .fan img:nth-child(1) {
-      transform: translateX(-120px) rotate(-12deg);
-    }
-
-    .fan img:nth-child(2) {
-      transform: translateX(-56px) translateY(-10px);
-      z-index: 2;
-    }
-
-    .fan img:nth-child(3) {
-      transform: translateX(10px) rotate(12deg);
-    }
+    .fan img:nth-child(1) { transform: translateX(-118px) rotate(-10deg); }
+    .fan img:nth-child(2) { transform: translateX(-54px) translateY(-8px); z-index: 2; }
+    .fan img:nth-child(3) { transform: translateX(8px) rotate(10deg); }
 
     .featured {
       display: grid;
@@ -406,47 +369,46 @@
 
     .featured img {
       width: 100%;
-      height: 120px;
+      height: 118px;
       object-fit: cover;
-      border: 4px solid #111;
-      border-radius: 10px;
-      box-shadow: 0 3px 0 #000;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
     }
 
     .cards-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 12px;
     }
 
     .tarot-item {
       background: #fff;
-      border: 2px solid #111;
-      border-radius: 22px;
-      box-shadow: 0 4px 0 #000;
-      padding: 12px;
+      border: 1px solid #1f1f1f;
+      border-radius: 20px;
+      padding: 10px;
       text-align: center;
     }
 
     .tarot-item img {
       width: 100%;
-      height: 205px;
+      height: 204px;
       object-fit: cover;
-      border: 4px solid #111;
-      border-radius: 12px;
-      margin-bottom: 10px;
-      background: #fff;
+      border: none;
+      border-radius: 9px;
+      margin-bottom: 9px;
+      background: transparent;
     }
 
     .tarot-item h2 {
-      font-size: 16px;
+      font-size: 15px;
       margin-bottom: 4px;
     }
 
     .tarot-item small {
       display: block;
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 650;
       color: #555;
       margin-bottom: 8px;
       line-height: 1.35;
@@ -457,33 +419,30 @@
       font-size: 13px;
       line-height: 1.4;
       color: #333;
-      font-weight: 650;
+      font-weight: 560;
       margin-top: 8px;
     }
 
-    .tarot-item.meaning-closed p {
-      display: none;
-    }
+    .tarot-item.meaning-closed p { display: none; }
 
     .spread-grid {
       display: grid;
-      gap: 10px;
+      gap: 9px;
       margin-top: 12px;
     }
 
     .spread-btn {
       width: 100%;
-      border: 2px solid #111;
-      border-radius: 20px;
+      border: 1px solid #1f1f1f;
+      border-radius: 18px;
       background: #fff;
-      box-shadow: 0 4px 0 #000;
-      padding: 14px;
+      padding: 13px;
       text-align: left;
-      font-weight: 900;
+      font-weight: 850;
     }
 
     .spread-btn.active {
-      background: #000;
+      background: #111;
       color: #fff;
     }
 
@@ -492,24 +451,23 @@
       margin-top: 5px;
       font-size: 12px;
       line-height: 1.35;
-      font-weight: 700;
-      opacity: 0.8;
+      font-weight: 600;
+      opacity: 0.78;
     }
 
     .case-option {
       width: 100%;
-      border: 2px solid #111;
-      border-radius: 22px;
+      border: 1px solid #1f1f1f;
+      border-radius: 20px;
       background: #fff;
-      box-shadow: 0 4px 0 #000;
-      padding: 16px;
+      padding: 15px;
       text-align: left;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .case-option strong {
       display: block;
-      font-size: 17px;
+      font-size: 16px;
       margin-bottom: 6px;
     }
 
@@ -518,15 +476,15 @@
       color: #555;
       font-size: 13px;
       line-height: 1.35;
-      font-weight: 700;
+      font-weight: 600;
     }
 
     .practice-case,
     .info-row {
-      border: 2px solid #111;
-      border-radius: 18px;
+      border: 1px solid #1f1f1f;
+      border-radius: 16px;
       padding: 12px 14px;
-      background: #f7f7f7;
+      background: #fafafa;
       margin-top: 10px;
       text-align: left;
     }
@@ -535,7 +493,7 @@
       display: block;
       color: #777;
       font-size: 12px;
-      font-weight: 900;
+      font-weight: 850;
       margin-bottom: 4px;
     }
 
@@ -547,41 +505,40 @@
 
     .journal-entry {
       background: #fff;
-      border: 2px solid #111;
-      border-radius: 28px;
-      box-shadow: 0 5px 0 #000;
-      padding: 18px;
-      margin-bottom: 16px;
+      border: 1px solid #1f1f1f;
+      border-radius: 24px;
+      padding: 16px;
+      margin-bottom: 14px;
     }
 
     .date-pill {
       display: inline-block;
       padding: 7px 10px;
-      border: 2px solid #111;
+      border: 1px solid #1f1f1f;
       border-radius: 999px;
-      background: #f4f4f4;
+      background: #fafafa;
       font-size: 12px;
-      font-weight: 900;
+      font-weight: 850;
       margin-bottom: 10px;
     }
 
     .journal-card-row {
       display: grid;
-      grid-template-columns: 80px 1fr;
+      grid-template-columns: 72px 1fr;
       gap: 12px;
       align-items: start;
       margin-top: 12px;
       padding: 12px;
-      border: 2px solid #111;
-      border-radius: 18px;
-      background: #f7f7f7;
+      border: 1px solid #1f1f1f;
+      border-radius: 16px;
+      background: #fafafa;
     }
 
     .journal-card-row img {
-      width: 80px;
-      border: 4px solid #111;
-      border-radius: 10px;
-      background: #fff;
+      width: 72px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
     }
 
     .journal-card-row strong {
@@ -598,16 +555,16 @@
     }
 
     .profile-avatar {
-      width: 112px;
-      height: 112px;
-      border: 2px solid #111;
+      width: 108px;
+      height: 108px;
+      border: 1px solid #1f1f1f;
       border-radius: 999px;
       margin: 0 auto 16px;
-      background: #f4f4f4;
+      background: #fafafa;
       overflow: hidden;
       display: grid;
       place-items: center;
-      font-size: 46px;
+      font-size: 42px;
       font-weight: 900;
     }
 
@@ -619,78 +576,72 @@
 
     .social-btn {
       width: 100%;
-      min-height: 58px;
-      border: 2px solid #111;
-      border-radius: 20px;
+      min-height: 56px;
+      border: 1px solid #1f1f1f;
+      border-radius: 18px;
       background: #fff;
-      color: #000;
+      color: #111;
       text-decoration: none;
-      box-shadow: 0 4px 0 #000;
       display: grid;
-      grid-template-columns: 42px 1fr 24px;
+      grid-template-columns: 40px 1fr 24px;
       align-items: center;
       gap: 10px;
-      padding: 0 16px;
+      padding: 0 14px;
       text-align: left;
-      font-weight: 900;
-      margin-bottom: 12px;
+      font-weight: 850;
+      margin-bottom: 10px;
     }
 
     .social-btn span:first-child {
-      width: 38px;
-      height: 38px;
-      border: 2px solid #111;
+      width: 36px;
+      height: 36px;
       border-radius: 999px;
       display: grid;
       place-items: center;
-      background: #000;
+      background: #111;
       color: #fff;
     }
 
     .bottom-nav {
-      width: min(100%, 390px);
-      height: 74px;
+      width: min(94%, 370px);
+      height: 66px;
       position: fixed;
       left: 50%;
-      bottom: 0;
+      bottom: 10px;
       transform: translateX(-50%);
-      background: #fff;
-      border-top: 2px solid #111;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px);
+      border: 1px solid #1f1f1f;
+      border-radius: 26px;
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       z-index: 60;
+      overflow: hidden;
     }
 
     .bottom-nav button {
       border: none;
-      background: #fff;
+      background: transparent;
       color: #111;
-      font-size: 11px;
-      font-weight: 900;
+      font-size: 10px;
+      font-weight: 850;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 3px;
+      gap: 2px;
     }
 
-    .bottom-nav span {
-      font-size: 21px;
-    }
+    .bottom-nav span { font-size: 20px; }
 
     .bottom-nav .active {
-      background: #000;
+      background: #111;
       color: #fff;
     }
 
     @media (max-width: 360px) {
-      .cards-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .tarot-item img {
-        height: auto;
-      }
+      .cards-grid { grid-template-columns: 1fr; }
+      .tarot-item img { height: auto; }
     }
   </style>
 </head>
@@ -707,6 +658,9 @@
     let currentProfile = null;
     let authMode = "login";
     let currentView = "home";
+
+    let roomChatText = "";
+    let roomAiCardText = "";
 
     let normalSpread = null;
     let normalCards = [];
@@ -1010,6 +964,40 @@ Trả lời bằng tiếng Việt.
 `;
     }
 
+    function buildRoomChatPrompt(question) {
+      return `
+Bạn là FreshSpirit Tarot, một AI tarot reader nói tiếng Việt tự nhiên, dịu nhưng rõ ý.
+
+Người dùng hỏi:
+${question}
+
+Hãy trả lời theo phong cách tư vấn tarot nhẹ nhàng:
+- Không khẳng định tuyệt đối tương lai.
+- Không nói quá dài.
+- Có thể gợi ý nên rút bài hoặc chọn spread nếu câu hỏi cần phân tích sâu.
+- Văn phong tự nhiên, không robot.
+`;
+    }
+
+    function buildAIDrawPrompt(card, question) {
+      return `
+Bạn là FreshSpirit Tarot, một tarot reader nói tiếng Việt tự nhiên, sâu sắc nhưng dễ hiểu.
+
+Người dùng hỏi:
+${question || "Người dùng muốn nhận một thông điệp chung."}
+
+AI đã bốc 1 lá:
+${card.name} / ${card.viName}
+Nghĩa gốc: ${card.meaning}
+
+Hãy diễn giải lá này theo câu hỏi của người dùng:
+- Có tổng quan.
+- Có lời khuyên thực tế.
+- Không khẳng định tuyệt đối.
+- Không dùng bảng.
+`;
+    }
+
     function go(view) {
       location.hash = view;
       currentView = view;
@@ -1077,21 +1065,21 @@ Trả lời bằng tiếng Việt.
             </div>
 
             <div class="top-actions">
-              <button class="icon-btn" onclick="go('shop')">♙</button>
-              <button id="heartBtn" class="icon-btn" onclick="toggleHeart()">♡</button>
-              <button class="black-btn" onclick="go('room')">+ Room</button>
-              <button class="avatar-btn" onclick="toggleMenu()">☾</button>
+              <button class="icon-btn" onclick="go('shop')">🛍️</button>
+              <button id="heartBtn" class="icon-btn" onclick="toggleHeart()">🤍</button>
+              <button class="black-btn" onclick="go('room')">✨ Room</button>
+              <button class="avatar-btn" onclick="toggleMenu()">🌙</button>
             </div>
           </header>
 
           <div id="avatarMenu" class="menu hidden">
-            <button onclick="go('profile')">☺ Profile</button>
-            <button onclick="go('room')">＋ New room</button>
-            <button onclick="go('home')">↩ Return home</button>
-            <button onclick="go('journal')">☰ Journal</button>
-            <button onclick="go('about')">↗ About</button>
+            <button onclick="go('profile')">👤 Profile</button>
+            <button onclick="go('room')">✨ New room</button>
+            <button onclick="go('home')">🏠 Return home</button>
+            <button onclick="go('journal')">📓 Journal</button>
+            <button onclick="go('about')">🔗 About</button>
             <hr>
-            <button onclick="signOut()">× Sign out</button>
+            <button onclick="signOut()">🚪 Sign out</button>
           </div>
 
           <main class="page">
@@ -1100,19 +1088,19 @@ Trả lời bằng tiếng Việt.
 
           <nav class="bottom-nav">
             <button class="${active === "home" ? "active" : ""}" onclick="go('home')">
-              <span>☾</span>home
+              <span>🏠</span>home
             </button>
 
             <button class="${active === "cards" ? "active" : ""}" onclick="go('cards')">
-              <span>▣</span>cards
+              <span>🃏</span>cards
             </button>
 
             <button class="${active === "room" ? "active" : ""}" onclick="go('room')">
-              <span>✦</span>practice
+              <span>🔮</span>practice
             </button>
 
             <button class="${active === "shop" ? "active" : ""}" onclick="go('shop')">
-              <span>♙</span>book
+              <span>📖</span>book
             </button>
 
             <button class="${active === "more" ? "active" : ""}" onclick="toggleMenu()">
@@ -1367,7 +1355,7 @@ Trả lời bằng tiếng Việt.
       root.innerHTML = layout(`
         <section class="card">
           <h1>Do tarot anywhere</h1>
-          <p>Rút bài, luyện đọc case ảo, lưu trải bài vào nhật ký và quay lại chiêm nghiệm bất cứ lúc nào.</p>
+          <p>Rút bài, chat với AI, luyện đọc case ảo và lưu trải bài vào nhật ký.</p>
 
           <div class="fan">
             <img src="images/cards/maj00.jpg" alt="The Fool">
@@ -1381,25 +1369,25 @@ Trả lời bằng tiếng Việt.
 
           <div class="quick-grid">
             <button class="quick-card" onclick="go('room')">
-              <span>✦</span>
-              <strong>Practice</strong>
-              <small>Trải bài bình thường cho câu hỏi của bạn.</small>
+              <span>✨</span>
+              <strong>AI Room</strong>
+              <small>Chat với AI, bốc bài với AI hoặc tự trải bài bình thường.</small>
             </button>
 
             <button class="quick-card" onclick="go('match')">
-              <span>◎</span>
+              <span>🫧</span>
               <strong>Find a match</strong>
               <small>Tìm querent ảo, chọn case và luyện đọc bài.</small>
             </button>
 
             <button class="quick-card" onclick="go('cards')">
-              <span>▣</span>
+              <span>🃏</span>
               <strong>Explore cards</strong>
               <small>Xem đủ 78 lá Rider Waite và nghĩa ngắn từng lá.</small>
             </button>
 
             <button class="quick-card" onclick="go('journal')">
-              <span>☰</span>
+              <span>📓</span>
               <strong>Your journal</strong>
               <small>Xem lại những case và trải bài đã lưu.</small>
             </button>
@@ -1437,8 +1425,32 @@ Trả lời bằng tiếng Việt.
 
       root.innerHTML = layout(`
         <section class="card">
-          <h1>Practice</h1>
-          <p>Đây là phòng trải bài bình thường. Nhập câu hỏi, chọn kiểu trải bài, rồi rút bài.</p>
+          <h1>AI Room</h1>
+          <p>Chat với AI hoặc để AI bốc một lá bài cho câu hỏi của bạn.</p>
+
+          <div class="form">
+            <textarea id="roomQuestion" placeholder="Nhập câu hỏi để chat hoặc bốc bài với AI..."></textarea>
+          </div>
+
+          <button class="white-btn" onclick="chatWithAI()" style="margin-top:12px;">
+            Chat với AI
+          </button>
+
+          <button class="submit" onclick="aiDrawOneCard()" style="margin-top:12px;">
+            AI bốc 1 lá
+          </button>
+
+          <p id="roomAiMessage" class="message"></p>
+        </section>
+
+        <section id="roomAiBox">
+          ${roomChatText ? aiBoxHtml(roomChatText) : ""}
+          ${roomAiCardText ? aiBoxHtml(roomAiCardText) : ""}
+        </section>
+
+        <section class="card">
+          <h2>Trải bài bình thường</h2>
+          <p>Nhập câu hỏi, chọn kiểu trải bài, rồi rút bài thủ công.</p>
 
           <button class="white-btn" onclick="go('match')">
             Find a match — luyện với querent ảo
@@ -1475,6 +1487,87 @@ Trả lời bằng tiếng Việt.
         </section>
       `, "room");
     }
+
+    window.chatWithAI = async function() {
+      const input = document.getElementById("roomQuestion");
+      const message = document.getElementById("roomAiMessage");
+      const box = document.getElementById("roomAiBox");
+
+      const question = input.value.trim();
+
+      if (!question) {
+        message.textContent = "Nhập câu hỏi trước.";
+        return;
+      }
+
+      message.textContent = "";
+      box.innerHTML = aiBoxHtml("Đang hỏi Gemini...");
+
+      try {
+        roomChatText = await askGemini(buildRoomChatPrompt(question));
+        roomAiCardText = "";
+        box.innerHTML = aiBoxHtml(roomChatText);
+      } catch (error) {
+        box.innerHTML = aiBoxHtml(error.message);
+      }
+    };
+
+    window.aiDrawOneCard = async function() {
+      const input = document.getElementById("roomQuestion");
+      const message = document.getElementById("roomAiMessage");
+      const box = document.getElementById("roomAiBox");
+
+      const question = input.value.trim();
+
+      if (typeof getRandomCard !== "function") {
+        message.textContent = "Chưa tìm thấy database tarot trong script.js.";
+        return;
+      }
+
+      const card = getRandomCard();
+
+      message.textContent = "";
+      box.innerHTML = `
+        <section class="card">
+          <h2>AI đang bốc bài...</h2>
+          <div class="cards-grid">
+            <article class="tarot-item">
+              <img src="${esc(card.image)}" alt="${esc(card.name)}">
+              <h2>${esc(card.name)}</h2>
+              <small>${esc(card.viName)}</small>
+            </article>
+          </div>
+          <p>Đang hỏi Gemini...</p>
+        </section>
+      `;
+
+      try {
+        const text = await askGemini(buildAIDrawPrompt(card, question));
+        roomAiCardText = `
+Lá bài AI bốc: ${card.name} / ${card.viName}
+
+${text}
+        `.trim();
+
+        roomChatText = "";
+
+        box.innerHTML = `
+          <section class="card">
+            <h2>Lá bài AI bốc</h2>
+            <div class="cards-grid">
+              <article class="tarot-item">
+                <img src="${esc(card.image)}" alt="${esc(card.name)}">
+                <h2>${esc(card.name)}</h2>
+                <small>${esc(card.viName)}</small>
+              </article>
+            </div>
+          </section>
+          ${aiBoxHtml(text)}
+        `;
+      } catch (error) {
+        box.innerHTML = aiBoxHtml(error.message);
+      }
+    };
 
     window.changeNormalSpread = function(spreadId) {
       const input = document.getElementById("normalQuestion");
@@ -1608,7 +1701,7 @@ Trả lời bằng tiếng Việt.
           <p>Chọn một querent ảo bên dưới, sau đó chọn kiểu trải bài và luyện diễn giải.</p>
 
           <button class="white-btn" onclick="go('room')">
-            Quay về trải bài bình thường
+            Quay về AI Room
           </button>
         </section>
 
@@ -2005,7 +2098,7 @@ Trả lời bằng tiếng Việt.
             ${
               currentProfile.avatar_url
                 ? `<img src="${esc(currentProfile.avatar_url)}" alt="Avatar">`
-                : "☾"
+                : "🌙"
             }
           </div>
 
@@ -2093,23 +2186,23 @@ Trả lời bằng tiếng Việt.
           <p>FreshSpirit là không gian dành cho tarot, trực giác và những cuộc trò chuyện sâu sắc.</p>
 
           <a class="social-btn" href="https://www.threads.com/@freshspirit.tarot" target="_blank">
-            <span>𐙚</span><strong>Threads<br><small>@freshspirit.tarot</small></strong><span>↗</span>
+            <span>🧵</span><strong>Threads<br><small>@freshspirit.tarot</small></strong><span>↗</span>
           </a>
 
           <a class="social-btn" href="https://www.instagram.com/freshspirit.tarot" target="_blank">
-            <span>◎</span><strong>Instagram<br><small>@freshspirit.tarot</small></strong><span>↗</span>
+            <span>📸</span><strong>Instagram<br><small>@freshspirit.tarot</small></strong><span>↗</span>
           </a>
 
           <a class="social-btn" href="https://www.facebook.com/share/1afMZGvmZE/?mibextid=wwXIfr" target="_blank">
-            <span>f</span><strong>Facebook<br><small>FreshSpirit Tarot</small></strong><span>↗</span>
+            <span>📘</span><strong>Facebook<br><small>FreshSpirit Tarot</small></strong><span>↗</span>
           </a>
 
           <a class="social-btn" href="https://www.tiktok.com/@freshspirit.tarot" target="_blank">
-            <span>♪</span><strong>TikTok<br><small>@freshspirit.tarot</small></strong><span>↗</span>
+            <span>🎵</span><strong>TikTok<br><small>@freshspirit.tarot</small></strong><span>↗</span>
           </a>
 
           <a class="social-btn" href="https://youtube.com/@freshspirittarot?si=ztlbn7sAeAv5lUz0" target="_blank">
-            <span>▶</span><strong>YouTube<br><small>@freshspirittarot</small></strong><span>↗</span>
+            <span>▶️</span><strong>YouTube<br><small>@freshspirittarot</small></strong><span>↗</span>
           </a>
         </section>
       `, "more");
@@ -2123,19 +2216,19 @@ Trả lời bằng tiếng Việt.
 
           <div class="quick-grid">
             <button class="quick-card" onclick="shopMessage('Trải bài nhanh')">
-              <span>✦</span>
+              <span>✨</span>
               <strong>Trải bài nhanh</strong>
               <small>49.000đ — Một câu hỏi trọng tâm.</small>
             </button>
 
             <button class="quick-card" onclick="shopMessage('Trải bài chuyên sâu')">
-              <span>☾</span>
+              <span>🌙</span>
               <strong>Trải bài chuyên sâu</strong>
               <small>149.000đ — Tình cảm, công việc, định hướng.</small>
             </button>
 
             <button class="quick-card" onclick="shopMessage('Mentor Tarot 1:1')">
-              <span>♙</span>
+              <span>🃏</span>
               <strong>Mentor Tarot 1:1</strong>
               <small>299.000đ — Học và luyện đọc bài.</small>
             </button>
@@ -2162,7 +2255,7 @@ Trả lời bằng tiếng Việt.
       if (!heart) return;
 
       heart.classList.toggle("liked");
-      heart.textContent = heart.classList.contains("liked") ? "♥" : "♡";
+      heart.textContent = heart.classList.contains("liked") ? "🖤" : "🤍";
     };
 
     window.signOut = async function() {
