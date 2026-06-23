@@ -18,11 +18,7 @@ async function askGemini(prompt) {
   return data.text || "Gemini không trả về nội dung.";
 }
 
-function buildTarotPromptForMatch() {
-  if (!selectedCase || !matchCards || matchCards.length === 0) {
-    return "";
-  }
-
+function buildGeminiPromptForMatch() {
   const cardLines = matchCards.map((card, index) => {
     return `
 ${index + 1}. Vị trí: ${card.position}
@@ -65,11 +61,7 @@ Hãy trả lời bằng tiếng Việt.
 `;
 }
 
-function buildTarotPromptForNormal() {
-  if (!normalCards || normalCards.length === 0) {
-    return "";
-  }
-
+function buildGeminiPromptForNormal() {
   const cardLines = normalCards.map((card, index) => {
     return `
 ${index + 1}. Vị trí: ${card.position}
@@ -107,86 +99,92 @@ Hãy trả lời bằng tiếng Việt.
 `;
 }
 
-window.getFreshSpiritTake = async function() {
-  const takeBox = document.getElementById("freshSpiritTakeBox");
+function installGeminiAI() {
+  window.getFreshSpiritTake = async function() {
+    const takeBox = document.getElementById("freshSpiritTakeBox");
 
-  if (!takeBox) return;
+    if (!takeBox) return;
 
-  if (!matchCards || matchCards.length === 0 || !selectedCase) {
-    takeBox.innerHTML = `
-      <section class="card">
-        <h2>Góc nhìn FreshSpirit</h2>
-        <p>Bạn cần chọn case và rút bài trước.</p>
-      </section>
-    `;
-    return;
-  }
-
-  takeBox.innerHTML = `
-    <section class="card">
-      <h2>Góc nhìn FreshSpirit</h2>
-      <p>Đang hỏi Gemini...</p>
-    </section>
-  `;
-
-  try {
-    const prompt = buildTarotPromptForMatch();
-    freshSpiritTakeText = await askGemini(prompt);
+    if (!matchCards || matchCards.length === 0 || !selectedCase) {
+      takeBox.innerHTML = `
+        <section class="card">
+          <h2>Góc nhìn FreshSpirit</h2>
+          <p>Bạn cần chọn case và rút bài trước.</p>
+        </section>
+      `;
+      return;
+    }
 
     takeBox.innerHTML = `
       <section class="card">
         <h2>Góc nhìn FreshSpirit</h2>
-        <p style="white-space:pre-wrap;">${esc(freshSpiritTakeText)}</p>
+        <p>Đang hỏi Gemini...</p>
       </section>
     `;
-  } catch (error) {
+
+    try {
+      const prompt = buildGeminiPromptForMatch();
+      freshSpiritTakeText = await askGemini(prompt);
+
+      takeBox.innerHTML = `
+        <section class="card">
+          <h2>Góc nhìn FreshSpirit</h2>
+          <p style="white-space:pre-wrap;">${esc(freshSpiritTakeText)}</p>
+        </section>
+      `;
+    } catch (error) {
+      takeBox.innerHTML = `
+        <section class="card">
+          <h2>Góc nhìn FreshSpirit</h2>
+          <p>${esc(error.message)}</p>
+        </section>
+      `;
+    }
+  };
+
+  window.getNormalFreshSpiritTake = async function() {
+    const takeBox = document.getElementById("normalFreshSpiritTakeBox");
+
+    if (!takeBox) return;
+
+    if (!normalCards || normalCards.length === 0) {
+      takeBox.innerHTML = `
+        <section class="card">
+          <h2>Góc nhìn FreshSpirit</h2>
+          <p>Bạn cần rút bài trước.</p>
+        </section>
+      `;
+      return;
+    }
+
     takeBox.innerHTML = `
       <section class="card">
         <h2>Góc nhìn FreshSpirit</h2>
-        <p>${esc(error.message)}</p>
+        <p>Đang hỏi Gemini...</p>
       </section>
     `;
-  }
-};
 
-window.getNormalFreshSpiritTake = async function() {
-  const takeBox = document.getElementById("normalFreshSpiritTakeBox");
+    try {
+      const prompt = buildGeminiPromptForNormal();
+      const text = await askGemini(prompt);
 
-  if (!takeBox) return;
+      takeBox.innerHTML = `
+        <section class="card">
+          <h2>Góc nhìn FreshSpirit</h2>
+          <p style="white-space:pre-wrap;">${esc(text)}</p>
+        </section>
+      `;
+    } catch (error) {
+      takeBox.innerHTML = `
+        <section class="card">
+          <h2>Góc nhìn FreshSpirit</h2>
+          <p>${esc(error.message)}</p>
+        </section>
+      `;
+    }
+  };
+}
 
-  if (!normalCards || normalCards.length === 0) {
-    takeBox.innerHTML = `
-      <section class="card">
-        <h2>Góc nhìn FreshSpirit</h2>
-        <p>Bạn cần rút bài trước.</p>
-      </section>
-    `;
-    return;
-  }
-
-  takeBox.innerHTML = `
-    <section class="card">
-      <h2>Góc nhìn FreshSpirit</h2>
-      <p>Đang hỏi Gemini...</p>
-    </section>
-  `;
-
-  try {
-    const prompt = buildTarotPromptForNormal();
-    const text = await askGemini(prompt);
-
-    takeBox.innerHTML = `
-      <section class="card">
-        <h2>Góc nhìn FreshSpirit</h2>
-        <p style="white-space:pre-wrap;">${esc(text)}</p>
-      </section>
-    `;
-  } catch (error) {
-    takeBox.innerHTML = `
-      <section class="card">
-        <h2>Góc nhìn FreshSpirit</h2>
-        <p>${esc(error.message)}</p>
-      </section>
-    `;
-  }
-};
+window.addEventListener("load", () => {
+  setTimeout(installGeminiAI, 300);
+});
