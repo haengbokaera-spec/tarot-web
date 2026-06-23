@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>FreshSpirit - Cards</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .cards-header-card {
+      background: #fff;
+      border: 2px solid #111;
+      border-radius: 32px;
+      box-shadow: 0 5px 0 #000;
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+
+    .cards-header-card h1 {
+      font-size: 34px;
+      line-height: 1;
+      margin-bottom: 10px;
+      letter-spacing: -1px;
+    }
+
+    .cards-header-card p {
+      font-size: 15px;
+      line-height: 1.45;
+      color: #444;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .card-search {
+      width: 100%;
+      height: 54px;
+      border: 2px solid #111;
+      border-radius: 20px;
+      padding: 0 16px;
+      font-size: 16px;
+      font-weight: 800;
+      outline: none;
+      background: #f7f7f7;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .tarot-card-item {
+      background: #fff;
+      border: 2px solid #111;
+      border-radius: 22px;
+      box-shadow: 0 4px 0 #000;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .tarot-card-item img {
+      width: 100%;
+      height: 205px;
+      object-fit: cover;
+      border: 4px solid #111;
+      border-radius: 12px;
+      background: #fff;
+      margin-bottom: 10px;
+    }
+
+    .tarot-card-item h2 {
+      font-size: 16px;
+      line-height: 1.15;
+      margin-bottom: 4px;
+    }
+
+    .tarot-card-item small {
+      display: block;
+      font-size: 12px;
+      color: #555;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .tarot-card-item p {
+      display: none;
+      font-size: 13px;
+      line-height: 1.4;
+      color: #333;
+      font-weight: 650;
+      text-align: left;
+      margin-top: 8px;
+    }
+
+    .tarot-card-item.open p {
+      display: block;
+    }
+
+    .view-meaning-btn {
+      width: 100%;
+      height: 38px;
+      border: 2px solid #111;
+      border-radius: 14px;
+      background: #000;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .empty-card-result {
+      grid-column: 1 / -1;
+      background: #fff;
+      border: 2px solid #111;
+      border-radius: 24px;
+      box-shadow: 0 4px 0 #000;
+      padding: 20px;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    @media (max-width: 360px) {
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tarot-card-item img {
+        height: auto;
+      }
+    }
+  </style>
+</head>
+
+<body class="app-body">
+  <header class="mobile-header fixed-header">
+    <div>
+      <a href="home.html" class="app-logo">FreshSpirit</a>
+      <p>A new place for tarot</p>
+    </div>
+
+    <div class="header-actions">
+      <button class="icon-btn" onclick="window.location.href='shop.html'">♙</button>
+      <button id="heartBtn" class="icon-btn">♡</button>
+      <button class="black-btn" onclick="window.location.href='room.html'">+ Room</button>
+
+      <button id="avatarBtn" class="avatar-btn" type="button">
+        <span>☾</span>
+      </button>
+    </div>
+
+    <div id="avatarMenu" class="avatar-menu hidden">
+      <button onclick="window.location.href='profile.html'">
+        <span>☺</span>
+        Profile
+      </button>
+
+      <button onclick="window.location.href='room.html'">
+        <span>＋</span>
+        New room
+      </button>
+
+      <button onclick="window.location.href='home.html'">
+        <span>↩</span>
+        Return home
+      </button>
+
+      <button onclick="window.location.href='journal.html'">
+        <span>☰</span>
+        Journal
+      </button>
+
+      <button onclick="window.location.href='about.html'">
+        <span>↗</span>
+        About
+      </button>
+
+      <hr />
+
+      <button id="signOutBtn">
+        <span>×</span>
+        Sign out
+      </button>
+    </div>
+  </header>
+
+  <main class="home-page">
+    <section class="cards-header-card">
+      <h1>Tarot cards</h1>
+      <p>
+        Xem nhanh 78 lá Rider Waite trong FreshSpirit. Bấm từng lá để đọc nghĩa ngắn gọn.
+      </p>
+
+      <input
+        id="cardSearchInput"
+        class="card-search"
+        type="text"
+        placeholder="Tìm lá bài..."
+      />
+    </section>
+
+    <section id="cardsGrid" class="cards-grid"></section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button onclick="window.location.href='home.html'">
+      <span>☾</span>
+      home
+    </button>
+
+    <button class="active-bottom" onclick="window.location.href='cards.html'">
+      <span>▣</span>
+      cards
+    </button>
+
+    <button onclick="window.location.href='room.html'">
+      <span>✦</span>
+      practice
+    </button>
+
+    <button onclick="window.location.href='shop.html'">
+      <span>♙</span>
+      book
+    </button>
+
+    <button id="bottomMoreBtn">
+      <span>☰</span>
+      more
+    </button>
+  </nav>
+
+  <button class="help-btn">?</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script src="script.js"></script>
+
+  <script>
+    const cardsGrid = document.getElementById("cardsGrid");
+    const cardSearchInput = document.getElementById("cardSearchInput");
+
+    const heartBtn = document.getElementById("heartBtn");
+    const avatarBtn = document.getElementById("avatarBtn");
+    const avatarMenu = document.getElementById("avatarMenu");
+    const bottomMoreBtn = document.getElementById("bottomMoreBtn");
+    const signOutBtn = document.getElementById("signOutBtn");
+
+    let allCards = [];
+
+    async function protectPage() {
+      const { data } = await db.auth.getUser();
+
+      if (!data.user) {
+        window.location.href = "auth.html";
+        return;
+      }
+
+      loadCards();
+    }
+
+    function loadCards() {
+      if (typeof getAllCards !== "function") {
+        cardsGrid.innerHTML = `
+          <div class="empty-card-result">
+            Chưa tìm thấy database tarot trong script.js.
+          </div>
+        `;
+        return;
+      }
+
+      allCards = getAllCards();
+      renderCards(allCards);
+    }
+
+    function renderCards(cards) {
+      if (!cards || cards.length === 0) {
+        cardsGrid.innerHTML = `
+          <div class="empty-card-result">
+            Không tìm thấy lá bài phù hợp.
+          </div>
+        `;
+        return;
+      }
+
+      cardsGrid.innerHTML = "";
+
+      cards.forEach((card) => {
+        const article = document.createElement("article");
+        article.className = "tarot-card-item";
+
+        article.innerHTML = `
+          <img src="${card.image}" alt="${card.name}" />
+          <h2>${card.name}</h2>
+          <small>${card.viName}</small>
+
+          <button class="view-meaning-btn" type="button">
+            Xem nghĩa
+          </button>
+
+          <p>${card.meaning}</p>
+        `;
+
+        const button = article.querySelector(".view-meaning-btn");
+
+        button.addEventListener("click", () => {
+          article.classList.toggle("open");
+
+          if (article.classList.contains("open")) {
+            button.textContent = "Ẩn nghĩa";
+          } else {
+            button.textContent = "Xem nghĩa";
+          }
+        });
+
+        cardsGrid.appendChild(article);
+      });
+    }
+
+    cardSearchInput.addEventListener("input", () => {
+      const keyword = cardSearchInput.value.trim().toLowerCase();
+
+      const filteredCards = allCards.filter((card) => {
+        return (
+          card.name.toLowerCase().includes(keyword) ||
+          card.viName.toLowerCase().includes(keyword) ||
+          card.meaning.toLowerCase().includes(keyword)
+        );
+      });
+
+      renderCards(filteredCards);
+    });
+
+    heartBtn.addEventListener("click", () => {
+      heartBtn.classList.toggle("liked");
+      heartBtn.textContent = heartBtn.classList.contains("liked") ? "♥" : "♡";
+    });
+
+    function toggleMenu() {
+      avatarMenu.classList.toggle("hidden");
+    }
+
+    avatarBtn.addEventListener("click", toggleMenu);
+    bottomMoreBtn.addEventListener("click", toggleMenu);
+
+    signOutBtn.addEventListener("click", async () => {
+      await db.auth.signOut();
+      window.location.href = "auth.html";
+    });
+
+    document.addEventListener("click", (event) => {
+      const clickedInsideMenu = avatarMenu.contains(event.target);
+      const clickedAvatar = avatarBtn.contains(event.target);
+      const clickedMore = bottomMoreBtn.contains(event.target);
+
+      if (!clickedInsideMenu && !clickedAvatar && !clickedMore) {
+        avatarMenu.classList.add("hidden");
+      }
+    });
+
+    protectPage();
+  </script>
+</body>
+</html>
