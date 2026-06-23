@@ -1,0 +1,217 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: radial-gradient(circle at top, #2d1b69, #090716 60%);
+  color: #f8f1ff;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+}
+
+.navbar {
+  width: 100%;
+  padding: 24px 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #f5d76e;
+}
+
+nav {
+  display: flex;
+  gap: 28px;
+}
+
+nav a {
+  color: #d8c8ff;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+nav a:hover {
+  color: #f5d76e;
+}
+
+.hero {
+  min-height: 75vh;
+  padding: 40px 8%;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 60px;
+}
+
+.tagline {
+  color: #f5d76e;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+
+h1 {
+  font-size: 64px;
+  line-height: 1.05;
+  max-width: 700px;
+  margin-bottom: 24px;
+}
+
+.description {
+  max-width: 560px;
+  color: #d7c9ff;
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 34px;
+}
+
+.buttons {
+  display: flex;
+  gap: 16px;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 15px 28px;
+  font-size: 16px;
+  transition: 0.25s;
+}
+
+.primary-btn {
+  background: #f5d76e;
+  color: #1a1235;
+  font-weight: bold;
+}
+
+.primary-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(245, 215, 110, 0.3);
+}
+
+.secondary-btn {
+  background: transparent;
+  color: #f8f1ff;
+  border: 1px solid #8f7cd8;
+}
+
+.secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.card-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.tarot-card {
+  width: 230px;
+  height: 360px;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #20113f, #553b91);
+  border: 2px solid #f5d76e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.45);
+  margin-bottom: 28px;
+  transition: 0.5s;
+}
+
+.tarot-card:hover {
+  transform: translateY(-10px) rotate(2deg);
+}
+
+.card-back {
+  width: 180px;
+  height: 300px;
+  border: 1px solid rgba(245, 215, 110, 0.6);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 74px;
+  color: #f5d76e;
+}
+
+#cardName {
+  font-size: 26px;
+  color: #f5d76e;
+  margin-bottom: 12px;
+}
+
+#cardMeaning {
+  color: #d7c9ff;
+  max-width: 360px;
+  line-height: 1.6;
+}
+
+.features {
+  padding: 40px 8% 80px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.feature {
+  padding: 28px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.feature h3 {
+  color: #f5d76e;
+  margin-bottom: 12px;
+}
+
+.feature p {
+  color: #d7c9ff;
+  line-height: 1.5;
+}
+
+@media (max-width: 850px) {
+  .navbar {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  nav {
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1 {
+    font-size: 42px;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+}
