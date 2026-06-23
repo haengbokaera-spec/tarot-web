@@ -12,192 +12,256 @@
 <body class="app-body">
   <header class="mobile-header">
     <div>
-      <a href="auth.html" class="app-logo">FreshSpirit</a>
+      <a href="index.html" class="app-logo">FreshSpirit</a>
       <p>A new place for tarot</p>
     </div>
 
     <div class="header-actions">
-      <button class="icon-btn">▢</button>
-      <button id="loginTab" class="outline-btn active-tab">Đăng nhập</button>
-      <button id="signupTab" class="black-btn">Đăng ký</button>
+      <button id="loginTab" class="outline-btn active-tab" type="button">
+        Log in
+      </button>
+
+      <button id="signupTab" class="black-btn" type="button">
+        Sign up
+      </button>
     </div>
   </header>
 
   <main class="auth-page">
     <section class="auth-card">
-      <h1 id="authTitle">Bước vào thế giới FreshSpirit</h1>
+      <h1 id="authTitle">Đăng nhập FreshSpirit</h1>
 
-      <button class="invite-btn" type="button">+ thêm mã mời</button>
+      <button class="invite-btn" type="button">
+        enter your invitation code
+      </button>
 
       <form id="authForm" class="auth-form">
         <input
-          id="email"
+          id="displayNameInput"
+          class="hidden"
+          type="text"
+          placeholder="Tên hiển thị"
+          autocomplete="name"
+        />
+
+        <input
+          id="emailInput"
           type="email"
-          placeholder="Địa chỉ email"
+          placeholder="Email"
+          autocomplete="email"
           required
         />
 
-        <div id="displayNameWrap">
-          <input
-            id="displayName"
-            type="text"
-            placeholder="Tên hiển thị"
-          />
-          <small>Bạn có thể thay đổi tên này sau.</small>
-        </div>
+        <input
+          id="passwordInput"
+          type="password"
+          placeholder="Mật khẩu"
+          autocomplete="current-password"
+          required
+        />
 
-        <div>
-          <input
-            id="password"
-            type="password"
-            placeholder="Mật khẩu"
-            required
-          />
-          <small>Mật khẩu phải có ít nhất 6 ký tự.</small>
-        </div>
+        <small>Mật khẩu tối thiểu 6 ký tự</small>
 
         <button id="submitBtn" class="submit-btn" type="submit">
-          Tạo tài khoản
+          Đăng nhập
         </button>
       </form>
 
-      <div class="or-text">hoặc</div>
+      <p class="or-text">or</p>
 
       <button id="googleBtn" class="google-btn" type="button">
         <span class="google-icon">G</span>
-        Tiếp tục với Google
+        Continue with Google
       </button>
 
       <p class="auth-note">
-        Thông tin của bạn được dùng cho tài khoản FreshSpirit.
-        Khi tiếp tục, bạn đồng ý với Điều khoản dịch vụ và Chính sách riêng tư.
+        FreshSpirit đang dùng đăng nhập bằng email trước. Google login sẽ được bật sau.
       </p>
 
-      <button id="switchModeBtn" class="switch-auth" type="button">
-        Đăng nhập thay vì đăng ký
+      <button id="switchAuthBtn" class="switch-auth" type="button">
+        Chưa có tài khoản? Đăng ký
       </button>
 
       <p id="authMessage" class="auth-message"></p>
     </section>
-
-    <button class="help-btn">?</button>
   </main>
+
+  <button class="help-btn">?</button>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase.js"></script>
 
   <script>
-    let mode = "signup";
+    let authMode = "login";
 
-    const authTitle = document.getElementById("authTitle");
-    const authForm = document.getElementById("authForm");
-    const submitBtn = document.getElementById("submitBtn");
-    const switchModeBtn = document.getElementById("switchModeBtn");
-    const displayNameWrap = document.getElementById("displayNameWrap");
     const loginTab = document.getElementById("loginTab");
     const signupTab = document.getElementById("signupTab");
+    const authTitle = document.getElementById("authTitle");
+    const authForm = document.getElementById("authForm");
+    const displayNameInput = document.getElementById("displayNameInput");
+    const emailInput = document.getElementById("emailInput");
+    const passwordInput = document.getElementById("passwordInput");
+    const submitBtn = document.getElementById("submitBtn");
+    const switchAuthBtn = document.getElementById("switchAuthBtn");
     const authMessage = document.getElementById("authMessage");
+    const googleBtn = document.getElementById("googleBtn");
 
-    function setMode(nextMode) {
-      mode = nextMode;
+    function setMode(mode) {
+      authMode = mode;
       authMessage.textContent = "";
 
-      if (mode === "signup") {
-        authTitle.textContent = "Bước vào thế giới FreshSpirit";
-        submitBtn.textContent = "Tạo tài khoản";
-        switchModeBtn.textContent = "Đăng nhập thay vì đăng ký";
-        displayNameWrap.style.display = "block";
-
-        signupTab.classList.add("active-tab");
-        loginTab.classList.remove("active-tab");
-      } else {
-        authTitle.textContent = "Chào mừng bạn trở lại";
+      if (mode === "login") {
+        authTitle.textContent = "Đăng nhập FreshSpirit";
         submitBtn.textContent = "Đăng nhập";
-        switchModeBtn.textContent = "Tạo tài khoản mới";
-        displayNameWrap.style.display = "none";
+        switchAuthBtn.textContent = "Chưa có tài khoản? Đăng ký";
+
+        displayNameInput.classList.add("hidden");
+        displayNameInput.removeAttribute("required");
 
         loginTab.classList.add("active-tab");
         signupTab.classList.remove("active-tab");
+      } else {
+        authTitle.textContent = "Tạo tài khoản FreshSpirit";
+        submitBtn.textContent = "Tạo tài khoản";
+        switchAuthBtn.textContent = "Đã có tài khoản? Đăng nhập";
+
+        displayNameInput.classList.remove("hidden");
+        displayNameInput.setAttribute("required", "required");
+
+        signupTab.classList.add("active-tab");
+        loginTab.classList.remove("active-tab");
       }
     }
 
-    signupTab.addEventListener("click", () => setMode("signup"));
-    loginTab.addEventListener("click", () => setMode("login"));
+    async function routeAfterAuth(user) {
+      const { data: profile } = await db
+        .from("profiles")
+        .select("birthday_month, birthday_day, birthday_year")
+        .eq("id", user.id)
+        .maybeSingle();
 
-    switchModeBtn.addEventListener("click", () => {
-      setMode(mode === "signup" ? "login" : "signup");
-    });
+      const hasBirthday =
+        profile &&
+        profile.birthday_month &&
+        profile.birthday_day &&
+        profile.birthday_year;
+
+      if (hasBirthday) {
+        window.location.href = "home.html";
+      } else {
+        window.location.href = "onboarding.html";
+      }
+    }
+
+    async function checkAlreadyLoggedIn() {
+      const { data } = await db.auth.getUser();
+
+      if (data.user) {
+        await routeAfterAuth(data.user);
+      }
+    }
+
+    async function handleLogin(email, password) {
+      authMessage.textContent = "Đang đăng nhập...";
+
+      const { data, error } = await db.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        authMessage.textContent = error.message;
+        return;
+      }
+
+      await routeAfterAuth(data.user);
+    }
+
+    async function handleSignup(email, password, displayName) {
+      authMessage.textContent = "Đang tạo tài khoản...";
+
+      const { data, error } = await db.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            display_name: displayName
+          }
+        }
+      });
+
+      if (error) {
+        authMessage.textContent = error.message;
+        return;
+      }
+
+      if (!data.session) {
+        authMessage.textContent =
+          "Tài khoản đã tạo nhưng chưa đăng nhập được. Kiểm tra lại Supabase đã tắt Confirm email chưa.";
+        return;
+      }
+
+      const { error: profileError } = await db.from("profiles").upsert({
+        id: data.user.id,
+        email: data.user.email || email,
+        display_name: displayName,
+        updated_at: new Date().toISOString()
+      });
+
+      if (profileError) {
+        authMessage.textContent = profileError.message;
+        return;
+      }
+
+      window.location.href = "onboarding.html";
+    }
 
     authForm.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      authMessage.textContent = "Đang xử lý...";
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+      const displayName = displayNameInput.value.trim() || "Người dùng FreshSpirit";
 
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
-      const displayName = document.getElementById("displayName").value.trim();
-
-      if (password.length < 6) {
-        authMessage.textContent = "Mật khẩu cần ít nhất 6 ký tự.";
+      if (!email || !password) {
+        authMessage.textContent = "Nhập đủ email và mật khẩu.";
         return;
       }
 
-      if (mode === "signup") {
-        const { data, error } = await db.auth.signUp({
-          email,
-          password,
-          options: {
-            data: {
-              display_name: displayName || "Người dùng FreshSpirit"
-            }
-          }
-        });
-
-        if (error) {
-          authMessage.textContent = error.message;
-          return;
-        }
-
-        const user = data.user;
-
-        if (user) {
-          await db.from("profiles").upsert({
-            id: user.id,
-            email: email,
-            display_name: displayName || "Người dùng FreshSpirit"
-          });
-        }
-
-        authMessage.textContent = "Đăng ký thành công. Đang chuyển trang...";
-        setTimeout(() => {
-          window.location.href = "onboarding.html";
-        }, 800);
+      if (password.length < 6) {
+        authMessage.textContent = "Mật khẩu phải có ít nhất 6 ký tự.";
+        return;
       }
 
-      if (mode === "login") {
-        const { data, error } = await db.auth.signInWithPassword({
-          email,
-          password
-        });
-
-        if (error) {
-          authMessage.textContent = "Email hoặc mật khẩu chưa đúng.";
-          return;
-        }
-
-        authMessage.textContent = "Đăng nhập thành công. Đang chuyển trang...";
-
-        setTimeout(() => {
-          window.location.href = "home.html";
-        }, 800);
+      if (authMode === "signup") {
+        await handleSignup(email, password, displayName);
+      } else {
+        await handleLogin(email, password);
       }
     });
 
-    document.getElementById("googleBtn").addEventListener("click", async () => {
-      authMessage.textContent = "Google login sẽ được bật sau. Hiện tại dùng email/password trước.";
+    loginTab.addEventListener("click", () => {
+      setMode("login");
     });
 
-    setMode("signup");
+    signupTab.addEventListener("click", () => {
+      setMode("signup");
+    });
+
+    switchAuthBtn.addEventListener("click", () => {
+      if (authMode === "login") {
+        setMode("signup");
+      } else {
+        setMode("login");
+      }
+    });
+
+    googleBtn.addEventListener("click", () => {
+      authMessage.textContent = "Google login sẽ được bật sau.";
+    });
+
+    setMode("login");
+    checkAlreadyLoggedIn();
   </script>
 </body>
 </html>
