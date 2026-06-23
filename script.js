@@ -1,109 +1,107 @@
-const cards = [
-  {
-    name: "The Fool",
-    meaning: "A new beginning is opening. Trust the path even if it feels uncertain.",
-    symbol: "✦"
-  },
-  {
-    name: "The Magician",
-    meaning: "You already have the tools. Focus your energy and take action.",
-    symbol: "☿"
-  },
-  {
-    name: "The High Priestess",
-    meaning: "The answer is quiet. Listen to your intuition before moving.",
-    symbol: "☾"
-  },
-  {
-    name: "The Empress",
-    meaning: "Growth, softness, beauty, and emotional abundance are near.",
-    symbol: "♀"
-  },
-  {
-    name: "The Lovers",
-    meaning: "A choice of the heart needs honesty, clarity, and alignment.",
-    symbol: "♡"
-  },
-  {
-    name: "The Chariot",
-    meaning: "Move with discipline. Your direction matters more than speed.",
-    symbol: "♞"
-  },
-  {
-    name: "Strength",
-    meaning: "Your calmness is power. Do not force what patience can guide.",
-    symbol: "♌"
-  },
-  {
-    name: "The Hermit",
-    meaning: "Step back and observe. Solitude will reveal what noise hides.",
-    symbol: "♄"
-  },
-  {
-    name: "The Star",
-    meaning: "Healing is returning. Keep faith in the version of you that is growing.",
-    symbol: "✧"
-  },
-  {
-    name: "The Moon",
-    meaning: "Not everything is clear yet. Move slowly and trust your instincts.",
-    symbol: "☽"
-  },
-  {
-    name: "The Sun",
-    meaning: "Clarity, warmth, joy, and confidence are coming into view.",
-    symbol: "☉"
-  }
-];
+const tarotDatabase = {
+  oneCard: [
+    {
+      title: "The Fool",
+      meaning: "Khởi đầu mới đang mở ra. Hãy tin vào hành trình dù bạn chưa thấy hết con đường phía trước."
+    },
+    {
+      title: "The Magician",
+      meaning: "Bạn đã có đủ công cụ trong tay. Tập trung năng lượng và chủ động hành động."
+    },
+    {
+      title: "The High Priestess",
+      meaning: "Câu trả lời nằm trong trực giác của bạn. Đừng vội, hãy lắng nghe bản thân."
+    },
+    {
+      title: "The Empress",
+      meaning: "Sự nuôi dưỡng, phát triển và cảm xúc đủ đầy đang đến gần."
+    },
+    {
+      title: "The Lovers",
+      meaning: "Một lựa chọn quan trọng liên quan đến trái tim và sự đồng điệu."
+    },
+    {
+      title: "The Chariot",
+      meaning: "Tiến lên với quyết tâm. Điều quan trọng là hướng đi, không chỉ là tốc độ."
+    },
+    {
+      title: "Strength",
+      meaning: "Sức mạnh thật sự đến từ sự bình tĩnh, kiên nhẫn và khả năng tự chủ."
+    },
+    {
+      title: "The Hermit",
+      meaning: "Lùi lại một bước để quan sát. Sự tĩnh lặng sẽ giúp bạn thấy rõ hơn."
+    },
+    {
+      title: "The Star",
+      meaning: "Hy vọng và chữa lành đang quay trở lại. Hãy tiếp tục tin tưởng."
+    },
+    {
+      title: "The Moon",
+      meaning: "Mọi chuyện chưa hoàn toàn rõ ràng. Hãy đi chậm và tin vào cảm nhận của mình."
+    },
+    {
+      title: "The Sun",
+      meaning: "Niềm vui, sự sáng tỏ và thành công đang dần xuất hiện."
+    }
+  ]
+};
 
-function getRandomCard() {
-  const randomIndex = Math.floor(Math.random() * cards.length);
-  return cards[randomIndex];
+function getRandomItem(list) {
+  const index = Math.floor(Math.random() * list.length);
+  return list[index];
+}
+
+function openWebApp() {
+  const appSection = document.getElementById("app");
+
+  if (appSection) {
+    appSection.scrollIntoView({ behavior: "smooth" });
+  }
 }
 
 function drawOneCard() {
-  const card = getRandomCard();
+  const card = getRandomItem(tarotDatabase.oneCard);
 
-  const mainCard = document.getElementById("mainCard");
-  const cardSymbol = document.querySelector(".card-symbol");
-  const cardName = document.getElementById("cardName");
-  const cardMeaning = document.getElementById("cardMeaning");
+  const resultBox = document.getElementById("resultBox");
+  const resultTitle = document.getElementById("resultTitle");
+  const resultText = document.getElementById("resultText");
 
-  if (!mainCard || !cardSymbol || !cardName || !cardMeaning) return;
+  if (!resultBox || !resultTitle || !resultText) return;
 
-  mainCard.style.transform = "rotateY(180deg) scale(0.96)";
+  resultTitle.textContent = `Lá bài của bạn: ${card.title}`;
+  resultText.textContent = card.meaning;
 
-  setTimeout(() => {
-    cardSymbol.textContent = card.symbol;
-    cardName.textContent = card.name;
-    cardMeaning.textContent = card.meaning;
-    mainCard.style.transform = "rotateY(0deg) scale(1)";
-  }, 350);
+  resultBox.classList.remove("hidden");
 }
 
 function drawThreeCards() {
-  const spreadResult = document.getElementById("spreadResult");
-  const pastCard = document.getElementById("pastCard");
-  const presentCard = document.getElementById("presentCard");
-  const futureCard = document.getElementById("futureCard");
+  const cards = [];
+  const usedTitles = new Set();
 
-  if (!spreadResult || !pastCard || !presentCard || !futureCard) return;
+  while (cards.length < 3) {
+    const card = getRandomItem(tarotDatabase.oneCard);
 
-  const selected = [];
-
-  while (selected.length < 3) {
-    const card = getRandomCard();
-
-    if (!selected.includes(card)) {
-      selected.push(card);
+    if (!usedTitles.has(card.title)) {
+      cards.push(card);
+      usedTitles.add(card.title);
     }
   }
 
-  pastCard.textContent = selected[0].name;
-  presentCard.textContent = selected[1].name;
-  futureCard.textContent = selected[2].name;
+  const resultBox = document.getElementById("resultBox");
+  const resultTitle = document.getElementById("resultTitle");
+  const resultText = document.getElementById("resultText");
 
-  spreadResult.classList.remove("hidden");
+  if (!resultBox || !resultTitle || !resultText) return;
+
+  resultTitle.textContent = "Trải bài 3 lá";
+  resultText.innerHTML = `
+    <strong>Quá khứ:</strong> ${cards[0].title} — ${cards[0].meaning}<br><br>
+    <strong>Hiện tại:</strong> ${cards[1].title} — ${cards[1].meaning}<br><br>
+    <strong>Tương lai:</strong> ${cards[2].title} — ${cards[2].meaning}
+  `;
+
+  resultBox.classList.remove("hidden");
 }
 
 function createRoom() {
@@ -113,36 +111,10 @@ function createRoom() {
   const roomBox = document.getElementById("roomBox");
   const roomLink = document.getElementById("roomLink");
 
-  if (roomBox && roomLink) {
-    roomLink.textContent = roomUrl;
-    roomLink.href = roomUrl;
-    roomBox.classList.remove("hidden");
-  } else {
-    window.location.href = roomUrl;
-  }
+  if (!roomBox || !roomLink) return;
+
+  roomLink.textContent = roomUrl;
+  roomLink.href = roomUrl;
+
+  roomBox.classList.remove("hidden");
 }
-
-function drawRoomCard() {
-  const card = getRandomCard();
-
-  const roomCardName = document.getElementById("roomCardName");
-  const roomCardMeaning = document.getElementById("roomCardMeaning");
-  const roomCardSymbol = document.getElementById("roomCardSymbol");
-
-  if (!roomCardName || !roomCardMeaning || !roomCardSymbol) return;
-
-  roomCardSymbol.textContent = card.symbol;
-  roomCardName.textContent = card.name;
-  roomCardMeaning.textContent = card.meaning;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const roomCode = document.getElementById("roomCode");
-
-  if (roomCode) {
-    const params = new URLSearchParams(window.location.search);
-    const room = params.get("room");
-
-    roomCode.textContent = room || "NO ROOM";
-  }
-});
