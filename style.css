@@ -156,6 +156,34 @@ button {
   line-height: 1.6;
 }
 
+.room-box {
+  margin-top: 24px;
+  padding: 18px 22px;
+  border-radius: 18px;
+  background: rgba(245, 215, 110, 0.1);
+  border: 1px solid rgba(245, 215, 110, 0.35);
+  max-width: 360px;
+}
+
+.room-box p {
+  color: #f8f1ff;
+  margin-bottom: 8px;
+}
+
+.room-box a {
+  color: #f5d76e;
+  word-break: break-all;
+  text-decoration: none;
+}
+
+.room-box a:hover {
+  text-decoration: underline;
+}
+
+.hidden {
+  display: none;
+}
+
 .features {
   padding: 40px 8% 80px;
   display: grid;
@@ -178,6 +206,53 @@ button {
 .feature p {
   color: #d7c9ff;
   line-height: 1.5;
+}
+
+.room-page {
+  min-height: 75vh;
+  padding: 60px 8%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.room-content {
+  max-width: 760px;
+}
+
+.room-code-box {
+  margin: 30px auto;
+  padding: 24px;
+  max-width: 360px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(245, 215, 110, 0.35);
+}
+
+.room-code-box p {
+  color: #d7c9ff;
+  margin-bottom: 8px;
+}
+
+.room-code-box h2 {
+  color: #f5d76e;
+  font-size: 38px;
+  letter-spacing: 4px;
+}
+
+.room-card-result {
+  margin-top: 32px;
+}
+
+.room-card-result h2 {
+  color: #f5d76e;
+  margin-bottom: 12px;
+}
+
+.room-card-result p {
+  color: #d7c9ff;
+  line-height: 1.6;
 }
 
 @media (max-width: 850px) {
