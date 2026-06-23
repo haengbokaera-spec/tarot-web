@@ -7,11 +7,7 @@
   <title>FreshSpirit</title>
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       background: #000;
@@ -19,10 +15,7 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    button,
-    input,
-    select,
-    textarea {
+    button, input, select, textarea {
       font-family: inherit;
     }
 
@@ -503,20 +496,6 @@
       opacity: 0.8;
     }
 
-    .practice-case {
-      border: 2px solid #111;
-      border-radius: 24px;
-      background: #f7f7f7;
-      padding: 16px;
-      margin-top: 14px;
-    }
-
-    .practice-case strong {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 14px;
-    }
-
     .case-option {
       width: 100%;
       border: 2px solid #111;
@@ -540,6 +519,30 @@
       font-size: 13px;
       line-height: 1.35;
       font-weight: 700;
+    }
+
+    .practice-case,
+    .info-row {
+      border: 2px solid #111;
+      border-radius: 18px;
+      padding: 12px 14px;
+      background: #f7f7f7;
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    .info-row small {
+      display: block;
+      color: #777;
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    .info-row strong {
+      white-space: pre-wrap;
+      font-size: 14px;
+      line-height: 1.45;
     }
 
     .journal-entry {
@@ -612,29 +615,6 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-    }
-
-    .info-row {
-      border: 2px solid #111;
-      border-radius: 18px;
-      padding: 12px 14px;
-      background: #f7f7f7;
-      margin-top: 10px;
-      text-align: left;
-    }
-
-    .info-row small {
-      display: block;
-      color: #777;
-      font-size: 12px;
-      font-weight: 900;
-      margin-bottom: 4px;
-    }
-
-    .info-row strong {
-      white-space: pre-wrap;
-      font-size: 14px;
-      line-height: 1.45;
     }
 
     .social-btn {
@@ -721,7 +701,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase.js"></script>
   <script src="script.js"></script>
-<script src="ai.js"></script>
 
   <script>
     let currentUser = null;
@@ -732,98 +711,85 @@
     let normalSpread = null;
     let normalCards = [];
     let normalQuestion = "";
+    let normalAiText = "";
 
     let selectedCase = null;
     let matchSpread = null;
     let matchCards = [];
-    let freshSpiritTakeText = "";
+    let matchAiText = "";
 
     const root = document.getElementById("root");
 
-    const PRACTICE_CASES = [
+    const CASES = [
       {
         name: "Minh Anh",
         age: 22,
         topic: "Tình cảm",
         question: "Người cũ có còn tình cảm với mình không?",
-        story: "Minh Anh vừa kết thúc một mối quan hệ kéo dài gần 2 năm. Hai người vẫn thỉnh thoảng xem story của nhau nhưng không ai chủ động nhắn tin. Querent muốn biết liệu người cũ còn cảm xúc thật không, hay chỉ là thói quen."
+        story: "Minh Anh vừa kết thúc mối quan hệ gần 2 năm. Hai người vẫn xem story của nhau nhưng không ai chủ động nhắn tin."
       },
       {
         name: "Hoài",
         age: 25,
         topic: "Công việc",
         question: "Mình có nên nghỉ việc hiện tại không?",
-        story: "Hoài đang làm ở một công ty ổn định nhưng cảm thấy bị bào mòn năng lượng. Sếp không quá tệ, lương tạm ổn, nhưng cô ấy thấy mình không phát triển thêm. Cô ấy đang cân nhắc nghỉ để học thêm kỹ năng mới."
+        story: "Hoài có công việc ổn định nhưng thấy bị bào mòn năng lượng, không còn phát triển nhiều."
       },
       {
         name: "Gia Hân",
         age: 19,
         topic: "Học tập",
         question: "Mình có chọn đúng ngành không?",
-        story: "Gia Hân vừa vào đại học nhưng cảm thấy ngành học không giống kỳ vọng. Bạn ấy không chắc đây là áp lực giai đoạn đầu hay thật sự đã chọn sai hướng."
+        story: "Gia Hân vừa vào đại học nhưng thấy ngành học không giống kỳ vọng và đang rất hoang mang."
       },
       {
         name: "Tuấn",
         age: 27,
         topic: "Tình cảm",
         question: "Người mình đang tìm hiểu có nghiêm túc không?",
-        story: "Tuấn đang nói chuyện với một người rất hợp vibe. Cả hai nhắn tin đều nhưng đối phương ít nói rõ cảm xúc. Tuấn muốn biết mối quan hệ này có tiềm năng đi xa không."
+        story: "Tuấn đang nói chuyện với một người rất hợp vibe nhưng đối phương ít thể hiện rõ cảm xúc."
       },
       {
         name: "Linh Chi",
         age: 24,
         topic: "Gia đình",
         question: "Mình nên làm gì để bớt căng thẳng với mẹ?",
-        story: "Linh Chi thường xuyên cãi nhau với mẹ vì chuyện học, tiền bạc và tương lai. Hai mẹ con đều thương nhau nhưng cách nói chuyện dễ làm tổn thương nhau."
+        story: "Linh Chi thường xuyên cãi nhau với mẹ vì chuyện học, tiền bạc và tương lai."
       },
       {
         name: "Bảo Ngọc",
         age: 21,
         topic: "Bản thân",
         question: "Điều gì đang cản mình tự tin hơn?",
-        story: "Bảo Ngọc hay so sánh bản thân với người khác. Bạn ấy có năng lực nhưng mỗi lần định bắt đầu điều gì mới lại sợ bị đánh giá."
+        story: "Bảo Ngọc hay so sánh bản thân với người khác và sợ bị đánh giá khi bắt đầu điều mới."
       },
       {
         name: "Khánh Vy",
         age: 26,
         topic: "Công việc",
         question: "Dự án riêng của mình có tiềm năng không?",
-        story: "Khánh Vy muốn mở một dịch vụ nhỏ online nhưng sợ không có khách. Bạn ấy đã có ý tưởng, có kỹ năng, nhưng thiếu tự tin và chưa biết bắt đầu từ đâu."
+        story: "Khánh Vy muốn mở dịch vụ nhỏ online nhưng sợ không có khách và chưa biết bắt đầu từ đâu."
       },
       {
         name: "An",
         age: 20,
         topic: "Tình cảm",
         question: "Crush nghĩ gì về mình?",
-        story: "An và crush học chung lớp. Hai người có vài lần nói chuyện riêng khá vui, nhưng crush lúc gần lúc xa. An muốn hiểu cảm nhận thật của đối phương."
+        story: "An và crush học chung lớp, nói chuyện vui nhưng crush lúc gần lúc xa."
       },
       {
         name: "Mai Phương",
         age: 29,
         topic: "Tài chính",
         question: "Mình nên tiết kiệm hay đầu tư trong giai đoạn này?",
-        story: "Mai Phương có một khoản tiền nhỏ sau vài năm đi làm. Cô ấy muốn dùng tiền thông minh hơn nhưng sợ rủi ro và thiếu kiến thức tài chính."
+        story: "Mai Phương có một khoản tiền nhỏ và muốn dùng tiền thông minh hơn nhưng sợ rủi ro."
       },
       {
         name: "Quỳnh",
         age: 23,
         topic: "Định hướng",
         question: "Hướng đi nào phù hợp với mình trong 6 tháng tới?",
-        story: "Quỳnh cảm thấy mình đang đứng giữa nhiều lựa chọn: học thêm, đổi việc, xây thương hiệu cá nhân hoặc nghỉ ngơi một thời gian."
-      },
-      {
-        name: "Duy",
-        age: 28,
-        topic: "Tình cảm",
-        question: "Mình có nên chủ động quay lại không?",
-        story: "Duy chia tay trong lúc nóng giận. Sau vài tháng, bạn ấy thấy bản thân vẫn còn thương nhưng sợ quay lại sẽ lặp lại vấn đề cũ."
-      },
-      {
-        name: "Nhi",
-        age: 18,
-        topic: "Thi cử",
-        question: "Mình nên tập trung vào điều gì để thi tốt hơn?",
-        story: "Nhi đang ôn thi nhưng dễ mất động lực. Bạn ấy học nhiều nhưng vẫn thấy hoang mang, không biết mình đang yếu thật sự ở đâu."
+        story: "Quỳnh đang phân vân giữa học thêm, đổi việc, xây thương hiệu cá nhân hoặc nghỉ ngơi."
       }
     ];
 
@@ -850,69 +816,31 @@
         id: "love-five",
         name: "5 lá — Tình cảm",
         description: "Dùng cho tình yêu, crush, người cũ hoặc mối quan hệ mập mờ.",
-        positions: [
-          "Cảm xúc của bạn",
-          "Cảm xúc của đối phương",
-          "Điều đang kết nối",
-          "Trở ngại chính",
-          "Hướng phát triển"
-        ]
+        positions: ["Cảm xúc của bạn", "Cảm xúc của đối phương", "Điều đang kết nối", "Trở ngại chính", "Hướng phát triển"]
       },
       {
         id: "career-five",
         name: "5 lá — Công việc / học tập",
         description: "Dùng cho định hướng nghề nghiệp, học tập, dự án cá nhân.",
-        positions: [
-          "Tình hình hiện tại",
-          "Điểm mạnh",
-          "Điểm đang cản trở",
-          "Cơ hội nên chú ý",
-          "Bước hành động gần nhất"
-        ]
+        positions: ["Tình hình hiện tại", "Điểm mạnh", "Điểm đang cản trở", "Cơ hội nên chú ý", "Bước hành động gần nhất"]
       },
       {
         id: "choice-six",
         name: "6 lá — Lựa chọn A / B",
         description: "Dùng khi đang phân vân giữa hai hướng.",
-        positions: [
-          "Năng lượng lựa chọn A",
-          "Kết quả nếu chọn A",
-          "Bài học của A",
-          "Năng lượng lựa chọn B",
-          "Kết quả nếu chọn B",
-          "Bài học của B"
-        ]
+        positions: ["Năng lượng lựa chọn A", "Kết quả nếu chọn A", "Bài học của A", "Năng lượng lựa chọn B", "Kết quả nếu chọn B", "Bài học của B"]
       },
       {
         id: "celtic-mini",
         name: "7 lá — Celtic rút gọn",
         description: "Dùng khi muốn đọc sâu hơn nhưng chưa cần Celtic 10 lá.",
-        positions: [
-          "Tình huống hiện tại",
-          "Thử thách",
-          "Gốc rễ vấn đề",
-          "Điều chưa nhìn rõ",
-          "Lời khuyên",
-          "Xu hướng sắp tới",
-          "Kết luận"
-        ]
+        positions: ["Tình huống hiện tại", "Thử thách", "Gốc rễ vấn đề", "Điều chưa nhìn rõ", "Lời khuyên", "Xu hướng sắp tới", "Kết luận"]
       },
       {
         id: "celtic-cross",
         name: "10 lá — Celtic Cross",
         description: "Dùng cho case phức tạp, cần đọc sâu nhiều tầng.",
-        positions: [
-          "Hiện tại",
-          "Thử thách",
-          "Gốc rễ",
-          "Quá khứ gần",
-          "Mục tiêu / điều đang hướng tới",
-          "Tương lai gần",
-          "Thái độ của querent",
-          "Môi trường xung quanh",
-          "Hy vọng / nỗi sợ",
-          "Kết quả tổng quan"
-        ]
+        positions: ["Hiện tại", "Thử thách", "Gốc rễ", "Quá khứ gần", "Mục tiêu", "Tương lai gần", "Thái độ của querent", "Môi trường xung quanh", "Hy vọng / nỗi sợ", "Kết quả tổng quan"]
       }
     ];
 
@@ -926,10 +854,7 @@
     }
 
     function hasBirthday(profile) {
-      return profile &&
-        profile.birthday_month &&
-        profile.birthday_day &&
-        profile.birthday_year;
+      return profile && profile.birthday_month && profile.birthday_day && profile.birthday_year;
     }
 
     function birthdayText(profile) {
@@ -975,12 +900,11 @@
     }
 
     function reversedMeaning(card) {
-      return `Nghĩa ngược: năng lượng của ${card.viName || card.name} đang bị chặn, lệch hướng hoặc chưa được dùng đúng cách. Khi đọc ngược, hãy xem đây là dấu hiệu của sự trì hoãn, mất cân bằng, né tránh hoặc bài học mà querent chưa thật sự tiếp nhận. Nghĩa xuôi gốc: ${card.meaning}`;
+      return `Nghĩa ngược: năng lượng của ${card.viName || card.name} đang bị chặn, lệch hướng hoặc chưa được dùng đúng cách. Nghĩa xuôi gốc: ${card.meaning}`;
     }
 
     function cardMeaning(card) {
-      if (card.isReversed) return reversedMeaning(card);
-      return card.meaning;
+      return card.isReversed ? reversedMeaning(card) : card.meaning;
     }
 
     function normalizeCards(cards) {
@@ -992,6 +916,98 @@
       } catch {
         return [];
       }
+    }
+
+    async function askGemini(prompt) {
+      const response = await fetch("/api/gemini", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ prompt })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Gemini API error.");
+      }
+
+      return data.text || "Gemini không trả về nội dung.";
+    }
+
+    function cardsPrompt(cards) {
+      return cards.map((card, index) => {
+        return `
+${index + 1}. Vị trí: ${card.position}
+Lá bài: ${card.name} / ${card.viName}
+Chiều: ${card.isReversed ? "Ngược" : "Xuôi"}
+Nghĩa: ${cardMeaning(card)}
+`;
+      }).join("\n");
+    }
+
+    function buildNormalPrompt() {
+      return `
+Bạn là FreshSpirit Tarot, một tarot reader nói tiếng Việt, giọng văn tự nhiên, sâu sắc nhưng dễ hiểu.
+
+Hãy diễn giải trải bài tarot dưới đây cho người dùng.
+
+Yêu cầu:
+- Không nói như robot.
+- Không quá dài.
+- Không chỉ dịch nghĩa từng lá.
+- Hãy nối các lá thành một câu chuyện.
+- Có tổng quan, phân tích từng vị trí, lời khuyên thực tế.
+- Không khẳng định tuyệt đối tương lai.
+- Không dùng bảng.
+
+Câu hỏi:
+${normalQuestion || "Người dùng chưa nhập câu hỏi cụ thể."}
+
+Kiểu trải:
+${normalSpread.name}
+${normalSpread.description}
+
+Các lá bài:
+${cardsPrompt(normalCards)}
+
+Trả lời bằng tiếng Việt.
+`;
+    }
+
+    function buildMatchPrompt() {
+      return `
+Bạn là FreshSpirit Tarot, một tarot reader nói tiếng Việt, giọng văn tự nhiên, sâu sắc nhưng dễ hiểu.
+
+Hãy diễn giải trải bài tarot dưới đây cho mục đích luyện tập đọc bài.
+
+Yêu cầu:
+- Không nói như robot.
+- Không quá dài.
+- Không chỉ dịch nghĩa từng lá.
+- Hãy nối các lá thành một câu chuyện.
+- Có tổng quan, phân tích từng vị trí, lời khuyên thực tế.
+- Giọng văn như reader đang hướng dẫn người mới luyện đọc.
+- Không khẳng định tuyệt đối tương lai.
+- Không dùng bảng.
+
+Case querent:
+Tên: ${selectedCase.name}
+Tuổi: ${selectedCase.age}
+Chủ đề: ${selectedCase.topic}
+Câu hỏi: ${selectedCase.question}
+Bối cảnh: ${selectedCase.story}
+
+Kiểu trải:
+${matchSpread.name}
+${matchSpread.description}
+
+Các lá bài:
+${cardsPrompt(matchCards)}
+
+Trả lời bằng tiếng Việt.
+`;
     }
 
     function go(view) {
@@ -1140,9 +1156,7 @@
             </div>
 
             <form id="authForm" class="form">
-              ${authMode === "signup" ? `
-                <input id="displayName" type="text" placeholder="Tên hiển thị" required>
-              ` : ""}
+              ${authMode === "signup" ? `<input id="displayName" type="text" placeholder="Tên hiển thị" required>` : ""}
 
               <input id="email" type="email" placeholder="Email" required>
               <input id="password" type="password" placeholder="Mật khẩu tối thiểu 6 ký tự" required>
@@ -1406,18 +1420,25 @@
       `, "home");
     }
 
+    function spreadButtons(currentSpread, fnName) {
+      return SPREADS.map(spread => `
+        <button
+          class="spread-btn ${spread.id === currentSpread.id ? "active" : ""}"
+          onclick="${fnName}('${spread.id}')"
+        >
+          ${esc(spread.name)}
+          <small>${esc(spread.description)}</small>
+        </button>
+      `).join("");
+    }
+
     function renderRoom() {
-      if (!normalSpread) {
-        normalSpread = SPREADS[1];
-      }
+      if (!normalSpread) normalSpread = SPREADS[1];
 
       root.innerHTML = layout(`
         <section class="card">
           <h1>Practice</h1>
-          <p>
-            Đây là phòng trải bài bình thường. Nhập câu hỏi của bạn, chọn kiểu trải bài,
-            rồi rút bài để xem thông điệp.
-          </p>
+          <p>Đây là phòng trải bài bình thường. Nhập câu hỏi, chọn kiểu trải bài, rồi rút bài.</p>
 
           <button class="white-btn" onclick="go('match')">
             Find a match — luyện với querent ảo
@@ -1442,21 +1463,10 @@
           <p>${esc(normalSpread.description)}</p>
 
           <div class="spread-grid">
-            ${SPREADS.map(spread => `
-              <button
-                class="spread-btn ${spread.id === normalSpread.id ? "active" : ""}"
-                onclick="changeNormalSpread('${spread.id}')"
-              >
-                ${esc(spread.name)}
-                <small>${esc(spread.description)}</small>
-              </button>
-            `).join("")}
+            ${spreadButtons(normalSpread, "changeNormalSpread")}
           </div>
 
-          <button class="submit" onclick="drawNormalSpread()">
-            Rút bài
-          </button>
-
+          <button class="submit" onclick="drawNormalSpread()">Rút bài</button>
           <p id="normalMessage" class="message"></p>
         </section>
 
@@ -1472,6 +1482,7 @@
 
       normalSpread = SPREADS.find(spread => spread.id === spreadId) || SPREADS[1];
       normalCards = [];
+      normalAiText = "";
       renderRoom();
     };
 
@@ -1486,6 +1497,7 @@
       }
 
       normalCards = drawCardsForSpread(normalSpread);
+      normalAiText = "";
       renderRoom();
     };
 
@@ -1496,28 +1508,7 @@
           <p>${normalQuestion ? esc(normalQuestion) : "Bạn chưa nhập câu hỏi cụ thể."}</p>
 
           <div class="cards-grid">
-            ${normalCards.map((card, index) => `
-              <article class="tarot-item">
-                <img
-                  src="${esc(card.image)}"
-                  alt="${esc(card.name)}"
-                  style="${card.isReversed ? "transform: rotate(180deg);" : ""}"
-                >
-
-                <h2>${esc(card.position)}</h2>
-
-                <small>
-                  ${esc(card.name)} — ${esc(card.viName)}
-                  ${card.isReversed ? " · Ngược" : " · Xuôi"}
-                </small>
-
-                <button class="mini-btn" onclick="toggleNormalReverse(${index})">
-                  Đảo xuôi / ngược
-                </button>
-
-                <p>${esc(cardMeaning(card))}</p>
-              </article>
-            `).join("")}
+            ${normalCards.map((card, index) => cardHtml(card, index, "toggleNormalReverse")).join("")}
           </div>
         </section>
 
@@ -1529,11 +1520,19 @@
             <textarea id="normalNotes" placeholder="Viết diễn giải của bạn ở đây..."></textarea>
           </div>
 
-          <button class="submit" onclick="saveNormalJournal()">
+          <button class="white-btn" onclick="getNormalAI()" style="margin-top:12px;">
+            Lấy góc nhìn FreshSpirit
+          </button>
+
+          <button class="submit" onclick="saveNormalJournal()" style="margin-top:12px;">
             Thêm vào journal
           </button>
 
           <p id="normalSaveMessage" class="message"></p>
+        </section>
+
+        <section id="normalAiBox">
+          ${normalAiText ? aiBoxHtml(normalAiText) : ""}
         </section>
       `;
     }
@@ -1543,7 +1542,27 @@
       if (!card) return;
 
       card.isReversed = !card.isReversed;
+      normalAiText = "";
       renderRoom();
+    };
+
+    window.getNormalAI = async function() {
+      const box = document.getElementById("normalAiBox");
+      if (!box) return;
+
+      if (!normalCards.length) {
+        box.innerHTML = aiBoxHtml("Bạn cần rút bài trước.");
+        return;
+      }
+
+      box.innerHTML = aiBoxHtml("Đang hỏi Gemini...");
+
+      try {
+        normalAiText = await askGemini(buildNormalPrompt());
+        box.innerHTML = aiBoxHtml(normalAiText);
+      } catch (error) {
+        box.innerHTML = aiBoxHtml(error.message);
+      }
     };
 
     window.saveNormalJournal = async function() {
@@ -1556,15 +1575,20 @@
         return;
       }
 
+      const interpretation = [
+        notes ? `Diễn giải của reader:\n${notes}` : "",
+        normalAiText ? `Góc nhìn FreshSpirit:\n${normalAiText}` : ""
+      ].filter(Boolean).join("\n\n");
+
       message.textContent = "Đang lưu vào journal...";
 
       const { error } = await db.from("journal_entries").insert({
         user_id: currentUser.id,
-        title: title || `${normalSpread.name}`,
+        title: title || normalSpread.name,
         spread_type: normalSpread.id,
         question: normalQuestion || "Trải bài bình thường",
         cards: normalCards,
-        interpretation: notes || "Chưa có diễn giải."
+        interpretation: interpretation || "Chưa có diễn giải."
       });
 
       if (error) {
@@ -1576,34 +1600,20 @@
     };
 
     function renderMatch() {
-      if (!matchSpread) {
-        matchSpread = SPREADS[1];
-      }
+      if (!matchSpread) matchSpread = SPREADS[1];
 
       root.innerHTML = layout(`
         <section class="card">
           <h1>Find a match</h1>
-          <p>
-            Đây là khu vực thực hành với querent ảo. Chọn một case bên dưới,
-            sau đó chọn kiểu trải bài và luyện diễn giải như đang xem cho khách thật.
-          </p>
+          <p>Chọn một querent ảo bên dưới, sau đó chọn kiểu trải bài và luyện diễn giải.</p>
 
           <button class="white-btn" onclick="go('room')">
             Quay về trải bài bình thường
           </button>
         </section>
 
-        ${
-          selectedCase
-            ? selectedCaseSectionHtml()
-            : caseListHtml()
-        }
-
-        ${
-          selectedCase
-            ? matchSpreadSectionHtml()
-            : ""
-        }
+        ${selectedCase ? selectedCaseHtml() : caseListHtml()}
+        ${selectedCase ? matchSpreadHtml() : ""}
 
         <section id="matchResult">
           ${matchCards.length ? matchResultHtml() : ""}
@@ -1616,12 +1626,10 @@
         <section class="card">
           <h2>Chọn case để thực hành</h2>
 
-          <button class="submit" onclick="randomCase()">
-            Random một querent
-          </button>
+          <button class="submit" onclick="randomCase()">Random một querent</button>
 
           <div style="margin-top:16px;">
-            ${PRACTICE_CASES.map((item, index) => `
+            ${CASES.map((item, index) => `
               <button class="case-option" onclick="selectCase(${index})">
                 <strong>${esc(item.name)}, ${esc(item.age)} tuổi · ${esc(item.topic)}</strong>
                 <small>${esc(item.question)}</small>
@@ -1632,7 +1640,7 @@
       `;
     }
 
-    function selectedCaseSectionHtml() {
+    function selectedCaseHtml() {
       return `
         <section class="card">
           <h2>Case đã chọn</h2>
@@ -1650,58 +1658,47 @@
       `;
     }
 
-    function matchSpreadSectionHtml() {
+    function matchSpreadHtml() {
       return `
         <section class="card">
           <h2>Chọn kiểu trải bài</h2>
           <p>${esc(matchSpread.description)}</p>
 
           <div class="spread-grid">
-            ${SPREADS.map(spread => `
-              <button
-                class="spread-btn ${spread.id === matchSpread.id ? "active" : ""}"
-                onclick="changeMatchSpread('${spread.id}')"
-              >
-                ${esc(spread.name)}
-                <small>${esc(spread.description)}</small>
-              </button>
-            `).join("")}
+            ${spreadButtons(matchSpread, "changeMatchSpread")}
           </div>
 
-          <button class="submit" onclick="drawMatchSpread()">
-            Rút bài cho case này
-          </button>
-
+          <button class="submit" onclick="drawMatchSpread()">Rút bài cho case này</button>
           <p id="matchMessage" class="message"></p>
         </section>
       `;
     }
 
     window.selectCase = function(index) {
-      selectedCase = PRACTICE_CASES[index];
+      selectedCase = CASES[index];
       matchCards = [];
-      freshSpiritTakeText = "";
+      matchAiText = "";
       renderMatch();
     };
 
     window.randomCase = function() {
-      selectedCase = pickRandom(PRACTICE_CASES);
+      selectedCase = pickRandom(CASES);
       matchCards = [];
-      freshSpiritTakeText = "";
+      matchAiText = "";
       renderMatch();
     };
 
     window.clearSelectedCase = function() {
       selectedCase = null;
       matchCards = [];
-      freshSpiritTakeText = "";
+      matchAiText = "";
       renderMatch();
     };
 
     window.changeMatchSpread = function(spreadId) {
       matchSpread = SPREADS.find(spread => spread.id === spreadId) || SPREADS[1];
       matchCards = [];
-      freshSpiritTakeText = "";
+      matchAiText = "";
       renderMatch();
     };
 
@@ -1715,7 +1712,7 @@
       }
 
       matchCards = drawCardsForSpread(matchSpread);
-      freshSpiritTakeText = "";
+      matchAiText = "";
       renderMatch();
     };
 
@@ -1723,53 +1720,23 @@
       return `
         <section class="card">
           <h2>${esc(matchSpread.name)}</h2>
-          <p>
-            Case của ${esc(selectedCase.name)}: ${esc(selectedCase.question)}
-          </p>
+          <p>Case của ${esc(selectedCase.name)}: ${esc(selectedCase.question)}</p>
 
           <div class="cards-grid">
-            ${matchCards.map((card, index) => `
-              <article class="tarot-item">
-                <img
-                  src="${esc(card.image)}"
-                  alt="${esc(card.name)}"
-                  style="${card.isReversed ? "transform: rotate(180deg);" : ""}"
-                >
-
-                <h2>${esc(card.position)}</h2>
-
-                <small>
-                  ${esc(card.name)} — ${esc(card.viName)}
-                  ${card.isReversed ? " · Ngược" : " · Xuôi"}
-                </small>
-
-                <button class="mini-btn" onclick="toggleMatchReverse(${index})">
-                  Đảo xuôi / ngược
-                </button>
-
-                <p>${esc(cardMeaning(card))}</p>
-              </article>
-            `).join("")}
+            ${matchCards.map((card, index) => cardHtml(card, index, "toggleMatchReverse")).join("")}
           </div>
         </section>
 
         <section class="card">
           <h2>Phần luyện diễn giải của bạn</h2>
-          <p>
-            Viết thử như đang trả lời querent thật. Đừng chỉ dịch nghĩa từng lá,
-            hãy nối các lá lại thành một câu chuyện.
-          </p>
+          <p>Viết thử như đang trả lời querent thật. Đừng chỉ dịch từng lá, hãy nối thành câu chuyện.</p>
 
           <div class="form">
             <input id="matchTitle" type="text" placeholder="Tiêu đề ghi chú">
-
-            <textarea
-              id="matchNotes"
-              placeholder="Viết phần diễn giải của bạn ở đây..."
-            ></textarea>
+            <textarea id="matchNotes" placeholder="Viết phần diễn giải của bạn ở đây..."></textarea>
           </div>
 
-          <button class="white-btn" onclick="getFreshSpiritTake()" style="margin-top:12px;">
+          <button class="white-btn" onclick="getMatchAI()" style="margin-top:12px;">
             Lấy góc nhìn FreshSpirit
           </button>
 
@@ -1780,64 +1747,73 @@
           <p id="matchSaveMessage" class="message"></p>
         </section>
 
-        <section id="freshSpiritTakeBox">
-          ${freshSpiritTakeText ? freshSpiritTakeHtml() : ""}
+        <section id="matchAiBox">
+          ${matchAiText ? aiBoxHtml(matchAiText) : ""}
         </section>
+      `;
+    }
+
+    function cardHtml(card, index, reverseFunction) {
+      return `
+        <article class="tarot-item">
+          <img
+            src="${esc(card.image)}"
+            alt="${esc(card.name)}"
+            style="${card.isReversed ? "transform: rotate(180deg);" : ""}"
+          >
+
+          <h2>${esc(card.position)}</h2>
+
+          <small>
+            ${esc(card.name)} — ${esc(card.viName)}
+            ${card.isReversed ? " · Ngược" : " · Xuôi"}
+          </small>
+
+          <button class="mini-btn" onclick="${reverseFunction}(${index})">
+            Đảo xuôi / ngược
+          </button>
+
+          <p>${esc(cardMeaning(card))}</p>
+        </article>
       `;
     }
 
     window.toggleMatchReverse = function(index) {
       const card = matchCards[index];
-
       if (!card) return;
 
       card.isReversed = !card.isReversed;
-      freshSpiritTakeText = "";
+      matchAiText = "";
       renderMatch();
     };
 
-    function buildFreshSpiritTake() {
-      const cardLines = matchCards.map(card => {
-        return `${card.position}: ${card.name} ${card.isReversed ? "ngược" : "xuôi"} — ${cardMeaning(card)}`;
-      });
+    window.getMatchAI = async function() {
+      const box = document.getElementById("matchAiBox");
+      if (!box) return;
 
-      const mainTone = matchCards.some(card => card.isReversed)
-        ? "Trải bài này có năng lượng chưa hoàn toàn thông suốt. Một vài lá ngược cho thấy querent đang bị kẹt ở cảm xúc, niềm tin hoặc cách phản ứng cũ."
-        : "Trải bài này có năng lượng khá rõ. Các lá bài đang kể một câu chuyện liền mạch về tình huống hiện tại và hướng đi tiếp theo.";
+      if (!matchCards.length || !selectedCase) {
+        box.innerHTML = aiBoxHtml("Bạn cần chọn case và rút bài trước.");
+        return;
+      }
 
-      return `
-${mainTone}
+      box.innerHTML = aiBoxHtml("Đang hỏi Gemini...");
 
-Với case của ${selectedCase.name}, câu hỏi trọng tâm là: "${selectedCase.question}".
+      try {
+        matchAiText = await askGemini(buildMatchPrompt());
+        box.innerHTML = aiBoxHtml(matchAiText);
+      } catch (error) {
+        box.innerHTML = aiBoxHtml(error.message);
+      }
+    };
 
-Khi đọc cho querent, nên bắt đầu bằng việc phản ánh đúng trạng thái của họ, sau đó mới đưa lời khuyên.
-
-${cardLines.join(" ")}
-
-Tổng kết: đừng đọc từng lá rời rạc. Hãy nối các vị trí lại: tình huống hiện tại đang chỉ ra điều gì, trở ngại nằm ở đâu, và querent nên làm gì trước mắt. Câu trả lời tốt nhất nên vừa có sự đồng cảm, vừa có một bước hành động cụ thể.
-      `.trim();
-    }
-
-    function freshSpiritTakeHtml() {
+    function aiBoxHtml(text) {
       return `
         <section class="card">
           <h2>Góc nhìn FreshSpirit</h2>
-          <p style="white-space:pre-wrap;">${esc(freshSpiritTakeText)}</p>
+          <p style="white-space:pre-wrap;">${esc(text)}</p>
         </section>
       `;
     }
-
-    window.getFreshSpiritTake = function() {
-      if (!matchCards.length || !selectedCase) return;
-
-      freshSpiritTakeText = buildFreshSpiritTake();
-
-      const takeBox = document.getElementById("freshSpiritTakeBox");
-
-      if (takeBox) {
-        takeBox.innerHTML = freshSpiritTakeHtml();
-      }
-    };
 
     window.saveMatchJournal = async function() {
       const message = document.getElementById("matchSaveMessage");
@@ -1850,9 +1826,9 @@ Tổng kết: đừng đọc từng lá rời rạc. Hãy nối các vị trí l
       const title = document.getElementById("matchTitle").value.trim();
       const notes = document.getElementById("matchNotes").value.trim();
 
-      const finalInterpretation = [
+      const interpretation = [
         notes ? `Diễn giải của reader:\n${notes}` : "",
-        freshSpiritTakeText ? `Góc nhìn FreshSpirit:\n${freshSpiritTakeText}` : ""
+        matchAiText ? `Góc nhìn FreshSpirit:\n${matchAiText}` : ""
       ].filter(Boolean).join("\n\n");
 
       message.textContent = "Đang lưu vào journal...";
@@ -1863,7 +1839,7 @@ Tổng kết: đừng đọc từng lá rời rạc. Hãy nối các vị trí l
         spread_type: matchSpread.id,
         question: `${selectedCase.name}, ${selectedCase.age} tuổi · ${selectedCase.topic}: ${selectedCase.question}`,
         cards: matchCards,
-        interpretation: finalInterpretation || "Chưa có diễn giải."
+        interpretation: interpretation || "Chưa có diễn giải."
       });
 
       if (error) {
