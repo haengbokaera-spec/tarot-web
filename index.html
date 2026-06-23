@@ -331,6 +331,7 @@
     }
 
     .quick-card strong { font-size: 16px; }
+
     .quick-card small {
       color: #555;
       font-size: 13px;
@@ -659,18 +660,19 @@
     let authMode = "login";
     let currentView = "home";
 
-    let roomChatText = "";
-    let roomAiCardText = "";
+    let roomMode = "";
+    let roomQuestion = "";
+    let roomAiText = "";
+    let roomAiCard = null;
 
-    let normalSpread = null;
-    let normalCards = [];
-    let normalQuestion = "";
-    let normalAiText = "";
+    let roomSystemSpread = null;
+    let roomSystemCards = [];
+    let roomSystemAiText = "";
 
-    let selectedCase = null;
-    let matchSpread = null;
-    let matchCards = [];
-    let matchAiText = "";
+    let practiceCase = null;
+    let practiceSpread = null;
+    let practiceCards = [];
+    let practiceAiText = "";
 
     const root = document.getElementById("root");
 
@@ -901,7 +903,43 @@ Nghĩa: ${cardMeaning(card)}
       }).join("\n");
     }
 
-    function buildNormalPrompt() {
+    function buildRoomAIPrompt() {
+      if (roomAiCard) {
+        return `
+Bạn là FreshSpirit Tarot, một tarot reader nói tiếng Việt tự nhiên, sâu sắc nhưng dễ hiểu.
+
+Người dùng hỏi:
+${roomQuestion || "Người dùng muốn nhận một thông điệp chung."}
+
+AI của FreshSpirit đã bốc lá:
+${roomAiCard.name} / ${roomAiCard.viName}
+
+Nghĩa gốc:
+${roomAiCard.meaning}
+
+Hãy diễn giải lá bài này theo câu hỏi của người dùng:
+- Không khẳng định tuyệt đối tương lai.
+- Không quá dài.
+- Có tổng quan và lời khuyên thực tế.
+- Văn phong tự nhiên, thân thiện, không robot.
+`;
+      }
+
+      return `
+Bạn là FreshSpirit Tarot, một AI tarot reader nói tiếng Việt tự nhiên, dịu nhưng rõ ý.
+
+Người dùng hỏi:
+${roomQuestion}
+
+Hãy trò chuyện và tư vấn nhẹ nhàng:
+- Không khẳng định tuyệt đối tương lai.
+- Không quá dài.
+- Có thể gợi ý người dùng bốc bài nếu cần phân tích sâu.
+- Văn phong tự nhiên, không robot.
+`;
+    }
+
+    function buildSystemAIPrompt() {
       return `
 Bạn là FreshSpirit Tarot, một tarot reader nói tiếng Việt, giọng văn tự nhiên, sâu sắc nhưng dễ hiểu.
 
@@ -917,20 +955,20 @@ Yêu cầu:
 - Không dùng bảng.
 
 Câu hỏi:
-${normalQuestion || "Người dùng chưa nhập câu hỏi cụ thể."}
+${roomQuestion || "Người dùng chưa nhập câu hỏi cụ thể."}
 
 Kiểu trải:
-${normalSpread.name}
-${normalSpread.description}
+${roomSystemSpread.name}
+${roomSystemSpread.description}
 
 Các lá bài:
-${cardsPrompt(normalCards)}
+${cardsPrompt(roomSystemCards)}
 
 Trả lời bằng tiếng Việt.
 `;
     }
 
-    function buildMatchPrompt() {
+    function buildPracticePrompt() {
       return `
 Bạn là FreshSpirit Tarot, một tarot reader nói tiếng Việt, giọng văn tự nhiên, sâu sắc nhưng dễ hiểu.
 
@@ -947,54 +985,20 @@ Yêu cầu:
 - Không dùng bảng.
 
 Case querent:
-Tên: ${selectedCase.name}
-Tuổi: ${selectedCase.age}
-Chủ đề: ${selectedCase.topic}
-Câu hỏi: ${selectedCase.question}
-Bối cảnh: ${selectedCase.story}
+Tên: ${practiceCase.name}
+Tuổi: ${practiceCase.age}
+Chủ đề: ${practiceCase.topic}
+Câu hỏi: ${practiceCase.question}
+Bối cảnh: ${practiceCase.story}
 
 Kiểu trải:
-${matchSpread.name}
-${matchSpread.description}
+${practiceSpread.name}
+${practiceSpread.description}
 
 Các lá bài:
-${cardsPrompt(matchCards)}
+${cardsPrompt(practiceCards)}
 
 Trả lời bằng tiếng Việt.
-`;
-    }
-
-    function buildRoomChatPrompt(question) {
-      return `
-Bạn là FreshSpirit Tarot, một AI tarot reader nói tiếng Việt tự nhiên, dịu nhưng rõ ý.
-
-Người dùng hỏi:
-${question}
-
-Hãy trả lời theo phong cách tư vấn tarot nhẹ nhàng:
-- Không khẳng định tuyệt đối tương lai.
-- Không nói quá dài.
-- Có thể gợi ý nên rút bài hoặc chọn spread nếu câu hỏi cần phân tích sâu.
-- Văn phong tự nhiên, không robot.
-`;
-    }
-
-    function buildAIDrawPrompt(card, question) {
-      return `
-Bạn là FreshSpirit Tarot, một tarot reader nói tiếng Việt tự nhiên, sâu sắc nhưng dễ hiểu.
-
-Người dùng hỏi:
-${question || "Người dùng muốn nhận một thông điệp chung."}
-
-AI đã bốc 1 lá:
-${card.name} / ${card.viName}
-Nghĩa gốc: ${card.meaning}
-
-Hãy diễn giải lá này theo câu hỏi của người dùng:
-- Có tổng quan.
-- Có lời khuyên thực tế.
-- Không khẳng định tuyệt đối.
-- Không dùng bảng.
 `;
     }
 
@@ -1005,6 +1009,18 @@ Hãy diễn giải lá này theo câu hỏi của người dùng:
     }
 
     window.go = go;
+
+    window.startRoom = function() {
+      roomMode = "";
+      roomQuestion = "";
+      roomAiText = "";
+      roomAiCard = null;
+      roomSystemCards = [];
+      roomSystemAiText = "";
+      location.hash = "room";
+      currentView = "room";
+      render();
+    };
 
     async function loadProfile() {
       if (!currentUser) return null;
@@ -1034,8 +1050,8 @@ Hãy diễn giải lá này theo câu hỏi của người dùng:
     }
 
     async function init() {
-      normalSpread = SPREADS[1];
-      matchSpread = SPREADS[1];
+      roomSystemSpread = SPREADS[1];
+      practiceSpread = SPREADS[1];
 
       const { data } = await db.auth.getUser();
       currentUser = data.user || null;
@@ -1067,14 +1083,14 @@ Hãy diễn giải lá này theo câu hỏi của người dùng:
             <div class="top-actions">
               <button class="icon-btn" onclick="go('shop')">🛍️</button>
               <button id="heartBtn" class="icon-btn" onclick="toggleHeart()">🤍</button>
-              <button class="black-btn" onclick="go('room')">✨ Room</button>
+              <button class="black-btn" onclick="startRoom()">✨ Room</button>
               <button class="avatar-btn" onclick="toggleMenu()">🌙</button>
             </div>
           </header>
 
           <div id="avatarMenu" class="menu hidden">
             <button onclick="go('profile')">👤 Profile</button>
-            <button onclick="go('room')">✨ New room</button>
+            <button onclick="startRoom()">✨ New room</button>
             <button onclick="go('home')">🏠 Return home</button>
             <button onclick="go('journal')">📓 Journal</button>
             <button onclick="go('about')">🔗 About</button>
@@ -1095,7 +1111,7 @@ Hãy diễn giải lá này theo câu hỏi của người dùng:
               <span>🃏</span>cards
             </button>
 
-            <button class="${active === "room" ? "active" : ""}" onclick="go('room')">
+            <button class="${active === "practice" ? "active" : ""}" onclick="go('practice')">
               <span>🔮</span>practice
             </button>
 
@@ -1124,7 +1140,7 @@ Hãy diễn giải lá này theo câu hỏi của người dùng:
 
       if (currentView === "cards") renderCardsPage();
       else if (currentView === "room") renderRoom();
-      else if (currentView === "match") renderMatch();
+      else if (currentView === "practice" || currentView === "match") renderPractice();
       else if (currentView === "journal") renderJournal();
       else if (currentView === "profile") renderProfile();
       else if (currentView === "about") renderAbout();
@@ -1355,7 +1371,7 @@ Hãy diễn giải lá này theo câu hỏi của người dùng:
       root.innerHTML = layout(`
         <section class="card">
           <h1>Do tarot anywhere</h1>
-          <p>Rút bài, chat với AI, luyện đọc case ảo và lưu trải bài vào nhật ký.</p>
+          <p>Vào Room để xem bài riêng, hoặc vào Practice để luyện trải bài ảo với querent.</p>
 
           <div class="fan">
             <img src="images/cards/maj00.jpg" alt="The Fool">
@@ -1368,16 +1384,16 @@ Hãy diễn giải lá này theo câu hỏi của người dùng:
           <h2>Start your reading</h2>
 
           <div class="quick-grid">
-            <button class="quick-card" onclick="go('room')">
+            <button class="quick-card" onclick="startRoom()">
               <span>✨</span>
-              <strong>AI Room</strong>
-              <small>Chat với AI, bốc bài với AI hoặc tự trải bài bình thường.</small>
+              <strong>+ Room</strong>
+              <small>Phòng xem bài riêng: chọn AI FreshSpirit hoặc hệ thống FreshSpirit.</small>
             </button>
 
-            <button class="quick-card" onclick="go('match')">
-              <span>🫧</span>
-              <strong>Find a match</strong>
-              <small>Tìm querent ảo, chọn case và luyện đọc bài.</small>
+            <button class="quick-card" onclick="go('practice')">
+              <span>🔮</span>
+              <strong>Practice</strong>
+              <small>Luyện trải bài ảo với querent và case thực hành.</small>
             </button>
 
             <button class="quick-card" onclick="go('cards')">
@@ -1408,6 +1424,191 @@ Hãy diễn giải lá này theo câu hỏi của người dùng:
       `, "home");
     }
 
+    function renderRoom() {
+      if (!roomSystemSpread) roomSystemSpread = SPREADS[1];
+
+      if (!roomMode) {
+        root.innerHTML = layout(`
+          <section class="card">
+            <h1>+ Room</h1>
+            <p>Đây là phòng xem bài riêng. Chọn cách bạn muốn xem bài.</p>
+
+            <div class="quick-grid">
+              <button class="quick-card" onclick="selectRoomMode('ai')">
+                <span>✨</span>
+                <strong>Xem bài với AI của FreshSpirit</strong>
+                <small>Chat với AI, hỏi câu hỏi riêng và để AI bốc bài / diễn giải.</small>
+              </button>
+
+              <button class="quick-card" onclick="selectRoomMode('system')">
+                <span>🃏</span>
+                <strong>Xem bài với hệ thống FreshSpirit</strong>
+                <small>Chọn spread, hệ thống rút bài và hiển thị nghĩa để bạn tự đọc.</small>
+              </button>
+            </div>
+          </section>
+        `, "home");
+
+        return;
+      }
+
+      if (roomMode === "ai") renderRoomAI();
+      else renderRoomSystem();
+    }
+
+    window.selectRoomMode = function(mode) {
+      roomMode = mode;
+      roomQuestion = "";
+      roomAiText = "";
+      roomAiCard = null;
+      roomSystemCards = [];
+      roomSystemAiText = "";
+      renderRoom();
+    };
+
+    function renderRoomAI() {
+      root.innerHTML = layout(`
+        <section class="card">
+          <h1>AI FreshSpirit</h1>
+          <p>Đặt câu hỏi, chat với AI hoặc để AI bốc một lá bài cho bạn.</p>
+
+          <button class="white-btn" onclick="selectRoomMode('')">
+            Đổi kiểu xem bài
+          </button>
+        </section>
+
+        <section class="card">
+          <h2>Câu hỏi của bạn</h2>
+
+          <div class="form">
+            <textarea id="roomQuestion" placeholder="Nhập câu hỏi của bạn...">${esc(roomQuestion)}</textarea>
+          </div>
+
+          <button class="white-btn" onclick="chatWithRoomAI()" style="margin-top:12px;">
+            Chat với AI
+          </button>
+
+          <button class="submit" onclick="roomAIDrawCard()" style="margin-top:12px;">
+            AI bốc 1 lá
+          </button>
+
+          <p id="roomAiMessage" class="message"></p>
+        </section>
+
+        <section id="roomAiBox">
+          ${roomAiCard ? roomAICardHtml() : ""}
+          ${roomAiText ? aiBoxHtml(roomAiText) : ""}
+        </section>
+      `, "home");
+    }
+
+    window.chatWithRoomAI = async function() {
+      const input = document.getElementById("roomQuestion");
+      const box = document.getElementById("roomAiBox");
+      const message = document.getElementById("roomAiMessage");
+
+      roomQuestion = input.value.trim();
+
+      if (!roomQuestion) {
+        message.textContent = "Nhập câu hỏi trước.";
+        return;
+      }
+
+      roomAiCard = null;
+      roomAiText = "";
+      box.innerHTML = aiBoxHtml("Đang hỏi Gemini...");
+
+      try {
+        roomAiText = await askGemini(buildRoomAIPrompt());
+        box.innerHTML = aiBoxHtml(roomAiText);
+      } catch (error) {
+        box.innerHTML = aiBoxHtml(error.message);
+      }
+    };
+
+    window.roomAIDrawCard = async function() {
+      const input = document.getElementById("roomQuestion");
+      const box = document.getElementById("roomAiBox");
+      const message = document.getElementById("roomAiMessage");
+
+      roomQuestion = input.value.trim();
+
+      if (typeof getRandomCard !== "function") {
+        message.textContent = "Chưa tìm thấy database tarot trong script.js.";
+        return;
+      }
+
+      roomAiCard = getRandomCard();
+      roomAiText = "";
+
+      box.innerHTML = roomAICardHtml() + aiBoxHtml("Đang hỏi Gemini...");
+
+      try {
+        roomAiText = await askGemini(buildRoomAIPrompt());
+        box.innerHTML = roomAICardHtml() + aiBoxHtml(roomAiText);
+      } catch (error) {
+        box.innerHTML = roomAICardHtml() + aiBoxHtml(error.message);
+      }
+    };
+
+    function roomAICardHtml() {
+      return `
+        <section class="card">
+          <h2>Lá bài AI bốc</h2>
+
+          <div class="cards-grid">
+            <article class="tarot-item">
+              <img src="${esc(roomAiCard.image)}" alt="${esc(roomAiCard.name)}">
+              <h2>${esc(roomAiCard.name)}</h2>
+              <small>${esc(roomAiCard.viName)}</small>
+            </article>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderRoomSystem() {
+      root.innerHTML = layout(`
+        <section class="card">
+          <h1>Hệ thống FreshSpirit</h1>
+          <p>Chọn spread, hệ thống FreshSpirit sẽ rút bài và hiển thị nghĩa để bạn tự đọc.</p>
+
+          <button class="white-btn" onclick="selectRoomMode('')">
+            Đổi kiểu xem bài
+          </button>
+        </section>
+
+        <section class="card">
+          <h2>Câu hỏi của bạn</h2>
+
+          <div class="form">
+            <input
+              id="roomSystemQuestion"
+              type="text"
+              placeholder="Ví dụ: Chuyện tình cảm này sẽ đi về đâu?"
+              value="${esc(roomQuestion)}"
+            >
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Chọn kiểu trải bài</h2>
+          <p>${esc(roomSystemSpread.description)}</p>
+
+          <div class="spread-grid">
+            ${spreadButtons(roomSystemSpread, "changeRoomSystemSpread")}
+          </div>
+
+          <button class="submit" onclick="drawRoomSystemSpread()">Rút bài</button>
+          <p id="roomSystemMessage" class="message"></p>
+        </section>
+
+        <section id="roomSystemResult">
+          ${roomSystemCards.length ? roomSystemResultHtml() : ""}
+        </section>
+      `, "home");
+    }
+
     function spreadButtons(currentSpread, fnName) {
       return SPREADS.map(spread => `
         <button
@@ -1420,230 +1621,81 @@ Hãy diễn giải lá này theo câu hỏi của người dùng:
       `).join("");
     }
 
-    function renderRoom() {
-      if (!normalSpread) normalSpread = SPREADS[1];
+    window.changeRoomSystemSpread = function(spreadId) {
+      const input = document.getElementById("roomSystemQuestion");
+      if (input) roomQuestion = input.value.trim();
 
-      root.innerHTML = layout(`
-        <section class="card">
-          <h1>AI Room</h1>
-          <p>Chat với AI hoặc để AI bốc một lá bài cho câu hỏi của bạn.</p>
-
-          <div class="form">
-            <textarea id="roomQuestion" placeholder="Nhập câu hỏi để chat hoặc bốc bài với AI..."></textarea>
-          </div>
-
-          <button class="white-btn" onclick="chatWithAI()" style="margin-top:12px;">
-            Chat với AI
-          </button>
-
-          <button class="submit" onclick="aiDrawOneCard()" style="margin-top:12px;">
-            AI bốc 1 lá
-          </button>
-
-          <p id="roomAiMessage" class="message"></p>
-        </section>
-
-        <section id="roomAiBox">
-          ${roomChatText ? aiBoxHtml(roomChatText) : ""}
-          ${roomAiCardText ? aiBoxHtml(roomAiCardText) : ""}
-        </section>
-
-        <section class="card">
-          <h2>Trải bài bình thường</h2>
-          <p>Nhập câu hỏi, chọn kiểu trải bài, rồi rút bài thủ công.</p>
-
-          <button class="white-btn" onclick="go('match')">
-            Find a match — luyện với querent ảo
-          </button>
-        </section>
-
-        <section class="card">
-          <h2>Câu hỏi của bạn</h2>
-
-          <div class="form">
-            <input
-              id="normalQuestion"
-              type="text"
-              placeholder="Ví dụ: Chuyện tình cảm này sẽ đi về đâu?"
-              value="${esc(normalQuestion)}"
-            >
-          </div>
-        </section>
-
-        <section class="card">
-          <h2>Chọn kiểu trải bài</h2>
-          <p>${esc(normalSpread.description)}</p>
-
-          <div class="spread-grid">
-            ${spreadButtons(normalSpread, "changeNormalSpread")}
-          </div>
-
-          <button class="submit" onclick="drawNormalSpread()">Rút bài</button>
-          <p id="normalMessage" class="message"></p>
-        </section>
-
-        <section id="normalResult">
-          ${normalCards.length ? normalResultHtml() : ""}
-        </section>
-      `, "room");
-    }
-
-    window.chatWithAI = async function() {
-      const input = document.getElementById("roomQuestion");
-      const message = document.getElementById("roomAiMessage");
-      const box = document.getElementById("roomAiBox");
-
-      const question = input.value.trim();
-
-      if (!question) {
-        message.textContent = "Nhập câu hỏi trước.";
-        return;
-      }
-
-      message.textContent = "";
-      box.innerHTML = aiBoxHtml("Đang hỏi Gemini...");
-
-      try {
-        roomChatText = await askGemini(buildRoomChatPrompt(question));
-        roomAiCardText = "";
-        box.innerHTML = aiBoxHtml(roomChatText);
-      } catch (error) {
-        box.innerHTML = aiBoxHtml(error.message);
-      }
+      roomSystemSpread = SPREADS.find(spread => spread.id === spreadId) || SPREADS[1];
+      roomSystemCards = [];
+      roomSystemAiText = "";
+      renderRoomSystem();
     };
 
-    window.aiDrawOneCard = async function() {
-      const input = document.getElementById("roomQuestion");
-      const message = document.getElementById("roomAiMessage");
-      const box = document.getElementById("roomAiBox");
-
-      const question = input.value.trim();
-
-      if (typeof getRandomCard !== "function") {
-        message.textContent = "Chưa tìm thấy database tarot trong script.js.";
-        return;
-      }
-
-      const card = getRandomCard();
-
-      message.textContent = "";
-      box.innerHTML = `
-        <section class="card">
-          <h2>AI đang bốc bài...</h2>
-          <div class="cards-grid">
-            <article class="tarot-item">
-              <img src="${esc(card.image)}" alt="${esc(card.name)}">
-              <h2>${esc(card.name)}</h2>
-              <small>${esc(card.viName)}</small>
-            </article>
-          </div>
-          <p>Đang hỏi Gemini...</p>
-        </section>
-      `;
-
-      try {
-        const text = await askGemini(buildAIDrawPrompt(card, question));
-        roomAiCardText = `
-Lá bài AI bốc: ${card.name} / ${card.viName}
-
-${text}
-        `.trim();
-
-        roomChatText = "";
-
-        box.innerHTML = `
-          <section class="card">
-            <h2>Lá bài AI bốc</h2>
-            <div class="cards-grid">
-              <article class="tarot-item">
-                <img src="${esc(card.image)}" alt="${esc(card.name)}">
-                <h2>${esc(card.name)}</h2>
-                <small>${esc(card.viName)}</small>
-              </article>
-            </div>
-          </section>
-          ${aiBoxHtml(text)}
-        `;
-      } catch (error) {
-        box.innerHTML = aiBoxHtml(error.message);
-      }
-    };
-
-    window.changeNormalSpread = function(spreadId) {
-      const input = document.getElementById("normalQuestion");
-      if (input) normalQuestion = input.value.trim();
-
-      normalSpread = SPREADS.find(spread => spread.id === spreadId) || SPREADS[1];
-      normalCards = [];
-      normalAiText = "";
-      renderRoom();
-    };
-
-    window.drawNormalSpread = function() {
-      const input = document.getElementById("normalQuestion");
-      normalQuestion = input ? input.value.trim() : "";
+    window.drawRoomSystemSpread = function() {
+      const input = document.getElementById("roomSystemQuestion");
+      roomQuestion = input ? input.value.trim() : "";
 
       if (typeof getAllCards !== "function") {
-        const message = document.getElementById("normalMessage");
+        const message = document.getElementById("roomSystemMessage");
         if (message) message.textContent = "Chưa tìm thấy database 78 lá trong script.js.";
         return;
       }
 
-      normalCards = drawCardsForSpread(normalSpread);
-      normalAiText = "";
-      renderRoom();
+      roomSystemCards = drawCardsForSpread(roomSystemSpread);
+      roomSystemAiText = "";
+      renderRoomSystem();
     };
 
-    function normalResultHtml() {
+    function roomSystemResultHtml() {
       return `
         <section class="card">
-          <h2>${esc(normalSpread.name)}</h2>
-          <p>${normalQuestion ? esc(normalQuestion) : "Bạn chưa nhập câu hỏi cụ thể."}</p>
+          <h2>${esc(roomSystemSpread.name)}</h2>
+          <p>${roomQuestion ? esc(roomQuestion) : "Bạn chưa nhập câu hỏi cụ thể."}</p>
 
           <div class="cards-grid">
-            ${normalCards.map((card, index) => cardHtml(card, index, "toggleNormalReverse")).join("")}
+            ${roomSystemCards.map((card, index) => cardHtml(card, index, "toggleRoomSystemReverse")).join("")}
           </div>
         </section>
 
         <section class="card">
-          <h2>Ghi chú diễn giải</h2>
+          <h2>Lưu diễn giải</h2>
 
           <div class="form">
-            <input id="normalTitle" type="text" placeholder="Tiêu đề journal">
-            <textarea id="normalNotes" placeholder="Viết diễn giải của bạn ở đây..."></textarea>
+            <input id="roomSystemTitle" type="text" placeholder="Tiêu đề journal">
+            <textarea id="roomSystemNotes" placeholder="Viết diễn giải của bạn ở đây..."></textarea>
           </div>
 
-          <button class="white-btn" onclick="getNormalAI()" style="margin-top:12px;">
+          <button class="white-btn" onclick="getRoomSystemAI()" style="margin-top:12px;">
             Lấy góc nhìn FreshSpirit
           </button>
 
-          <button class="submit" onclick="saveNormalJournal()" style="margin-top:12px;">
+          <button class="submit" onclick="saveRoomSystemJournal()" style="margin-top:12px;">
             Thêm vào journal
           </button>
 
-          <p id="normalSaveMessage" class="message"></p>
+          <p id="roomSystemSaveMessage" class="message"></p>
         </section>
 
-        <section id="normalAiBox">
-          ${normalAiText ? aiBoxHtml(normalAiText) : ""}
+        <section id="roomSystemAiBox">
+          ${roomSystemAiText ? aiBoxHtml(roomSystemAiText) : ""}
         </section>
       `;
     }
 
-    window.toggleNormalReverse = function(index) {
-      const card = normalCards[index];
+    window.toggleRoomSystemReverse = function(index) {
+      const card = roomSystemCards[index];
       if (!card) return;
 
       card.isReversed = !card.isReversed;
-      normalAiText = "";
-      renderRoom();
+      roomSystemAiText = "";
+      renderRoomSystem();
     };
 
-    window.getNormalAI = async function() {
-      const box = document.getElementById("normalAiBox");
+    window.getRoomSystemAI = async function() {
+      const box = document.getElementById("roomSystemAiBox");
       if (!box) return;
 
-      if (!normalCards.length) {
+      if (!roomSystemCards.length) {
         box.innerHTML = aiBoxHtml("Bạn cần rút bài trước.");
         return;
       }
@@ -1651,36 +1703,36 @@ ${text}
       box.innerHTML = aiBoxHtml("Đang hỏi Gemini...");
 
       try {
-        normalAiText = await askGemini(buildNormalPrompt());
-        box.innerHTML = aiBoxHtml(normalAiText);
+        roomSystemAiText = await askGemini(buildSystemAIPrompt());
+        box.innerHTML = aiBoxHtml(roomSystemAiText);
       } catch (error) {
         box.innerHTML = aiBoxHtml(error.message);
       }
     };
 
-    window.saveNormalJournal = async function() {
-      const message = document.getElementById("normalSaveMessage");
-      const title = document.getElementById("normalTitle").value.trim();
-      const notes = document.getElementById("normalNotes").value.trim();
+    window.saveRoomSystemJournal = async function() {
+      const message = document.getElementById("roomSystemSaveMessage");
+      const title = document.getElementById("roomSystemTitle").value.trim();
+      const notes = document.getElementById("roomSystemNotes").value.trim();
 
-      if (!normalCards.length) {
+      if (!roomSystemCards.length) {
         message.textContent = "Bạn cần rút bài trước.";
         return;
       }
 
       const interpretation = [
         notes ? `Diễn giải của reader:\n${notes}` : "",
-        normalAiText ? `Góc nhìn FreshSpirit:\n${normalAiText}` : ""
+        roomSystemAiText ? `Góc nhìn FreshSpirit:\n${roomSystemAiText}` : ""
       ].filter(Boolean).join("\n\n");
 
       message.textContent = "Đang lưu vào journal...";
 
       const { error } = await db.from("journal_entries").insert({
         user_id: currentUser.id,
-        title: title || normalSpread.name,
-        spread_type: normalSpread.id,
-        question: normalQuestion || "Trải bài bình thường",
-        cards: normalCards,
+        title: title || roomSystemSpread.name,
+        spread_type: roomSystemSpread.id,
+        question: roomQuestion || "Xem bài với hệ thống FreshSpirit",
+        cards: roomSystemCards,
         interpretation: interpretation || "Chưa có diễn giải."
       });
 
@@ -1692,38 +1744,34 @@ ${text}
       message.textContent = "Đã lưu vào journal.";
     };
 
-    function renderMatch() {
-      if (!matchSpread) matchSpread = SPREADS[1];
+    function renderPractice() {
+      if (!practiceSpread) practiceSpread = SPREADS[1];
 
       root.innerHTML = layout(`
         <section class="card">
-          <h1>Find a match</h1>
-          <p>Chọn một querent ảo bên dưới, sau đó chọn kiểu trải bài và luyện diễn giải.</p>
-
-          <button class="white-btn" onclick="go('room')">
-            Quay về AI Room
-          </button>
+          <h1>Practice</h1>
+          <p>Đây là phần luyện trải bài ảo. Chọn querent/case, chọn spread rồi tập diễn giải.</p>
         </section>
 
-        ${selectedCase ? selectedCaseHtml() : caseListHtml()}
-        ${selectedCase ? matchSpreadHtml() : ""}
+        ${practiceCase ? practiceCaseHtml() : practiceCaseListHtml()}
+        ${practiceCase ? practiceSpreadHtml() : ""}
 
-        <section id="matchResult">
-          ${matchCards.length ? matchResultHtml() : ""}
+        <section id="practiceResult">
+          ${practiceCards.length ? practiceResultHtml() : ""}
         </section>
-      `, "room");
+      `, "practice");
     }
 
-    function caseListHtml() {
+    function practiceCaseListHtml() {
       return `
         <section class="card">
           <h2>Chọn case để thực hành</h2>
 
-          <button class="submit" onclick="randomCase()">Random một querent</button>
+          <button class="submit" onclick="randomPracticeCase()">Random một querent</button>
 
           <div style="margin-top:16px;">
             ${CASES.map((item, index) => `
-              <button class="case-option" onclick="selectCase(${index})">
+              <button class="case-option" onclick="selectPracticeCase(${index})">
                 <strong>${esc(item.name)}, ${esc(item.age)} tuổi · ${esc(item.topic)}</strong>
                 <small>${esc(item.question)}</small>
               </button>
@@ -1733,90 +1781,90 @@ ${text}
       `;
     }
 
-    function selectedCaseHtml() {
+    function practiceCaseHtml() {
       return `
         <section class="card">
           <h2>Case đã chọn</h2>
 
           <div class="practice-case">
-            <strong>${esc(selectedCase.name)}, ${esc(selectedCase.age)} tuổi · ${esc(selectedCase.topic)}</strong>
-            <p><strong>Câu hỏi:</strong> ${esc(selectedCase.question)}</p>
-            <p>${esc(selectedCase.story)}</p>
+            <strong>${esc(practiceCase.name)}, ${esc(practiceCase.age)} tuổi · ${esc(practiceCase.topic)}</strong>
+            <p><strong>Câu hỏi:</strong> ${esc(practiceCase.question)}</p>
+            <p>${esc(practiceCase.story)}</p>
           </div>
 
-          <button class="white-btn" onclick="clearSelectedCase()" style="margin-top:12px;">
+          <button class="white-btn" onclick="clearPracticeCase()" style="margin-top:12px;">
             Chọn case khác
           </button>
         </section>
       `;
     }
 
-    function matchSpreadHtml() {
+    function practiceSpreadHtml() {
       return `
         <section class="card">
           <h2>Chọn kiểu trải bài</h2>
-          <p>${esc(matchSpread.description)}</p>
+          <p>${esc(practiceSpread.description)}</p>
 
           <div class="spread-grid">
-            ${spreadButtons(matchSpread, "changeMatchSpread")}
+            ${spreadButtons(practiceSpread, "changePracticeSpread")}
           </div>
 
-          <button class="submit" onclick="drawMatchSpread()">Rút bài cho case này</button>
-          <p id="matchMessage" class="message"></p>
+          <button class="submit" onclick="drawPracticeSpread()">Rút bài cho case này</button>
+          <p id="practiceMessage" class="message"></p>
         </section>
       `;
     }
 
-    window.selectCase = function(index) {
-      selectedCase = CASES[index];
-      matchCards = [];
-      matchAiText = "";
-      renderMatch();
+    window.selectPracticeCase = function(index) {
+      practiceCase = CASES[index];
+      practiceCards = [];
+      practiceAiText = "";
+      renderPractice();
     };
 
-    window.randomCase = function() {
-      selectedCase = pickRandom(CASES);
-      matchCards = [];
-      matchAiText = "";
-      renderMatch();
+    window.randomPracticeCase = function() {
+      practiceCase = pickRandom(CASES);
+      practiceCards = [];
+      practiceAiText = "";
+      renderPractice();
     };
 
-    window.clearSelectedCase = function() {
-      selectedCase = null;
-      matchCards = [];
-      matchAiText = "";
-      renderMatch();
+    window.clearPracticeCase = function() {
+      practiceCase = null;
+      practiceCards = [];
+      practiceAiText = "";
+      renderPractice();
     };
 
-    window.changeMatchSpread = function(spreadId) {
-      matchSpread = SPREADS.find(spread => spread.id === spreadId) || SPREADS[1];
-      matchCards = [];
-      matchAiText = "";
-      renderMatch();
+    window.changePracticeSpread = function(spreadId) {
+      practiceSpread = SPREADS.find(spread => spread.id === spreadId) || SPREADS[1];
+      practiceCards = [];
+      practiceAiText = "";
+      renderPractice();
     };
 
-    window.drawMatchSpread = function() {
-      if (!selectedCase) return;
+    window.drawPracticeSpread = function() {
+      if (!practiceCase) return;
 
       if (typeof getAllCards !== "function") {
-        const message = document.getElementById("matchMessage");
+        const message = document.getElementById("practiceMessage");
         if (message) message.textContent = "Chưa tìm thấy database 78 lá trong script.js.";
         return;
       }
 
-      matchCards = drawCardsForSpread(matchSpread);
-      matchAiText = "";
-      renderMatch();
+      practiceCards = drawCardsForSpread(practiceSpread);
+      practiceAiText = "";
+      renderPractice();
     };
 
-    function matchResultHtml() {
+    function practiceResultHtml() {
       return `
         <section class="card">
-          <h2>${esc(matchSpread.name)}</h2>
-          <p>Case của ${esc(selectedCase.name)}: ${esc(selectedCase.question)}</p>
+          <h2>${esc(practiceSpread.name)}</h2>
+          <p>Case của ${esc(practiceCase.name)}: ${esc(practiceCase.question)}</p>
 
           <div class="cards-grid">
-            ${matchCards.map((card, index) => cardHtml(card, index, "toggleMatchReverse")).join("")}
+            ${practiceCards.map((card, index) => cardHtml(card, index, "togglePracticeReverse")).join("")}
           </div>
         </section>
 
@@ -1825,26 +1873,89 @@ ${text}
           <p>Viết thử như đang trả lời querent thật. Đừng chỉ dịch từng lá, hãy nối thành câu chuyện.</p>
 
           <div class="form">
-            <input id="matchTitle" type="text" placeholder="Tiêu đề ghi chú">
-            <textarea id="matchNotes" placeholder="Viết phần diễn giải của bạn ở đây..."></textarea>
+            <input id="practiceTitle" type="text" placeholder="Tiêu đề ghi chú">
+            <textarea id="practiceNotes" placeholder="Viết phần diễn giải của bạn ở đây..."></textarea>
           </div>
 
-          <button class="white-btn" onclick="getMatchAI()" style="margin-top:12px;">
+          <button class="white-btn" onclick="getPracticeAI()" style="margin-top:12px;">
             Lấy góc nhìn FreshSpirit
           </button>
 
-          <button class="submit" onclick="saveMatchJournal()" style="margin-top:12px;">
+          <button class="submit" onclick="savePracticeJournal()" style="margin-top:12px;">
             Thêm vào journal
           </button>
 
-          <p id="matchSaveMessage" class="message"></p>
+          <p id="practiceSaveMessage" class="message"></p>
         </section>
 
-        <section id="matchAiBox">
-          ${matchAiText ? aiBoxHtml(matchAiText) : ""}
+        <section id="practiceAiBox">
+          ${practiceAiText ? aiBoxHtml(practiceAiText) : ""}
         </section>
       `;
     }
+
+    window.togglePracticeReverse = function(index) {
+      const card = practiceCards[index];
+      if (!card) return;
+
+      card.isReversed = !card.isReversed;
+      practiceAiText = "";
+      renderPractice();
+    };
+
+    window.getPracticeAI = async function() {
+      const box = document.getElementById("practiceAiBox");
+      if (!box) return;
+
+      if (!practiceCards.length || !practiceCase) {
+        box.innerHTML = aiBoxHtml("Bạn cần chọn case và rút bài trước.");
+        return;
+      }
+
+      box.innerHTML = aiBoxHtml("Đang hỏi Gemini...");
+
+      try {
+        practiceAiText = await askGemini(buildPracticePrompt());
+        box.innerHTML = aiBoxHtml(practiceAiText);
+      } catch (error) {
+        box.innerHTML = aiBoxHtml(error.message);
+      }
+    };
+
+    window.savePracticeJournal = async function() {
+      const message = document.getElementById("practiceSaveMessage");
+
+      if (!practiceCards.length) {
+        message.textContent = "Bạn cần rút bài trước.";
+        return;
+      }
+
+      const title = document.getElementById("practiceTitle").value.trim();
+      const notes = document.getElementById("practiceNotes").value.trim();
+
+      const interpretation = [
+        notes ? `Diễn giải của reader:\n${notes}` : "",
+        practiceAiText ? `Góc nhìn FreshSpirit:\n${practiceAiText}` : ""
+      ].filter(Boolean).join("\n\n");
+
+      message.textContent = "Đang lưu vào journal...";
+
+      const { error } = await db.from("journal_entries").insert({
+        user_id: currentUser.id,
+        title: title || `${practiceSpread.name} — ${practiceCase.name}`,
+        spread_type: practiceSpread.id,
+        question: `${practiceCase.name}, ${practiceCase.age} tuổi · ${practiceCase.topic}: ${practiceCase.question}`,
+        cards: practiceCards,
+        interpretation: interpretation || "Chưa có diễn giải."
+      });
+
+      if (error) {
+        message.textContent = error.message;
+        return;
+      }
+
+      message.textContent = "Đã lưu vào journal.";
+    };
 
     function cardHtml(card, index, reverseFunction) {
       return `
@@ -1871,34 +1982,6 @@ ${text}
       `;
     }
 
-    window.toggleMatchReverse = function(index) {
-      const card = matchCards[index];
-      if (!card) return;
-
-      card.isReversed = !card.isReversed;
-      matchAiText = "";
-      renderMatch();
-    };
-
-    window.getMatchAI = async function() {
-      const box = document.getElementById("matchAiBox");
-      if (!box) return;
-
-      if (!matchCards.length || !selectedCase) {
-        box.innerHTML = aiBoxHtml("Bạn cần chọn case và rút bài trước.");
-        return;
-      }
-
-      box.innerHTML = aiBoxHtml("Đang hỏi Gemini...");
-
-      try {
-        matchAiText = await askGemini(buildMatchPrompt());
-        box.innerHTML = aiBoxHtml(matchAiText);
-      } catch (error) {
-        box.innerHTML = aiBoxHtml(error.message);
-      }
-    };
-
     function aiBoxHtml(text) {
       return `
         <section class="card">
@@ -1907,41 +1990,6 @@ ${text}
         </section>
       `;
     }
-
-    window.saveMatchJournal = async function() {
-      const message = document.getElementById("matchSaveMessage");
-
-      if (!matchCards.length) {
-        message.textContent = "Bạn cần rút bài trước.";
-        return;
-      }
-
-      const title = document.getElementById("matchTitle").value.trim();
-      const notes = document.getElementById("matchNotes").value.trim();
-
-      const interpretation = [
-        notes ? `Diễn giải của reader:\n${notes}` : "",
-        matchAiText ? `Góc nhìn FreshSpirit:\n${matchAiText}` : ""
-      ].filter(Boolean).join("\n\n");
-
-      message.textContent = "Đang lưu vào journal...";
-
-      const { error } = await db.from("journal_entries").insert({
-        user_id: currentUser.id,
-        title: title || `${matchSpread.name} — ${selectedCase.name}`,
-        spread_type: matchSpread.id,
-        question: `${selectedCase.name}, ${selectedCase.age} tuổi · ${selectedCase.topic}: ${selectedCase.question}`,
-        cards: matchCards,
-        interpretation: interpretation || "Chưa có diễn giải."
-      });
-
-      if (error) {
-        message.textContent = error.message;
-        return;
-      }
-
-      message.textContent = "Đã lưu vào journal.";
-    };
 
     function renderCardsPage() {
       const allCards = typeof getAllCards === "function" ? getAllCards() : [];
@@ -2035,8 +2083,8 @@ ${text}
         journalList.innerHTML = `
           <section class="card">
             <h2>Chưa có trải bài nào</h2>
-            <p>Hãy vào Practice hoặc Find a match để rút bài và lưu lại phần diễn giải.</p>
-            <button class="submit" onclick="go('room')">Đi practice</button>
+            <p>Hãy vào Room hoặc Practice để rút bài và lưu lại phần diễn giải.</p>
+            <button class="submit" onclick="startRoom()">Vào Room</button>
           </section>
         `;
         return;
