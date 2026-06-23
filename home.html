@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>FreshSpirit - Trang chủ</title>
+  <title>FreshSpirit - Home</title>
 
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -64,65 +64,66 @@
   <main class="home-page">
     <section class="home-hero-card">
       <div class="pill-tabs">
-        <button class="active-pill">Guidebook</button>
-        <button>Spreads</button>
+        <button class="active-pill" type="button">Guidebook</button>
+        <button type="button" onclick="window.location.href='room.html'">Spreads</button>
       </div>
 
-      <h1>Ý nghĩa lá bài</h1>
+      <h1>Do tarot anywhere</h1>
 
       <p>
-        Khám phá ý nghĩa của 78 lá tarot để tìm tia sáng cho cách diễn giải của riêng bạn.
-        FreshSpirit giúp bạn học, thực hành và lưu lại trải bài một cách rõ ràng hơn.
+        Rút bài, lưu trải bài vào nhật ký và quay lại chiêm nghiệm bất cứ lúc nào.
       </p>
 
       <div class="hero-tarot-fan">
-        <img src="images/cards/maj00.jpg" alt="The Fool">
-        <img src="images/cards/maj01.jpg" alt="The Magician">
-        <img src="images/cards/maj02.jpg" alt="The High Priestess">
+        <img src="images/cards/maj00.jpg" alt="The Fool" />
+        <img src="images/cards/maj01.jpg" alt="The Magician" />
+        <img src="images/cards/maj02.jpg" alt="The High Priestess" />
       </div>
     </section>
 
     <section class="home-section">
-      <h2>Bắt đầu hôm nay</h2>
+      <h2>Start your reading</h2>
 
       <div class="quick-grid">
-        <button onclick="window.location.href='room.html'" class="quick-card">
+        <button class="quick-card" onclick="window.location.href='room.html'">
           <span>✦</span>
-          <strong>Rút bài ngẫu nhiên</strong>
-          <small>Nhận một thông điệp nhanh từ bộ bài.</small>
+          <strong>New room</strong>
+          <small>Rút một lá bài ngẫu nhiên và lưu lại vào journal.</small>
         </button>
 
-        <button onclick="window.location.href='journal.html'" class="quick-card">
+        <button class="quick-card" onclick="window.location.href='cards.html'">
+          <span>▣</span>
+          <strong>Explore cards</strong>
+          <small>Xem đủ 78 lá Rider Waite và nghĩa ngắn gọn từng lá.</small>
+        </button>
+
+        <button class="quick-card" onclick="window.location.href='journal.html'">
           <span>☰</span>
-          <strong>Nhật ký trải bài</strong>
-          <small>Xem lại những trải bài bạn đã lưu.</small>
+          <strong>Your journal</strong>
+          <small>Xem lại những trải bài đã lưu trước đó.</small>
         </button>
 
-        <button onclick="window.location.href='profile.html'" class="quick-card">
+        <button class="quick-card" onclick="window.location.href='profile.html'">
           <span>☺</span>
-          <strong>Hồ sơ cá nhân</strong>
-          <small>Xem tên, sinh nhật và thông tin của bạn.</small>
+          <strong>Your profile</strong>
+          <small>Xem thông tin cá nhân và ngày sinh đã lưu.</small>
         </button>
-      </div>
-    </section>
-
-    <section class="home-section">
-      <h2>Bộ bài nổi bật</h2>
-
-      <div class="featured-card-row">
-        <img src="images/cards/maj19.jpg" alt="The Sun">
-        <img src="images/cards/maj07.jpg" alt="The Chariot">
-        <img src="images/cards/cups01.jpg" alt="Ace of Cups">
-        <img src="images/cards/wands04.jpg" alt="Four of Wands">
       </div>
     </section>
 
     <section class="home-section bottom-space">
-      <h2>Một không gian để thực hành tarot</h2>
+      <h2>Featured cards</h2>
+
       <p>
-        FreshSpirit được tạo ra như một nơi yên tĩnh để bạn học tarot,
-        đọc bài cho bản thân, ghi chú trải bài và quay lại với trực giác của mình.
+        Một vài lá bài nổi bật trong bộ Rider Waite.
       </p>
+
+      <div class="featured-card-row">
+        <img src="images/cards/maj19.jpg" alt="The Sun" />
+        <img src="images/cards/maj07.jpg" alt="The Chariot" />
+        <img src="images/cards/cups01.jpg" alt="Ace of Cups" />
+        <img src="images/cards/wands04.jpg" alt="Four of Wands" />
+      </div>
     </section>
   </main>
 
@@ -132,7 +133,7 @@
       home
     </button>
 
-    <button onclick="window.location.href='home.html'">
+    <button onclick="window.location.href='cards.html'">
       <span>▣</span>
       cards
     </button>
@@ -170,6 +171,7 @@
 
       if (!data.user) {
         window.location.href = "auth.html";
+        return;
       }
     }
 
