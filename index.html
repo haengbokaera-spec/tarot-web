@@ -57,14 +57,26 @@
       display: none !important;
     }
 
-    .app {
-      width: min(100%, 390px);
-      min-height: 100vh;
-      margin: 0 auto;
-      background: #f7f7f5;
-      padding-bottom: 86px;
-      overflow-x: hidden;
-    }
+.app {
+  width: min(100%, 390px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding-bottom: 86px;
+  overflow-x: hidden;
+  position: relative;
+
+  background-color: #f8f7f2;
+  background-image:
+    linear-gradient(rgba(20, 20, 20, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 20, 20, 0.055) 1px, transparent 1px),
+    linear-gradient(rgba(20, 20, 20, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 20, 20, 0.028) 1px, transparent 1px);
+  background-size:
+    24px 24px,
+    24px 24px,
+    8px 8px,
+    8px 8px;
+}
 
     .topbar {
       width: min(94%, 370px);
