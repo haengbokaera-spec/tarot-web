@@ -1373,23 +1373,41 @@
       }
     }
 
-    async function askGemini(prompt) {
-      const response = await fetch("/api/gemini", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ prompt })
-      });
+async function askGemini(prompt) {
+  const response = await fetch("/api/gemini", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ prompt })
+  });
 
-      const data = await response.json();
+  const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error || "Gemini API error.");
-      }
+  if (!response.ok) {
+    throw new Error(data.error || "Gemini API error.");
+  }
 
-      return data.text || "Gemini không trả về nội dung.";
-    }
+  return data.text || "Gemini không trả về nội dung.";
+}
+
+async function askGPT(prompt) {
+  const response = await fetch("/api/openai", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ prompt })
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "OpenAI API error.");
+  }
+
+  return data.text || "GPT không trả về nội dung.";
+}
 
     function cardsPrompt(cards) {
       return cards.map((card, index) => {
