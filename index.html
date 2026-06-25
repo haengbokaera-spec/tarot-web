@@ -1927,14 +1927,23 @@ function renderRoom() {
   else if (roomMode === "system") renderRoomSystem();
   else if (roomMode === "manual") renderRoomManual();
 }
-      roomMode = mode;
-      roomQuestion = "";
-      roomAiText = "";
-      roomAiCard = null;
-      roomSystemCards = [];
-      roomSystemAiText = "";
-      renderRoom();
-    };
+window.selectRoomMode = function(mode) {
+  roomMode = mode;
+  roomQuestion = "";
+  roomAiText = "";
+  roomAiCard = null;
+  roomSystemCards = [];
+  roomSystemAiText = "";
+
+  manualDeckId = "rws";
+  manualSpread = SPREADS[1];
+  manualDeck = [];
+  manualDrawnCards = [];
+  manualAiText = "";
+  manualFreshText = "";
+
+  renderRoom();
+};
 
     function renderRoomAI() {
       root.innerHTML = layout(`
