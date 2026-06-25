@@ -1360,6 +1360,123 @@ body::before,
 .menu {
   z-index: 1000000 !important;
 }
+    /* REAL FINAL FIX: nền caro là layer riêng cố định dưới cùng */
+
+/* nền gốc */
+html,
+body {
+  background: #fffdf8 !important;
+}
+
+/* tắt toàn bộ nền cũ từng tạo trước đó */
+html::before,
+body::before,
+.app::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* root giữ app ở trên background layer */
+#root {
+  position: relative !important;
+  z-index: 0 !important;
+  min-height: 100dvh !important;
+}
+
+/* background layer riêng, fixed, nằm dưới toàn bộ app */
+#root::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-color: #fffdf8;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 31px,
+      #AAF0D1 31px,
+      #AAF0D1 32px,
+      transparent 32px,
+      transparent 63px,
+      #E6E6FA 63px,
+      #E6E6FA 64px,
+      transparent 64px,
+      transparent 95px,
+      #B1CAE9 95px,
+      #B1CAE9 96px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 31px,
+      #B1CAE9 31px,
+      #B1CAE9 32px,
+      transparent 32px,
+      transparent 63px,
+      #AAF0D1 63px,
+      #AAF0D1 64px,
+      transparent 64px,
+      transparent 95px,
+      #E6E6FA 95px,
+      #E6E6FA 96px
+    );
+  background-size: 96px 96px;
+  background-position: center center;
+}
+
+/* app trong suốt, không tự có nền riêng nữa */
+.app {
+  background: transparent !important;
+  position: relative !important;
+  z-index: 1 !important;
+  isolation: auto !important;
+}
+
+/* chỉ phần nội dung/card lướt trên nền */
+.page {
+  position: relative !important;
+  z-index: 2 !important;
+  padding-top: 104px !important;
+  padding-bottom: 112px !important;
+}
+
+/* các khung trắng lướt phía trên layer caro */
+.card,
+.quick-card,
+.tarot-item,
+.journal-entry,
+.auth-card,
+.reader-face,
+.collab-box {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* topbar luôn là layer trên cùng */
+.topbar {
+  position: fixed !important;
+  z-index: 999999 !important;
+  background: rgba(247, 247, 245, 0.97) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+}
+
+/* bottom nav luôn là layer trên cùng */
+.bottom-nav {
+  position: fixed !important;
+  z-index: 999999 !important;
+  background: rgba(255, 255, 255, 0.97) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+}
+
+/* menu avatar cao hơn cả topbar */
+.menu {
+  z-index: 1000000 !important;
+}
   </style>
 </head>
 
