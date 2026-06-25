@@ -3601,19 +3601,80 @@ window.toggleCardFlip = function(index) {
       document.getElementById("profileForm").addEventListener("submit", saveProfile);
     }
 
-    async function saveProfile(event) {
-      event.preventDefault();
+async function saveProfile(event) {
+  event.preventDefault();
 
-      const message = document.getElementById("profileMessage");
-      message.textContent = "Đang lưu...";
+  const message = document.getElementById("profileMessage");
+  message.textContent = "Đang lưu...";
 
-      const updates = {
-        display_name: document.getElementById("profileName").value.trim() || "Người dùng FreshSpirit",
-        avatar_url: document.getElementById("profileAvatar").value.trim(),
-        tiktok_handle: document.getElementById("profileTiktok").value.trim(),
-        heard_from: document.getElementById("profileHeardFrom").value,
-        updated_at: new Date().toISOString()
-      };
+  let avatarUrl = currentProfile.avatar_url || "";
+
+  const avatarInput = document.getElementById("profileAvatarFile");
+  const avatarFile = avatarInput && avatarInput.files && avatarInput.files[0]
+    ? avatarInput.files[0]
+    : null;
+
+  if (avatarFile) {
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+
+    if (!allowedTypes.includes(avatarFile.type)) {
+      message.textContent = "Ảnh phải là PNG, JPG, JPEG hoặc WEBP.";
+      return;
+    }
+
+    if (avatarFile.size > 5 * 1024 * 1024) {
+      message.textContent = "Ảnh đại diện tối đa 5MB.";
+      return;
+    }
+
+    message.textContent = "Đang upload ảnh đại diện...";
+
+    const fileExt = avatarFile.name.split(".").pop().toLowerCase() || "png";
+    const filePath = `${currentUser.id}/avatar-${Date.now()}.${fileExt}`;
+
+    const { error: uploadError } = await db.storage
+      .from("avatars")
+      .upload(filePath, avatarFile, {
+        cacheControl: "3600",
+        upsert: true,
+        contentType: avatarFile.type
+      });
+
+    if (uploadError) {
+      message.textContent = uploadError.message;
+      return;
+    }
+
+    const { data: publicData } = db.storage
+      .from("avatars")
+      .getPublicUrl(filePath);
+
+    avatarUrl = publicData.publicUrl;
+  }
+
+  const updates = {
+    display_name: document.getElementById("profileName").value.trim() || "Người dùng FreshSpirit",
+    avatar_url: avatarUrl,
+    tiktok_handle: document.getElementById("profileTiktok").value.trim(),
+    heard_from: document.getElementById("profileHeardFrom").value,
+    updated_at: new Date().toISOString()
+  };
+
+  message.textContent = "Đang cập nhật hồ sơ...";
+
+  const { error } = await db
+    .from("profiles")
+    .update(updates)
+    .eq("id", currentUser.id);
+
+  if (error) {
+    message.textContent = error.message;
+    return;
+  }
+
+  await loadProfile();
+  renderProfile();
+}
 
       const { error } = await db
         .from("profiles")
