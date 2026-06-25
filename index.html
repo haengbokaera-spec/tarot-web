@@ -3109,24 +3109,18 @@ Lời khuyên:
       `, "practice");
     }
 
-    function practiceCaseListHtml() {
-      return `
-        <section class="card">
-          <h2>Chọn case để thực hành</h2>
+function practiceCaseListHtml() {
+  return `
+    <section class="card">
+      <h2>Chọn case để thực hành</h2>
+      <p>FreshSpirit sẽ chọn ngẫu nhiên một querent ảo để bạn luyện trải bài. Người dùng sẽ không thấy danh sách case phía sau.</p>
 
-          <button class="submit" onclick="randomPracticeCase()">Random một querent</button>
-
-          <div style="margin-top:16px;">
-            ${CASES.map((item, index) => `
-              <button class="case-option" onclick="selectPracticeCase(${index})">
-                <strong>${esc(item.name)}, ${esc(item.age)} tuổi · ${esc(item.topic)}</strong>
-                <small>${esc(item.question)}</small>
-              </button>
-            `).join("")}
-          </div>
-        </section>
-      `;
-    }
+      <button class="submit" onclick="randomPracticeCase()">
+        Random một querent
+      </button>
+    </section>
+  `;
+}
 
     function practiceCaseHtml() {
       return `
