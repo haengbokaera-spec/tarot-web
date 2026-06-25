@@ -1568,6 +1568,21 @@
 .bottom-nav button.active .nav-icon {
   filter: none !important;
 }
+    /* Room button icon */
+.black-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+}
+
+.room-top-icon {
+  width: 17px;
+  height: 17px;
+  object-fit: contain;
+  display: block;
+  filter: none !important;
+}
   </style>
 </head>
 
@@ -2077,7 +2092,10 @@ Trả lời bằng tiếng Việt.
   ${appIcon("shopping-bag.png", "Shop", "icon-img top-icon")}
 </button>
               <button id="heartBtn" class="icon-btn" onclick="toggleHeart()">🤍</button>
-              <button class="black-btn" onclick="startRoom()">✨ Room</button>
+              <button class="black-btn" onclick="startRoom()">
+  ${appIcon("video-call.png", "Room", "room-top-icon")}
+  <span>Room</span>
+</button>
 
               <button class="avatar-btn" onclick="toggleMenu()" title="Profile">
                 ${
@@ -2101,7 +2119,7 @@ Trả lời bằng tiếng Việt.
   </button>
 
   <button onclick="go('home')">
-    ${appIcon("house.png", "Home", "menu-icon")}
+    ${appIcon("home.png", "Home", "menu-icon")}
     <span>Return home</span>
   </button>
 
@@ -2111,14 +2129,14 @@ Trả lời bằng tiếng Việt.
   </button>
 
   <button onclick="go('about')">
-    ${appIcon("link.png", "About", "menu-icon")}
+    ${appIcon("lienket.png", "About", "menu-icon")}
     <span>About</span>
   </button>
 
   <hr>
 
   <button onclick="signOut()">
-    ${appIcon("logout.png", "Sign out", "menu-icon")}
+    ${appIcon("log-out.png", "Sign out", "menu-icon")}
     <span>Sign out</span>
   </button>
 </div>
@@ -2129,7 +2147,7 @@ Trả lời bằng tiếng Việt.
 
 <nav class="bottom-nav">
   <button class="${active === "home" ? "active" : ""}" onclick="go('home')">
-    <span>${appIcon("house.png", "Home", "nav-icon")}</span>home
+    <span>${appIcon("home.png", "Home", "nav-icon")}</span>home
   </button>
 
   <button class="${active === "cards" ? "active" : ""}" onclick="go('cards')">
@@ -2413,7 +2431,7 @@ Trả lời bằng tiếng Việt.
 
           <div class="quick-grid">
             <button class="quick-card" onclick="startRoom()">
-              <span>✨</span>
+              <span>${appIcon("video-call.png", "Room", "quick-icon-img")}</span>
               <strong>+ Room</strong>
               <small>Phòng xem bài riêng: chọn AI FreshSpirit, hệ thống hoặc tự bốc bài.</small>
             </button>
@@ -2463,7 +2481,7 @@ Trả lời bằng tiếng Việt.
 
             <div class="quick-grid">
               <button class="quick-card" onclick="selectRoomMode('ai')">
-                <span>✨</span>
+                <span>${appIcon("video-call.png", "Room", "quick-icon-img")}</span>
                 <strong>Xem bài với AI của FreshSpirit</strong>
                 <small>Chat với AI, hỏi câu hỏi riêng và để AI bốc bài / diễn giải.</small>
               </button>
