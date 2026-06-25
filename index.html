@@ -2479,7 +2479,7 @@ function renderHome() {
       roomAiCard = getRandomCard();
       roomAiText = "";
 
-      box.innerHTML = roomAICardHtml() + aiBoxHtml("Đang hỏi Gemini...");
+      box.innerHTML = roomAICardHtml() + aiBoxHtml("Đang hỏi AI FreshSpirit...");
 
       try {
         roomAiText = await askGemini(buildRoomAIPrompt());
@@ -3253,7 +3253,7 @@ function practiceCaseListHtml() {
         return;
       }
 
-      box.innerHTML = aiBoxHtml("Đang hỏi Gemini...");
+      box.innerHTML = aiBoxHtml("Đang hỏi AI FreshSpirit...");
 
       try {
         practiceAiText = await askGemini(buildPracticePrompt());
