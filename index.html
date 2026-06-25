@@ -1589,6 +1589,68 @@
   mix-blend-mode: normal !important;
   opacity: 1 !important;
 }
+    /* Home Feed card */
+.home-feed-card {
+  background: rgba(255, 209, 220, 0.72) !important;
+  cursor: pointer;
+}
+
+.home-feed-card p {
+  color: #222 !important;
+}
+
+/* Quick card không icon */
+.quick-card.no-icon {
+  grid-template-columns: 1fr !important;
+}
+
+.quick-card.no-icon span {
+  display: none !important;
+}
+
+/* Feed like heart */
+.feed-like-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.feed-heart-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  display: block;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+
+.feed-heart-symbol {
+  width: 18px;
+  height: 18px;
+  display: inline-grid;
+  place-items: center;
+  font-size: 20px;
+  line-height: 18px;
+  font-weight: 800;
+}
+
+.feed-follow-btn {
+  min-height: 34px;
+  border: 1px solid #111;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 0 10px;
+  white-space: nowrap;
+}
+
+.feed-follow-btn.following {
+  background: #fff;
+  color: #111;
+}
   </style>
 </head>
 
@@ -1623,6 +1685,7 @@ let shopSection = "";
 let menuSection = "";
 let issueMenuSection = "";
 let expandedCommentsPostId = null;
+let followingUserIds = [];
 
     let manualDeckId = "rws";
     let manualSpread = null;
@@ -2095,11 +2158,9 @@ Trả lời bằng tiếng Việt.
 
             <div class="top-actions">
               <button class="icon-btn" onclick="go('shop')" title="Shop">
-  ${appIcon("shop.png", "Shop", "icon-img top-icon")}
+  ${appIcon("shopping-cart.png", "Shop", "icon-img top-icon")}
 </button>
-              <button id="heartBtn" class="icon-btn" onclick="toggleHeart()" title="Favorite">
-  ${appIcon("heart.png", "Heart", "icon-img top-icon")}
-</button>
+
               <button class="black-btn" onclick="startRoom()">
   ${appIcon("video-call.png", "Room", "room-top-icon")}
   <span>Room</span>
@@ -2189,8 +2250,9 @@ Trả lời bằng tiếng Việt.
         return;
       }
 
-      if (currentView === "cards") renderCardsPage();
-      else if (currentView === "room") renderRoom();
+if (currentView === "cards") renderCardsPage();
+else if (currentView === "feed") renderFeedPage();
+else if (currentView === "room") renderRoom();
       else if (currentView === "practice" || currentView === "match") renderPractice();
       else if (currentView === "journal") renderJournal();
       else if (currentView === "profile") renderProfile();
@@ -2464,6 +2526,14 @@ Trả lời bằng tiếng Việt.
           </div>
         </section>
 
+        <section class="card home-feed-card" onclick="go('feed')">
+  <h2>FreshSpirit Feed</h2>
+  <p>Đăng bài viết, ảnh, tim, bình luận, follow và xem profile người dùng như một mạng xã hội tarot mini.</p>
+
+  <button class="submit" type="button" onclick="event.stopPropagation(); go('feed')">
+    Vào Feed
+  </button>
+</section>
         <section class="card">
           <h2>Featured cards</h2>
           <p>Mỗi lần vào Home, FreshSpirit sẽ random 4 lá bài khác nhau.</p>
@@ -3948,6 +4018,13 @@ const READER_PROFILES = [
   }
 ];
 
+    function renderFeedPage() {
+  root.innerHTML = layout(`
+    ${feedSectionHtml()}
+  `, "home");
+
+  setTimeout(loadFeedPosts, 0);
+}
 function renderShop() {
   root.innerHTML = layout(`
     <section class="card">
@@ -3955,11 +4032,6 @@ function renderShop() {
       <p>Chọn reader, xem Feed cộng đồng, xem menu giá hoặc ứng tuyển làm cộng tác viên tarot cùng FreshSpirit.</p>
 
       <div class="quick-grid">
-        <button class="quick-card" onclick="openShopSection('feed')">
-          <span>${appIcon("archive.png", "Feed", "quick-icon-img")}</span>
-          <strong>Feed</strong>
-          <small>Đăng bài viết, ảnh, tim, bình luận, follow và xem profile người dùng.</small>
-        </button>
 
         <button class="quick-card" onclick="openShopSection('menu')">
           <span>${appIcon("money.png", "Menu", "quick-icon-img")}</span>
@@ -3983,9 +4055,7 @@ function renderShop() {
 
     <section id="shopContent">
       ${
-        shopSection === "feed"
-          ? feedSectionHtml()
-          : shopSection === "menu"
+shopSection === "menu"
             ? menuSectionHtml()
             : shopSection === "readers"
               ? readersSectionHtml()
@@ -3996,9 +4066,7 @@ function renderShop() {
     </section>
   `, "shop");
 
-  if (shopSection === "feed") {
-    setTimeout(loadFeedPosts, 0);
-  }
+
 }
 
 window.openShopSection = function(section) {
@@ -4164,6 +4232,7 @@ function feedPostHtml(post) {
   const liked = (post.feed_likes || []).some(item => item.user_id === currentUser.id);
   const likeCount = (post.feed_likes || []).length;
   const commentCount = (post.feed_comments || []).length;
+  const followed = followingUserIds.includes(post.user_id);
 
   return `
     <article class="feed-post-card">
@@ -4183,20 +4252,27 @@ function feedPostHtml(post) {
           <div class="feed-time">${new Date(post.created_at).toLocaleString("vi-VN")}</div>
         </button>
 
-        ${
-          post.user_id === currentUser.id
-            ? `<button class="feed-action-btn" onclick="deleteFeedPost(${post.id})">Xoá</button>`
-            : ""
-        }
+${
+  post.user_id === currentUser.id
+    ? `<button class="feed-action-btn" onclick="deleteFeedPost(${post.id})">Xoá</button>`
+    : `<button class="feed-follow-btn ${followed ? "following" : ""}" onclick="event.stopPropagation(); toggleFollow('${esc(post.user_id)}')">${followed ? "Following" : "Follow"}</button>`
+}
       </div>
 
       ${post.content ? `<div class="feed-content">${esc(post.content)}</div>` : ""}
       ${post.image_url ? `<img class="feed-image" src="${esc(post.image_url)}" alt="Feed image">` : ""}
 
       <div class="feed-actions">
-        <button class="feed-action-btn ${liked ? "active" : ""}" onclick="toggleFeedLike(${post.id})">
-          ${liked ? "♥" : "♡"} ${likeCount}
-        </button>
+<button class="feed-action-btn ${liked ? "active" : ""}" onclick="toggleFeedLike(${post.id})">
+  <span class="feed-like-content">
+    ${
+      liked
+        ? appIcon("heart.png", "Liked", "feed-heart-icon")
+        : `<span class="feed-heart-symbol">♡</span>`
+    }
+    <span>${likeCount}</span>
+  </span>
+</button>
 
         <button class="feed-action-btn" onclick="toggleComments(${post.id})">
           💬 ${commentCount}
@@ -4268,6 +4344,12 @@ async function loadComments(postId) {
   box.classList.remove("hidden");
   box.innerHTML = `<p class="message">Đang tải bình luận...</p>`;
 
+const { data: followingData } = await db
+  .from("follows")
+  .select("following_id")
+  .eq("follower_id", currentUser.id);
+
+followingUserIds = (followingData || []).map(item => item.following_id);
   const { data, error } = await db
     .from("feed_comments")
     .select(`
@@ -4441,7 +4523,13 @@ window.toggleFollow = async function(profileId) {
       });
   }
 
+if (document.getElementById("feedProfileBox")) {
   openPublicProfile(profileId);
+}
+
+if (currentView === "feed") {
+  loadFeedPosts();
+}
 };
 
 function menuSectionHtml() {
@@ -4459,16 +4547,15 @@ function menuSectionHtml() {
           </button>
 
           <button class="quick-card" onclick="setMenuSection('time')">
-            <span>⏳</span>
-            <strong>Gói thời gian</strong>
-            <small>Không giới hạn câu hỏi / vấn đề trong thời lượng.</small>
-          </button>
+<button class="quick-card no-icon" onclick="setMenuSection('time')">
+  <strong>Gói thời gian</strong>
+  <small>Không giới hạn câu hỏi / vấn đề trong thời lượng.</small>
+</button>
 
-          <button class="quick-card" onclick="setMenuSection('issue')">
-            <span>🧩</span>
-            <strong>Gói vấn đề</strong>
-            <small>Tình yêu, học tập, công việc.</small>
-          </button>
+<button class="quick-card no-icon" onclick="setMenuSection('issue')">
+  <strong>Gói vấn đề</strong>
+  <small>Tình yêu, học tập, công việc.</small>
+</button>
         </div>
       </section>
     `;
@@ -4571,23 +4658,20 @@ function issuePackageHtml() {
         <p>Chọn một nhóm vấn đề để xem giá chi tiết.</p>
 
         <div class="price-menu-grid">
-          <button class="quick-card" onclick="setIssueMenuSection('love')">
-            <span>💗</span>
-            <strong>Tình yêu</strong>
-            <small>Người yêu cũ, người yêu hiện tại, crush.</small>
-          </button>
+<button class="quick-card no-icon" onclick="setIssueMenuSection('love')">
+  <strong>Tình yêu</strong>
+  <small>Người yêu cũ, người yêu hiện tại, crush.</small>
+</button>
 
-          <button class="quick-card" onclick="setIssueMenuSection('study')">
-            <span>📚</span>
-            <strong>Học tập</strong>
-            <small>Xác suất, điểm yếu và lời khuyên.</small>
-          </button>
+<button class="quick-card no-icon" onclick="setIssueMenuSection('study')">
+  <strong>Học tập</strong>
+  <small>Xác suất, điểm yếu và lời khuyên.</small>
+</button>
 
-          <button class="quick-card" onclick="setIssueMenuSection('work')">
-            <span>💼</span>
-            <strong>Công việc</strong>
-            <small>Xác suất, nhiều câu hỏi.</small>
-          </button>
+<button class="quick-card no-icon" onclick="setIssueMenuSection('work')">
+  <strong>Công việc</strong>
+  <small>Xác suất, nhiều câu hỏi.</small>
+</button>
         </div>
       </section>
     `;
@@ -4763,14 +4847,6 @@ function collabSectionHtml() {
       const menu = document.getElementById("avatarMenu");
       if (menu) menu.classList.toggle("hidden");
     };
-
-window.toggleHeart = function() {
-  const heart = document.getElementById("heartBtn");
-
-  if (!heart) return;
-
-  heart.classList.toggle("liked");
-};
 
     window.signOut = async function() {
       await db.auth.signOut();
