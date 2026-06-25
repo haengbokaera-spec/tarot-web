@@ -2000,62 +2000,64 @@ Trả lời bằng tiếng Việt.
       render();
     }
 
-    function renderHome() {
-      root.innerHTML = layout(`
-        <section class="card">
-          <h1>Do tarot anywhere</h1>
-          <p>Vào Room để xem bài riêng, hoặc vào Practice để luyện trải bài ảo với querent.</p>
+function renderHome() {
+  const fanCards = randomDeckCards(3);
+  const featuredCards = randomDeckCards(4);
 
-          <div class="fan">
-            <img src="images/cards/maj00.jpg" alt="The Fool">
-            <img src="images/cards/maj01.jpg" alt="The Magician">
-            <img src="images/cards/maj02.jpg" alt="High Priestess">
-          </div>
-        </section>
+  root.innerHTML = layout(`
+    <section class="card home-room-card" onclick="startRoom()">
+      <h1>Do tarot anywhere</h1>
+      <p>Chạm vào đây để vào + Room và bắt đầu xem bài riêng với FreshSpirit.</p>
 
-        <section class="card">
-          <h2>Start your reading</h2>
+      <div class="fan">
+        ${fanCards.map(card => `
+          <img src="${esc(card.image)}" alt="${esc(card.name)}">
+        `).join("")}
+      </div>
+    </section>
 
-          <div class="quick-grid">
-            <button class="quick-card" onclick="startRoom()">
-              <span>✨</span>
-              <strong>+ Room</strong>
-              <small>Phòng xem bài riêng: chọn AI FreshSpirit, hệ thống hoặc tự bốc bài.</small>
-            </button>
+    <section class="card">
+      <h2>Start your reading</h2>
 
-            <button class="quick-card" onclick="go('practice')">
-              <span>🔮</span>
-              <strong>Practice</strong>
-              <small>Luyện trải bài ảo với querent và case thực hành.</small>
-            </button>
+      <div class="quick-grid">
+        <button class="quick-card" onclick="startRoom()">
+          <span>✨</span>
+          <strong>+ Room</strong>
+          <small>Phòng xem bài riêng: chọn AI FreshSpirit, hệ thống hoặc tự bốc bài.</small>
+        </button>
 
-            <button class="quick-card" onclick="go('cards')">
-              <span>🃏</span>
-              <strong>Explore cards</strong>
-              <small>Xem đủ 78 lá Rider Waite và nghĩa ngắn từng lá.</small>
-            </button>
+        <button class="quick-card" onclick="go('practice')">
+          <span>🔮</span>
+          <strong>Practice</strong>
+          <small>Luyện trải bài ảo với querent và case thực hành.</small>
+        </button>
 
-            <button class="quick-card" onclick="go('journal')">
-              <span>📓</span>
-              <strong>Your journal</strong>
-              <small>Xem lại những case và trải bài đã lưu.</small>
-            </button>
-          </div>
-        </section>
+        <button class="quick-card" onclick="go('cards')">
+          <span>🃏</span>
+          <strong>Explore cards</strong>
+          <small>Xem đủ 78 lá Rider Waite và nghĩa xuôi/ngược từng lá.</small>
+        </button>
 
-        <section class="card">
-          <h2>Featured cards</h2>
-          <p>Một vài lá bài nổi bật trong bộ Rider Waite.</p>
+        <button class="quick-card" onclick="go('journal')">
+          <span>📓</span>
+          <strong>Your journal</strong>
+          <small>Xem lại những case và trải bài đã lưu.</small>
+        </button>
+      </div>
+    </section>
 
-          <div class="featured">
-            <img src="images/cards/maj19.jpg" alt="The Sun">
-            <img src="images/cards/maj07.jpg" alt="The Chariot">
-            <img src="images/cards/cups01.jpg" alt="Ace of Cups">
-            <img src="images/cards/wands04.jpg" alt="Four of Wands">
-          </div>
-        </section>
-      `, "home");
-    }
+    <section class="card">
+      <h2>Featured cards</h2>
+      <p>Mỗi lần vào Home, FreshSpirit sẽ random 4 lá bài khác nhau.</p>
+
+      <div class="featured">
+        ${featuredCards.map(card => `
+          <img src="${esc(card.image)}" alt="${esc(card.name)}">
+        `).join("")}
+      </div>
+    </section>
+  `, "home");
+}
 
     function renderRoom() {
       if (!roomSystemSpread) roomSystemSpread = SPREADS[1];
