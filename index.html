@@ -4522,7 +4522,7 @@ async function loadComments(postId) {
   }
 
   box.innerHTML = `
-    <form class="comment-form" onsubmit="event.preventDefault(); createComment(${postId})">
+    <form class="comment-form" data-comment-form data-post-id="${postId}">
       <input id="commentInput${postId}" type="text" placeholder="Viết bình luận...">
       <button id="commentSubmit${postId}" class="white-btn" type="submit">Bình luận</button>
       <p id="commentStatus${postId}" class="message" aria-live="polite"></p>
@@ -4536,6 +4536,8 @@ async function loadComments(postId) {
       }
     </div>
   `;
+
+  bindCommentForms(box);
 }
 
 function renderCommentTree(comments, postId, parentId = null, depth = 0) {
@@ -4560,7 +4562,13 @@ function renderCommentTree(comments, postId, parentId = null, depth = 0) {
             <span>${new Date(comment.created_at).toLocaleString("vi-VN")}</span>
             <button class="comment-reply-btn" onclick="toggleReplyForm(${comment.id})">Phản hồi</button>
           </div>
-          <form id="replyForm${comment.id}" class="reply-form hidden" onsubmit="event.preventDefault(); createComment(${postId}, ${comment.id})">
+          <form
+            id="replyForm${comment.id}"
+            class="reply-form hidden"
+            data-comment-form
+            data-post-id="${postId}"
+            data-parent-id="${comment.id}"
+          >
             <input id="replyInput${comment.id}" type="text" placeholder="Phản hồi ${esc(name)}...">
             <button id="replySubmit${comment.id}" class="white-btn" type="submit">Gửi</button>
             <p id="replyStatus${comment.id}" class="message" aria-live="polite"></p>
@@ -4570,6 +4578,22 @@ function renderCommentTree(comments, postId, parentId = null, depth = 0) {
       `;
     })
     .join("");
+}
+
+function bindCommentForms(container) {
+  container.querySelectorAll("form[data-comment-form]").forEach(form => {
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const postId = Number(form.dataset.postId);
+      const parentId = form.dataset.parentId
+        ? Number(form.dataset.parentId)
+        : null;
+
+      window.createComment(postId, parentId);
+    });
+  });
 }
 
 window.toggleReplyForm = function(commentId) {
