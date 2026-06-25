@@ -1165,6 +1165,43 @@
   font-weight: 900;
   line-height: 1;
 }
+    /* FIX: Background caro tràn full màn hình mọi thiết bị */
+body {
+  background: #f8f7f2 !important;
+  position: relative !important;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  z-index: 0;
+  pointer-events: none;
+
+  background-color: #f8f7f2;
+  background-image:
+    linear-gradient(45deg, rgba(0, 0, 0, 0.035) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.035) 75%),
+    linear-gradient(45deg, rgba(0, 0, 0, 0.035) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.035) 75%);
+  background-size: 34px 34px;
+  background-position: 0 0, 17px 17px;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* bỏ nền giới hạn 390px của app */
+.app {
+  background: transparent !important;
+}
+
+/* tắt layer nền cũ đang bị bó trong khung app */
+.app::before {
+  display: none !important;
+}
   </style>
 </head>
 
