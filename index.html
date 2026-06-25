@@ -1075,7 +1075,113 @@
   margin-top: 12px;
 }
 
-@media (max-width: 360px) {
+.manual-control-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.manual-card-slot {
+  display: grid;
+  gap: 8px;
+}
+
+.manual-position-label {
+  min-height: 38px;
+  border: 1px solid #111;
+  border-radius: 14px;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 7px 8px;
+  font-family: "Lora", serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.manual-card-visual {
+  width: 100%;
+  height: 250px;
+  border: none;
+  background: transparent;
+  perspective: 1000px;
+  padding: 0;
+}
+
+.manual-card-visual .manual-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  transition: transform 0.65s ease;
+  transform-style: preserve-3d;
+}
+
+.manual-card-visual.flipped .manual-flip-inner {
+  transform: rotateY(180deg);
+}
+
+.manual-card-visual .manual-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 1px solid #111;
+  border-radius: 18px;
+  background: #fff;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.manual-card-visual .manual-back {
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.manual-card-visual .manual-back .card-back-design {
+  width: 100%;
+  height: 100%;
+  box-shadow: none;
+}
+
+.manual-card-visual .manual-front {
+  transform: rotateY(180deg);
+  text-align: center;
+}
+
+.manual-card-visual .manual-front img {
+  width: 100%;
+  height: 184px;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  background: transparent;
+}
+
+.manual-card-visual .manual-front h2 {
+  font-family: "Lora", serif;
+  font-size: 14px;
+  line-height: 1.25;
+  margin-bottom: 5px;
+}
+
+.manual-card-visual .manual-front small {
+  display: block;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #555;
+  font-weight: 600;
+}
+
+.manual-card-visual .manual-front p {
+  display: none;
+}
+    @media (max-width: 360px) {
   .manual-drawn-grid {
     grid-template-columns: 1fr;
   }
