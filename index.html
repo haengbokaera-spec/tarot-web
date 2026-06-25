@@ -901,6 +901,185 @@
       color: #fff;
     }
 
+    .manual-room-box {
+  display: grid;
+  gap: 12px;
+}
+
+.deck-choice {
+  width: 100%;
+  border: 1px solid #111;
+  border-radius: 18px;
+  background: #111;
+  color: #fff;
+  padding: 14px;
+  text-align: left;
+  font-weight: 700;
+}
+
+.deck-choice small {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 1.35;
+  font-weight: 500;
+  opacity: 0.82;
+}
+
+.deck-area {
+  display: grid;
+  place-items: center;
+  margin: 18px 0;
+}
+
+.deck-pile {
+  width: 118px;
+  height: 178px;
+  border: none;
+  background: transparent;
+  position: relative;
+}
+
+.deck-pile:disabled {
+  opacity: 0.45;
+}
+
+.card-back-design {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #111;
+  border-radius: 13px;
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.16) 0 18%, transparent 19%),
+    linear-gradient(45deg, rgba(255, 255, 255, 0.12) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255, 255, 255, 0.12) 25%, transparent 25%),
+    #111;
+  background-size: 100% 100%, 18px 18px, 18px 18px;
+  box-shadow:
+    5px 5px 0 rgba(0, 0, 0, 0.12),
+    10px 10px 0 rgba(0, 0, 0, 0.06);
+}
+
+.deck-count {
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+}
+
+.manual-drawn-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.manual-flip-card {
+  width: 100%;
+  min-height: 252px;
+  border: none;
+  background: transparent;
+  perspective: 1000px;
+  padding: 0;
+}
+
+.manual-flip-inner {
+  position: relative;
+  width: 100%;
+  min-height: 252px;
+  transition: transform 0.65s ease;
+  transform-style: preserve-3d;
+}
+
+.manual-flip-card.flipped .manual-flip-inner {
+  transform: rotateY(180deg);
+}
+
+.manual-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 1px solid #111;
+  border-radius: 18px;
+  background: #fff;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.manual-back {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.manual-back .card-back-design {
+  width: 92px;
+  height: 142px;
+  box-shadow: none;
+}
+
+.manual-back strong {
+  font-family: "Lora", serif;
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.manual-back small {
+  color: #666;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.manual-front {
+  transform: rotateY(180deg);
+  text-align: center;
+}
+
+.manual-front img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 9px;
+  margin-bottom: 8px;
+}
+
+.manual-front h2 {
+  font-size: 14px;
+  line-height: 1.25;
+  margin-bottom: 4px;
+}
+
+.manual-front small {
+  display: block;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #555;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.manual-front p {
+  font-size: 12px;
+  line-height: 1.35;
+  color: #333;
+  margin-bottom: 0;
+  text-align: left;
+}
+
+.manual-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+@media (max-width: 360px) {
+  .manual-drawn-grid {
+    grid-template-columns: 1fr;
+  }
+}
     @media (max-width: 360px) {
       .cards-grid {
         grid-template-columns: 1fr;
