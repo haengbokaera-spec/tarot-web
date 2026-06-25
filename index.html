@@ -1472,6 +1472,58 @@
   object-fit: contain;
   display: block;
 }
+    /* FIX PNG ICON: nền vàng trong trẻo, icon giữ nguyên màu gốc */
+
+/* Không cho bất kỳ PNG icon nào bị đổi màu */
+.icon-img,
+.top-icon,
+.menu-icon,
+.quick-icon-img,
+.nav-icon,
+.social-arrow-icon {
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  opacity: 1 !important;
+}
+
+/* Nền tròn sau icon trong quick-card đổi từ đen sang vàng nhạt */
+.quick-card span {
+  background: #FFFFE0 !important;
+  color: #111 !important;
+  border: 1px solid #111 !important;
+}
+
+/* Icon trong quick-card giữ nguyên màu gốc */
+.quick-icon-img {
+  filter: none !important;
+}
+
+/* Nút icon trên topbar cũng dùng nền vàng nhạt cho đồng bộ */
+.icon-btn {
+  background: #FFFFE0 !important;
+}
+
+/* Bottom nav khi active không dùng nền đen nữa */
+.bottom-nav .active {
+  background: #FFFFE0 !important;
+  color: #111 !important;
+}
+
+/* Icon bottom nav dù active hay không đều giữ nguyên màu PNG */
+.bottom-nav .nav-icon,
+.bottom-nav button.active .nav-icon {
+  filter: none !important;
+}
+
+/* Icon trong menu avatar giữ màu gốc */
+.menu-icon {
+  filter: none !important;
+}
+
+/* Icon mũi tên new-tab trong About giữ màu gốc */
+.social-arrow-icon {
+  filter: none !important;
+}
   </style>
 </head>
 
