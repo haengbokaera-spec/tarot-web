@@ -3082,34 +3082,61 @@ Lời khuyên:
       });
     }
 
-    function renderCardGrid(cards) {
-      const grid = document.getElementById("cardsGrid");
+function renderCardGrid(cards) {
+  const grid = document.getElementById("cardsGrid");
 
-      if (!grid) return;
+  if (!grid) return;
 
-      if (!cards.length) {
-        grid.innerHTML = `<section class="card"><p>Không tìm thấy lá bài phù hợp.</p></section>`;
-        return;
-      }
+  if (!cards.length) {
+    grid.innerHTML = `<section class="card"><p>Không tìm thấy lá bài phù hợp.</p></section>`;
+    return;
+  }
 
-      grid.innerHTML = cards.map((card, index) => `
-        <article class="tarot-item meaning-closed" id="tarotItem${index}">
+  grid.innerHTML = cards.map((card, index) => `
+    <article
+      id="cardFlip${index}"
+      class="tarot-item tarot-flip-card"
+      onclick="toggleCardFlip(${index})"
+    >
+      <div class="tarot-flip-inner">
+        <div class="tarot-flip-face tarot-flip-front">
           <img src="${esc(card.image)}" alt="${esc(card.name)}">
           <h2>${esc(card.name)}</h2>
           <small>${esc(card.viName)}</small>
-          <button class="mini-btn" onclick="toggleMeaning(${index})">Xem nghĩa</button>
-          <p>${esc(card.meaning)}</p>
-        </article>
-      `).join("");
-    }
+          <small>Chạm vào lá bài để xem nghĩa</small>
+        </div>
 
-    window.toggleMeaning = function(index) {
-      const item = document.getElementById(`tarotItem${index}`);
-      if (!item) return;
+        <div class="tarot-flip-face tarot-flip-back">
+          <h2>${esc(card.name)}</h2>
+          <small style="display:block;text-align:center;margin-bottom:10px;">
+            ${esc(card.viName)}
+          </small>
 
-      item.classList.toggle("meaning-closed");
-    };
+          <div class="meaning-box">
+            <strong>Nghĩa xuôi</strong>
+            <p>${esc(card.meaning)}</p>
+          </div>
 
+          <div class="meaning-box">
+            <strong>Nghĩa ngược</strong>
+            <p>${esc(reversedMeaning(card))}</p>
+          </div>
+
+          <small style="display:block;text-align:center;color:#666;font-weight:700;">
+            Chạm để quay lại mặt bài
+          </small>
+        </div>
+      </div>
+    </article>
+  `).join("");
+}
+
+window.toggleCardFlip = function(index) {
+  const card = document.getElementById(`cardFlip${index}`);
+  if (!card) return;
+
+  card.classList.toggle("flipped");
+};
     function renderJournal() {
       root.innerHTML = layout(`
         <section class="card">
