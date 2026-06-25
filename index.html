@@ -1109,6 +1109,86 @@
         padding: 0 8px;
       }
     }
+    /* Cards page: bấm vào lá bài để lật xem nghĩa xuôi/ngược */
+.home-room-card {
+  cursor: pointer;
+}
+
+.tarot-flip-card {
+  min-height: 360px;
+  perspective: 1000px;
+  cursor: pointer;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.tarot-flip-inner {
+  position: relative;
+  width: 100%;
+  min-height: 360px;
+  transition: transform 0.65s ease;
+  transform-style: preserve-3d;
+}
+
+.tarot-flip-card.flipped .tarot-flip-inner {
+  transform: rotateY(180deg);
+}
+
+.tarot-flip-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: #fff;
+  border-radius: 20px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.tarot-flip-front {
+  text-align: center;
+}
+
+.tarot-flip-front img {
+  width: 100%;
+  height: 260px;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background: transparent;
+  margin-bottom: 8px;
+}
+
+.tarot-flip-back {
+  transform: rotateY(180deg);
+  overflow-y: auto;
+  text-align: left;
+}
+
+.tarot-flip-back h2 {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.meaning-box {
+  border: 1px solid #111;
+  border-radius: 14px;
+  padding: 10px;
+  background: #fafafa;
+  margin-bottom: 8px;
+}
+
+.meaning-box strong {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.meaning-box p {
+  font-size: 12.5px;
+  line-height: 1.45;
+  margin: 0;
+}
   </style>
 </head>
 
