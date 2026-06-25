@@ -1264,6 +1264,102 @@ body::before,
 .menu {
   z-index: 1000000 !important;
 }
+    /* FINAL FIX: nền caro fixed full màn hình, không scroll theo nội dung */
+
+html {
+  min-height: 100%;
+  background-color: #fffdf8 !important;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 31px,
+      #AAF0D1 31px,
+      #AAF0D1 32px,
+      transparent 32px,
+      transparent 63px,
+      #E6E6FA 63px,
+      #E6E6FA 64px,
+      transparent 64px,
+      transparent 95px,
+      #B1CAE9 95px,
+      #B1CAE9 96px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 31px,
+      #B1CAE9 31px,
+      #B1CAE9 32px,
+      transparent 32px,
+      transparent 63px,
+      #AAF0D1 63px,
+      #AAF0D1 64px,
+      transparent 64px,
+      transparent 95px,
+      #E6E6FA 95px,
+      #E6E6FA 96px
+    ) !important;
+  background-size: 96px 96px !important;
+  background-position: center center !important;
+  background-attachment: fixed !important;
+}
+
+body {
+  min-height: 100%;
+  background: transparent !important;
+  position: relative !important;
+  color: #111 !important;
+}
+
+/* Tắt toàn bộ layer nền giả cũ để không đè thanh trên/dưới */
+body::before,
+.app::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* App trong suốt để thấy nền caro full màn hình phía sau */
+.app {
+  background: transparent !important;
+  position: relative !important;
+  isolation: auto !important;
+  z-index: auto !important;
+}
+
+/* Nội dung nằm dưới thanh top/bottom */
+.page {
+  position: relative !important;
+  z-index: 1 !important;
+  padding-top: 104px !important;
+  padding-bottom: 112px !important;
+}
+
+/* Card hơi trắng để đọc rõ nhưng vẫn thấy nền */
+.card {
+  background: rgba(255, 255, 255, 0.94) !important;
+}
+
+/* Hai thanh luôn nằm layer trên cùng, không bị che */
+.topbar {
+  position: fixed !important;
+  z-index: 999999 !important;
+  background: rgba(247, 247, 245, 0.97) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+}
+
+.bottom-nav {
+  position: fixed !important;
+  z-index: 999999 !important;
+  background: rgba(255, 255, 255, 0.97) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+}
+
+.menu {
+  z-index: 1000000 !important;
+}
   </style>
 </head>
 
