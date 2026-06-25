@@ -2329,7 +2329,7 @@ window.selectRoomMode = function(mode) {
       message.textContent = "Đã lưu vào journal.";
     };
 
-    function renderRoomManual() {
+function renderRoomManual() {
   if (!manualSpread) manualSpread = SPREADS[1];
 
   const hasStarted = manualDeck.length > 0 || manualDrawnCards.length > 0;
@@ -2339,7 +2339,7 @@ window.selectRoomMode = function(mode) {
   root.innerHTML = layout(`
     <section class="card">
       <h1>Tự bốc bài</h1>
-      <p>Chọn bộ bài, chọn kiểu trải bài, xáo bài rồi tự rút từng lá. Lá bài sẽ nằm úp, chạm vào lá đã rút để lật bài.</p>
+      <p>Chọn bộ bài, chọn kiểu trải bài, xáo bài rồi tự rút từng lá. Lá bài sẽ nằm úp, chạm vào từng lá đã rút để lật mặt bài.</p>
 
       <button class="white-btn" onclick="selectRoomMode('')">
         Đổi kiểu xem bài
@@ -2403,14 +2403,20 @@ window.selectRoomMode = function(mode) {
               </button>
             </div>
 
-            <button class="white-btn" onclick="shuffleManualDeck()">
-              Xáo bài
-            </button>
+            <div class="manual-control-row">
+              <button class="white-btn" onclick="shuffleManualDeck()">
+                Xáo bài
+              </button>
+
+              <button class="white-btn" onclick="resetManualDraw()">
+                Reset
+              </button>
+            </div>
           </section>
 
           <section class="card">
             <h2>Lá đã rút</h2>
-            <p>Chạm vào từng lá bài đang úp để lật bài.</p>
+            <p>Chạm vào từng lá bài đang úp để lật bài. Mặt ngửa chỉ hiện lá bài, chưa hiện ý nghĩa.</p>
 
             <div class="manual-drawn-grid">
               ${manualDrawnCards.map((card, index) => manualCardHtml(card, index)).join("")}
@@ -2424,8 +2430,8 @@ window.selectRoomMode = function(mode) {
       ready
         ? `
           <section class="card">
-            <h2>Sau khi lật bài</h2>
-            <p>Bạn có thể hỏi AI FreshSpirit hoặc xem phần diễn giải nhanh từ FreshSpirit.</p>
+            <h2>Hỏi FreshSpirit</h2>
+            <p>Bạn đã lật đủ bài. Chọn một cách diễn giải bên dưới.</p>
 
             <div class="manual-actions">
               <button class="white-btn" onclick="getManualAI()">
@@ -2433,7 +2439,7 @@ window.selectRoomMode = function(mode) {
               </button>
 
               <button class="submit" onclick="getManualFreshInterpretation()">
-                Diễn giải của FreshSpirit
+                Hỏi hệ thống FreshSpirit
               </button>
             </div>
 
@@ -2496,7 +2502,33 @@ window.shuffleManualDeck = function() {
 
   if (typeof getAllCards !== "function") return;
 
-  manualDeck = shuffledDeck();
+  if (!manualDeck.length && manualDrawnCards.length === 0) {
+    manualDeck = shuffledDeck();
+  } else {
+    for (let i = manualDeck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = manualDeck[i];
+      manualDeck[i] = manualDeck[j];
+      manualDeck[j] = temp;
+    }
+  }
+
+  manualAiText = "";
+  manualFreshText = "";
+
+  renderRoomManual();
+};
+
+window.resetManualDraw = function() {
+  const input = document.getElementById("manualQuestion");
+  if (input) roomQuestion = input.value.trim();
+
+  if (typeof getAllCards !== "function") {
+    manualDeck = [];
+  } else {
+    manualDeck = shuffledDeck();
+  }
+
   manualDrawnCards = [];
   manualAiText = "";
   manualFreshText = "";
@@ -2532,36 +2564,38 @@ window.drawManualCard = function() {
 
 function manualCardHtml(card, index) {
   return `
-    <button
-      id="manualCard${index}"
-      class="manual-flip-card ${card.isFlipped ? "flipped" : ""}"
-      onclick="flipManualCard(${index})"
-    >
-      <div class="manual-flip-inner">
-        <div class="manual-face manual-back">
-          <div class="card-back-design"></div>
-          <strong>${esc(card.position)}</strong>
-          <small>Chạm để lật bài</small>
-        </div>
-
-        <div class="manual-face manual-front">
-          <img
-            src="${esc(card.image)}"
-            alt="${esc(card.name)}"
-            style="${card.isReversed ? "transform: rotate(180deg);" : ""}"
-          >
-
-          <h2>${esc(card.position)}</h2>
-
-          <small>
-            ${esc(card.name)} — ${esc(card.viName)}
-            ${card.isReversed ? " · Ngược" : " · Xuôi"}
-          </small>
-
-          <p>${esc(cardMeaning(card))}</p>
-        </div>
+    <div class="manual-card-slot">
+      <div class="manual-position-label">
+        ${esc(card.position)}
       </div>
-    </button>
+
+      <button
+        id="manualCard${index}"
+        class="manual-card-visual ${card.isFlipped ? "flipped" : ""}"
+        onclick="flipManualCard(${index})"
+      >
+        <div class="manual-flip-inner">
+          <div class="manual-face manual-back">
+            <div class="card-back-design"></div>
+          </div>
+
+          <div class="manual-face manual-front">
+            <img
+              src="${esc(card.image)}"
+              alt="${esc(card.name)}"
+              style="${card.isReversed ? "transform: rotate(180deg);" : ""}"
+            >
+
+            <h2>${esc(card.name)}</h2>
+
+            <small>
+              ${esc(card.viName)}
+              ${card.isReversed ? " · Ngược" : " · Xuôi"}
+            </small>
+          </div>
+        </div>
+      </button>
+    </div>
   `;
 }
 
@@ -2650,6 +2684,30 @@ window.getManualFreshInterpretation = function() {
     if (message) message.textContent = "Bạn cần rút đủ lá và lật hết bài trước.";
     return;
   }
+
+  const lines = manualDrawnCards.map((card, index) => {
+    return `${index + 1}. ${card.position}: ${card.name} / ${card.viName} ${card.isReversed ? "(ngược)" : "(xuôi)"}\n${cardMeaning(card)}`;
+  }).join("\n\n");
+
+  manualFreshText = `
+Hệ thống FreshSpirit
+
+Câu hỏi: ${roomQuestion || "Không có câu hỏi cụ thể."}
+
+Tổng quan:
+Trải bài này cho thấy tình huống cần được nhìn theo mạch: lá đầu tiên là điểm mở, các lá giữa là năng lượng đang vận hành, còn lá cuối cho thấy hướng kết luận hoặc lời khuyên chính.
+
+Các lá bài:
+${lines}
+
+Lời khuyên:
+Đừng chỉ đọc từng lá riêng lẻ. Hãy nhìn xem các vị trí đang nối với nhau như một câu chuyện: điều gì đang diễn ra, điều gì bị kẹt, và hành động nào giúp bạn đi tiếp rõ ràng hơn.
+`.trim();
+
+  manualAiText = "";
+
+  if (box) box.innerHTML = aiBoxHtml(manualFreshText);
+};
 
   const lines = manualDrawnCards.map((card, index) => {
     return `${index + 1}. ${card.position}: ${card.name} / ${card.viName} ${card.isReversed ? "(ngược)" : "(xuôi)"}\n${cardMeaning(card)}`;
