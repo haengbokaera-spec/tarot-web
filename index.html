@@ -1524,6 +1524,50 @@
 .social-arrow-icon {
   filter: none !important;
 }
+    /* FIX: nền icon màu đen, PNG icon giữ nguyên màu gốc */
+
+/* Icon không bị đổi màu trong mọi trạng thái */
+.icon-img,
+.top-icon,
+.menu-icon,
+.quick-icon-img,
+.nav-icon,
+.social-arrow-icon,
+.bottom-nav button.active .nav-icon {
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  opacity: 1 !important;
+}
+
+/* Nền tròn sau icon trong quick-card về màu đen */
+.quick-card span {
+  background: #111 !important;
+  color: #fff !important;
+  border: 1px solid #111 !important;
+}
+
+/* Icon trong quick-card giữ nguyên màu gốc, không invert */
+.quick-icon-img {
+  filter: none !important;
+}
+
+/* Nút icon trên topbar về nền đen */
+.icon-btn {
+  background: #111 !important;
+  color: #fff !important;
+}
+
+/* Bottom nav active về nền đen */
+.bottom-nav .active {
+  background: #111 !important;
+  color: #fff !important;
+}
+
+/* Icon bottom nav vẫn giữ màu PNG gốc */
+.bottom-nav .nav-icon,
+.bottom-nav button.active .nav-icon {
+  filter: none !important;
+}
   </style>
 </head>
 
