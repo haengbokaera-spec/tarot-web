@@ -1211,6 +1211,196 @@
         padding: 0 8px;
       }
     }
+    .feed-composer {
+  display: grid;
+  gap: 10px;
+}
+
+.feed-post-card {
+  background: #fff;
+  border: 1px solid #1f1f1f;
+  border-radius: 24px;
+  padding: 15px;
+  margin-bottom: 14px;
+}
+
+.feed-author {
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.feed-author button {
+  border: none;
+  background: transparent;
+  text-align: left;
+}
+
+.feed-avatar {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #111;
+  border-radius: 999px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: #111;
+  color: #fff;
+  font-weight: 900;
+}
+
+.feed-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.feed-name {
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.feed-time {
+  font-size: 12px;
+  color: #777;
+  font-weight: 600;
+}
+
+.feed-content {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: #222;
+  white-space: pre-wrap;
+  margin-bottom: 12px;
+}
+
+.feed-image {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 1px solid #111;
+  margin-bottom: 12px;
+}
+
+.feed-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.feed-action-btn {
+  min-height: 42px;
+  border: 1px solid #111;
+  border-radius: 999px;
+  background: #fff;
+  font-weight: 800;
+}
+
+.feed-action-btn.active {
+  background: #111;
+  color: #fff;
+}
+
+.feed-comments {
+  margin-top: 12px;
+  border-top: 1px solid #111;
+  padding-top: 12px;
+}
+
+.comment-item {
+  border: 1px solid #111;
+  border-radius: 16px;
+  padding: 10px;
+  background: #fafafa;
+  margin-bottom: 8px;
+}
+
+.comment-item strong {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.comment-item p {
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.feed-profile-card {
+  background: #fff8fb;
+  border: 1px solid #111;
+  border-radius: 24px;
+  padding: 18px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.feed-profile-avatar {
+  width: 88px;
+  height: 88px;
+  border: 1px solid #111;
+  border-radius: 999px;
+  margin: 0 auto 12px;
+  overflow: hidden;
+  background: #111;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 32px;
+  font-weight: 900;
+}
+
+.feed-profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.price-menu-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.price-card {
+  border: 1px solid #111;
+  border-radius: 20px;
+  background: #fff;
+  padding: 16px;
+  margin-bottom: 10px;
+}
+
+.price-card h3 {
+  font-family: "Lora", serif;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.price-row:last-child {
+  border-bottom: none;
+}
+
+.price-note {
+  font-size: 13px;
+  line-height: 1.45;
+  color: #555;
+  margin-top: 10px;
+  font-weight: 600;
+}
   </style>
 </head>
 
@@ -1241,7 +1431,10 @@
     let practiceCards = [];
     let practiceAiText = "";
 
-    let shopSection = "";
+let shopSection = "";
+let menuSection = "";
+let issueMenuSection = "";
+let expandedCommentsPostId = null;
 
     let manualDeckId = "rws";
     let manualSpread = null;
@@ -3398,134 +3591,951 @@ Lời khuyên:
       `, "more");
     }
 
-    function renderShop() {
-      root.innerHTML = layout(`
-        <section class="card">
-          <h1>Book FreshSpirit</h1>
-          <p>Chọn reader để xem profile, hoặc ứng tuyển làm cộng tác viên tarot cùng FreshSpirit.</p>
+const READER_PROFILES = [
+  {
+    id: "readerChau",
+    name: "Reader Huynh Chau",
+    badge: "FreshSpirit Reader",
+    experience: "Tarot Reader với hơn 1 năm kinh nghiệm.",
+    location: "Saigon, Vietnam",
+    astrology: "Sun Cự Giải, AC Ma Kết, Moon Ma Kết",
+    mbti: "ENTJ",
+    skills: "Tarot Reader · Reflective writing",
+    bio: "Tarot và viết lách đã mang đến cho mình biết bao điều nhiệm màu, và niềm vui lớn nhất của mình là truyền cảm hứng cho người khác tin vào sức mạnh nội tại của chính họ."
+  },
+  {
+    id: "readerLevi",
+    name: "Reader Levi",
+    badge: "FreshSpirit Reader",
+    experience: "Tarot Reader với gần 3 năm kinh nghiệm.",
+    location: "Khanh Hoa, Vietnam",
+    astrology: "Sun Kim Ngưu, AC Sư Tử, Moon Xữ Nữ",
+    mbti: "INTP/INTJ",
+    skills: "Tarot Reader · Astrologer",
+    bio: "Đọc bài từ tâm, không phán xét. Mỗi buổi đọc bài là một không gian an toàn - nơi bạn có thể là chính mình, kể cả khi chính mình còn đang lạc lối."
+  },
+  {
+    id: "readerMina",
+    name: "Reader Mina Park",
+    badge: "Korean Reader",
+    experience: "Tarot Reader với hơn 4 năm kinh nghiệm.",
+    location: "Seoul, South Korea",
+    astrology: "Sun Thiên Bình, Moon Song Ngư, AC Bảo Bình",
+    mbti: "INFJ",
+    skills: "Love reading · Inner child · Energy check",
+    bio: "Mina có phong cách đọc bài nhẹ nhàng, giàu trực giác và rất hợp với những câu hỏi về tình yêu, chữa lành, kết nối cảm xúc."
+  },
+  {
+    id: "readerJisoo",
+    name: "Reader Jisoo Han",
+    badge: "Korean Reader",
+    experience: "Tarot Reader với hơn 2 năm kinh nghiệm.",
+    location: "Busan, South Korea",
+    astrology: "Sun Bọ Cạp, Moon Kim Ngưu, AC Cự Giải",
+    mbti: "ISFP",
+    skills: "Relationship reading · Dream symbolism · Shadow work",
+    bio: "Jisoo đọc bài theo hướng sâu, chậm và tinh tế. Phù hợp với những ai muốn hiểu điều ẩn sau sự im lặng, khoảng cách hoặc cảm xúc khó gọi tên."
+  },
+  {
+    id: "readerAva",
+    name: "Reader Ava Sterling",
+    badge: "International Reader",
+    experience: "Tarot Reader với hơn 5 năm kinh nghiệm.",
+    location: "London, United Kingdom",
+    astrology: "Sun Ma Kết, Moon Xử Nữ, AC Bọ Cạp",
+    mbti: "INTJ",
+    skills: "Career reading · Decision spread · Long-term guidance",
+    bio: "Ava có phong cách đọc rõ ràng, logic và thực tế. Các trải bài của cô thường tập trung vào định hướng, lựa chọn và kế hoạch hành động."
+  },
+  {
+    id: "readerLuna",
+    name: "Reader Luna Moreau",
+    badge: "International Reader",
+    experience: "Tarot Reader với hơn 3 năm kinh nghiệm.",
+    location: "Paris, France",
+    astrology: "Sun Song Ngư, Moon Cự Giải, AC Thiên Bình",
+    mbti: "INFP",
+    skills: "Soulmate reading · Self-love · Emotional healing",
+    bio: "Luna đọc bài mềm mại, giàu cảm xúc và rất hợp với những người đang cần được lắng nghe, được ôm lấy phần mong manh bên trong."
+  },
+  {
+    id: "readerNoah",
+    name: "Reader Noah Bennett",
+    badge: "International Reader",
+    experience: "Tarot Reader với hơn 6 năm kinh nghiệm.",
+    location: "New York, USA",
+    astrology: "Sun Sư Tử, Moon Nhân Mã, AC Bạch Dương",
+    mbti: "ENTP",
+    skills: "Fast reading · Yes/No · Situation check",
+    bio: "Noah có phong cách thẳng, nhanh và nhiều năng lượng. Phù hợp với những câu hỏi cần cái nhìn trực diện, ít vòng vo."
+  },
+  {
+    id: "readerSofia",
+    name: "Reader Sofia Alvarez",
+    badge: "International Reader",
+    experience: "Tarot Reader với hơn 4 năm kinh nghiệm.",
+    location: "Madrid, Spain",
+    astrology: "Sun Kim Ngưu, Moon Thiên Bình, AC Xử Nữ",
+    mbti: "ENFJ",
+    skills: "Love reading · Family pattern · Reconciliation",
+    bio: "Sofia có năng lượng ấm áp, giỏi đọc các mối quan hệ phức tạp và những vấn đề cần sự cân bằng giữa trái tim và lý trí."
+  },
+  {
+    id: "readerIris",
+    name: "Reader Iris Watanabe",
+    badge: "International Reader",
+    experience: "Tarot Reader với hơn 3 năm kinh nghiệm.",
+    location: "Tokyo, Japan",
+    astrology: "Sun Bảo Bình, Moon Ma Kết, AC Song Tử",
+    mbti: "ISTJ",
+    skills: "Study reading · Discipline · Personal growth",
+    bio: "Iris đọc bài theo hướng kỷ luật, tối giản và có cấu trúc. Rất hợp với các câu hỏi về học tập, thói quen và phát triển bản thân."
+  },
+  {
+    id: "readerAmelia",
+    name: "Reader Amelia Hart",
+    badge: "International Reader",
+    experience: "Tarot Reader với hơn 7 năm kinh nghiệm.",
+    location: "Melbourne, Australia",
+    astrology: "Sun Cự Giải, Moon Bọ Cạp, AC Song Ngư",
+    mbti: "INFJ",
+    skills: "Deep reading · Trauma-informed tarot · Healing path",
+    bio: "Amelia có phong cách đọc sâu và giàu sự nâng đỡ. Cô không chỉ nhìn vào kết quả, mà còn giúp querent hiểu vì sao mình đang mắc kẹt."
+  },
+  {
+    id: "readerElias",
+    name: "Reader Elias Novak",
+    badge: "International Reader",
+    experience: "Tarot Reader với hơn 4 năm kinh nghiệm.",
+    location: "Prague, Czech Republic",
+    astrology: "Sun Xử Nữ, Moon Bảo Bình, AC Ma Kết",
+    mbti: "INTP",
+    skills: "Problem reading · Pattern analysis · Strategy spread",
+    bio: "Elias đọc bài như phân tích một hệ thống. Phù hợp với người muốn hiểu nguyên nhân, pattern lặp lại và hướng giải quyết thực tế."
+  },
+  {
+    id: "readerMaya",
+    name: "Reader Maya Rivera",
+    badge: "International Reader",
+    experience: "Tarot Reader với hơn 2 năm kinh nghiệm.",
+    location: "Vancouver, Canada",
+    astrology: "Sun Song Tử, Moon Sư Tử, AC Thiên Bình",
+    mbti: "ENFP",
+    skills: "Creative path · Personal brand · Confidence reading",
+    bio: "Maya có phong cách đọc tươi sáng, truyền cảm hứng và rất hợp với người đang muốn bắt đầu điều mới, xây thương hiệu cá nhân hoặc lấy lại tự tin."
+  }
+];
 
-          <div class="quick-grid">
-            <button class="quick-card" onclick="openShopSection('readers')">
-              <span>🔮</span>
-              <strong>Tarot Readers</strong>
-              <small>Xem profile các reader hiện có và chọn người phù hợp.</small>
-            </button>
+function renderShop() {
+  root.innerHTML = layout(`
+    <section class="card">
+      <h1>Book FreshSpirit</h1>
+      <p>Chọn reader, xem Feed cộng đồng, xem menu giá hoặc ứng tuyển làm cộng tác viên tarot cùng FreshSpirit.</p>
 
-            <button class="quick-card" onclick="openShopSection('collab')">
-              <span>📝</span>
-              <strong>Apply as Collaborator</strong>
-              <small>Ứng tuyển cộng tác viên xem tarot cùng FreshSpirit.</small>
-            </button>
-          </div>
-        </section>
+      <div class="quick-grid">
+        <button class="quick-card" onclick="openShopSection('feed')">
+          <span>🧵</span>
+          <strong>Feed</strong>
+          <small>Đăng bài viết, ảnh, tim, bình luận, follow và xem profile người dùng.</small>
+        </button>
 
-        <section id="shopContent">
-          ${
-            shopSection === "readers"
+        <button class="quick-card" onclick="openShopSection('menu')">
+          <span>💸</span>
+          <strong>Menu</strong>
+          <small>Xem giá các gói trải bài tarot của FreshSpirit.</small>
+        </button>
+
+        <button class="quick-card" onclick="openShopSection('readers')">
+          <span>🔮</span>
+          <strong>Tarot Readers</strong>
+          <small>Xem profile các reader hiện có và chọn người phù hợp.</small>
+        </button>
+
+        <button class="quick-card" onclick="openShopSection('collab')">
+          <span>📝</span>
+          <strong>Apply as Collaborator</strong>
+          <small>Ứng tuyển cộng tác viên xem tarot cùng FreshSpirit.</small>
+        </button>
+      </div>
+    </section>
+
+    <section id="shopContent">
+      ${
+        shopSection === "feed"
+          ? feedSectionHtml()
+          : shopSection === "menu"
+            ? menuSectionHtml()
+            : shopSection === "readers"
               ? readersSectionHtml()
               : shopSection === "collab"
                 ? collabSectionHtml()
                 : ""
-          }
-        </section>
-      `, "shop");
+      }
+    </section>
+  `, "shop");
+
+  if (shopSection === "feed") {
+    setTimeout(loadFeedPosts, 0);
+  }
+}
+
+window.openShopSection = function(section) {
+  shopSection = section;
+  menuSection = "";
+  issueMenuSection = "";
+  expandedCommentsPostId = null;
+  renderShop();
+};
+
+function feedSectionHtml() {
+  return `
+    <section class="card">
+      <h2>FreshSpirit Feed</h2>
+      <p>Không gian chia sẻ bài viết, hình ảnh, tarot thoughts và những khoảnh khắc nhỏ giống một mạng xã hội mini.</p>
+
+      <div class="feed-composer">
+        <textarea id="feedContent" placeholder="Bạn đang nghĩ gì về tarot hôm nay?"></textarea>
+        <input id="feedImageFile" type="file" accept="image/png, image/jpeg, image/jpg, image/webp">
+        <button class="submit" onclick="createFeedPost()">Post</button>
+      </div>
+
+      <p id="feedMessage" class="message"></p>
+    </section>
+
+    <section id="feedProfileBox"></section>
+
+    <section id="feedList">
+      <section class="card">
+        <p class="message">Đang tải Feed...</p>
+      </section>
+    </section>
+  `;
+}
+
+async function createFeedPost() {
+  const contentInput = document.getElementById("feedContent");
+  const imageInput = document.getElementById("feedImageFile");
+  const message = document.getElementById("feedMessage");
+
+  const content = contentInput.value.trim();
+  const imageFile = imageInput.files && imageInput.files[0] ? imageInput.files[0] : null;
+
+  if (!content && !imageFile) {
+    message.textContent = "Viết gì đó hoặc chọn ảnh trước khi post.";
+    return;
+  }
+
+  let imageUrl = "";
+
+  if (imageFile) {
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+
+    if (!allowedTypes.includes(imageFile.type)) {
+      message.textContent = "Ảnh phải là PNG, JPG, JPEG hoặc WEBP.";
+      return;
     }
 
-    window.openShopSection = function(section) {
-      shopSection = section;
-      renderShop();
-    };
+    if (imageFile.size > 10 * 1024 * 1024) {
+      message.textContent = "Ảnh tối đa 10MB.";
+      return;
+    }
 
-    function readersSectionHtml() {
-      return `
-        <section class="card">
-          <h2>Choose your reader</h2>
-          <p>Chạm vào từng khung để lật sang mặt sau và đọc thêm về reader.</p>
+    message.textContent = "Đang upload ảnh...";
 
-          <div class="book-section">
-            <button id="readerChau" class="reader-card" onclick="toggleReaderFlip('readerChau')">
-              <div class="reader-inner">
-                <div class="reader-face reader-front">
-                  <div>
-                    <div class="reader-badge">FreshSpirit Reader</div>
-                    <div class="reader-name">Reader Huynh Chau</div>
-                    <p class="reader-desc">Tarot Reader với hơn 1 năm kinh nghiệm.</p>
-                    <div class="reader-location">Location: Saigon</div>
-                  </div>
-                  <div class="reader-hint">Tap to view profile</div>
-                </div>
+    const fileExt = imageFile.name.split(".").pop().toLowerCase() || "png";
+    const filePath = `${currentUser.id}/feed-${Date.now()}.${fileExt}`;
 
-                <div class="reader-face reader-back">
-                  <div>
-                    <h2>Reader Huynh Chau</h2>
-                    <p>Sun Cự Giải, AC Ma Kết, Moon Ma Kết</p>
-                    <p>MBTI: ENTJ</p>
-                    <p>Tarot và viết lách đã mang đến cho mình biết bao điều nhiệm màu, và niềm vui lớn nhất của mình là truyền cảm hứng cho người khác tin vào sức mạnh nội tại của chính họ.</p>
-                  </div>
-                  <div class="reader-hint">Tap to flip back</div>
-                </div>
+    const { error: uploadError } = await db.storage
+      .from("feed-images")
+      .upload(filePath, imageFile, {
+        cacheControl: "3600",
+        upsert: true,
+        contentType: imageFile.type
+      });
+
+    if (uploadError) {
+      message.textContent = uploadError.message;
+      return;
+    }
+
+    const { data: publicData } = db.storage
+      .from("feed-images")
+      .getPublicUrl(filePath);
+
+    imageUrl = publicData.publicUrl;
+  }
+
+  message.textContent = "Đang đăng bài...";
+
+  const { error } = await db.from("feed_posts").insert({
+    user_id: currentUser.id,
+    content,
+    image_url: imageUrl
+  });
+
+  if (error) {
+    message.textContent = error.message;
+    return;
+  }
+
+  contentInput.value = "";
+  imageInput.value = "";
+  message.textContent = "Đã đăng bài.";
+
+  loadFeedPosts();
+}
+
+async function loadFeedPosts() {
+  const feedList = document.getElementById("feedList");
+  if (!feedList) return;
+
+  const { data, error } = await db
+    .from("feed_posts")
+    .select(`
+      *,
+      profiles:user_id (
+        id,
+        display_name,
+        avatar_url,
+        email
+      ),
+      feed_likes (
+        user_id
+      ),
+      feed_comments (
+        id
+      )
+    `)
+    .order("created_at", { ascending: false })
+    .limit(50);
+
+  if (error) {
+    feedList.innerHTML = `
+      <section class="card">
+        <p>${esc(error.message)}</p>
+      </section>
+    `;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    feedList.innerHTML = `
+      <section class="card">
+        <h2>Feed còn trống</h2>
+        <p>Hãy là người đầu tiên đăng bài trong FreshSpirit Feed.</p>
+      </section>
+    `;
+    return;
+  }
+
+  feedList.innerHTML = data.map(post => feedPostHtml(post)).join("");
+
+  if (expandedCommentsPostId) {
+    loadComments(expandedCommentsPostId);
+  }
+}
+
+function feedPostHtml(post) {
+  const profile = post.profiles || {};
+  const displayName = profile.display_name || "Người dùng FreshSpirit";
+  const avatarUrl = profile.avatar_url || "";
+  const liked = (post.feed_likes || []).some(item => item.user_id === currentUser.id);
+  const likeCount = (post.feed_likes || []).length;
+  const commentCount = (post.feed_comments || []).length;
+
+  return `
+    <article class="feed-post-card">
+      <div class="feed-author">
+        <button onclick="openPublicProfile('${esc(post.user_id)}')">
+          <div class="feed-avatar">
+            ${
+              avatarUrl
+                ? `<img src="${esc(avatarUrl)}" alt="Avatar">`
+                : esc(displayName.charAt(0).toUpperCase())
+            }
+          </div>
+        </button>
+
+        <button onclick="openPublicProfile('${esc(post.user_id)}')">
+          <div class="feed-name">${esc(displayName)}</div>
+          <div class="feed-time">${new Date(post.created_at).toLocaleString("vi-VN")}</div>
+        </button>
+
+        ${
+          post.user_id === currentUser.id
+            ? `<button class="feed-action-btn" onclick="deleteFeedPost(${post.id})">Xoá</button>`
+            : ""
+        }
+      </div>
+
+      ${post.content ? `<div class="feed-content">${esc(post.content)}</div>` : ""}
+      ${post.image_url ? `<img class="feed-image" src="${esc(post.image_url)}" alt="Feed image">` : ""}
+
+      <div class="feed-actions">
+        <button class="feed-action-btn ${liked ? "active" : ""}" onclick="toggleFeedLike(${post.id})">
+          ${liked ? "♥" : "♡"} ${likeCount}
+        </button>
+
+        <button class="feed-action-btn" onclick="toggleComments(${post.id})">
+          💬 ${commentCount}
+        </button>
+      </div>
+
+      <div id="commentsBox${post.id}" class="feed-comments hidden"></div>
+    </article>
+  `;
+}
+
+async function toggleFeedLike(postId) {
+  const { data } = await db
+    .from("feed_likes")
+    .select("post_id")
+    .eq("post_id", postId)
+    .eq("user_id", currentUser.id)
+    .maybeSingle();
+
+  if (data) {
+    await db
+      .from("feed_likes")
+      .delete()
+      .eq("post_id", postId)
+      .eq("user_id", currentUser.id);
+  } else {
+    await db
+      .from("feed_likes")
+      .insert({
+        post_id: postId,
+        user_id: currentUser.id
+      });
+  }
+
+  loadFeedPosts();
+}
+
+async function deleteFeedPost(postId) {
+  const sure = confirm("Xoá bài viết này?");
+  if (!sure) return;
+
+  await db
+    .from("feed_posts")
+    .delete()
+    .eq("id", postId)
+    .eq("user_id", currentUser.id);
+
+  loadFeedPosts();
+}
+
+window.toggleComments = async function(postId) {
+  const box = document.getElementById(`commentsBox${postId}`);
+  if (!box) return;
+
+  if (expandedCommentsPostId === postId && !box.classList.contains("hidden")) {
+    box.classList.add("hidden");
+    expandedCommentsPostId = null;
+    return;
+  }
+
+  expandedCommentsPostId = postId;
+  await loadComments(postId);
+};
+
+async function loadComments(postId) {
+  const box = document.getElementById(`commentsBox${postId}`);
+  if (!box) return;
+
+  box.classList.remove("hidden");
+  box.innerHTML = `<p class="message">Đang tải bình luận...</p>`;
+
+  const { data, error } = await db
+    .from("feed_comments")
+    .select(`
+      *,
+      profiles:user_id (
+        id,
+        display_name,
+        avatar_url
+      )
+    `)
+    .eq("post_id", postId)
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    box.innerHTML = `<p>${esc(error.message)}</p>`;
+    return;
+  }
+
+  box.innerHTML = `
+    <div class="form">
+      <input id="commentInput${postId}" type="text" placeholder="Viết bình luận...">
+      <button class="white-btn" onclick="createComment(${postId})">Bình luận</button>
+    </div>
+
+    <div style="margin-top:12px;">
+      ${
+        data && data.length
+          ? data.map(comment => `
+              <div class="comment-item">
+                <strong>${esc(comment.profiles?.display_name || "Người dùng FreshSpirit")}</strong>
+                <p>${esc(comment.content)}</p>
               </div>
+            `).join("")
+          : `<p class="message">Chưa có bình luận.</p>`
+      }
+    </div>
+  `;
+}
+
+window.createComment = async function(postId) {
+  const input = document.getElementById(`commentInput${postId}`);
+  const content = input.value.trim();
+
+  if (!content) return;
+
+  await db.from("feed_comments").insert({
+    post_id: postId,
+    user_id: currentUser.id,
+    content
+  });
+
+  input.value = "";
+  await loadComments(postId);
+  await loadFeedPosts();
+};
+
+window.openPublicProfile = async function(profileId) {
+  const box = document.getElementById("feedProfileBox");
+  if (!box) return;
+
+  box.innerHTML = `
+    <section class="feed-profile-card">
+      <p class="message">Đang tải profile...</p>
+    </section>
+  `;
+
+  const { data: profile, error } = await db
+    .from("profiles")
+    .select("id, display_name, avatar_url, email, tiktok_handle, heard_from")
+    .eq("id", profileId)
+    .maybeSingle();
+
+  if (error || !profile) {
+    box.innerHTML = `
+      <section class="feed-profile-card">
+        <p>Không tìm thấy profile.</p>
+      </section>
+    `;
+    return;
+  }
+
+  const { count: followerCount } = await db
+    .from("follows")
+    .select("*", { count: "exact", head: true })
+    .eq("following_id", profileId);
+
+  const { count: followingCount } = await db
+    .from("follows")
+    .select("*", { count: "exact", head: true })
+    .eq("follower_id", profileId);
+
+  const { data: followed } = await db
+    .from("follows")
+    .select("follower_id")
+    .eq("follower_id", currentUser.id)
+    .eq("following_id", profileId)
+    .maybeSingle();
+
+  const isMe = profileId === currentUser.id;
+
+  box.innerHTML = `
+    <section class="feed-profile-card">
+      <div class="feed-profile-avatar">
+        ${
+          profile.avatar_url
+            ? `<img src="${esc(profile.avatar_url)}" alt="Avatar">`
+            : esc((profile.display_name || "F").charAt(0).toUpperCase())
+        }
+      </div>
+
+      <h2>${esc(profile.display_name || "Người dùng FreshSpirit")}</h2>
+      <p>${esc(profile.email || "")}</p>
+
+      <div class="info-row">
+        <small>Followers</small>
+        <strong>${followerCount || 0}</strong>
+      </div>
+
+      <div class="info-row">
+        <small>Following</small>
+        <strong>${followingCount || 0}</strong>
+      </div>
+
+      <div class="info-row">
+        <small>TikTok</small>
+        <strong>${esc(profile.tiktok_handle || "Chưa thêm")}</strong>
+      </div>
+
+      ${
+        isMe
+          ? `<button class="white-btn" onclick="closePublicProfile()" style="margin-top:12px;">Đóng profile</button>`
+          : `
+            <button class="submit" onclick="toggleFollow('${esc(profileId)}')" style="margin-top:12px;">
+              ${followed ? "Đang follow · Bấm để unfollow" : "Follow"}
             </button>
 
-            <button id="readerLevi" class="reader-card" onclick="toggleReaderFlip('readerLevi')">
-              <div class="reader-inner">
-                <div class="reader-face reader-front">
-                  <div>
-                    <div class="reader-badge">FreshSpirit Reader</div>
-                    <div class="reader-name">Reader Levi</div>
-                    <p class="reader-desc">Tarot Reader với gần 3 năm kinh nghiệm.</p>
-                    <div class="reader-location">Location: KhanhHoa</div>
-                  </div>
-                  <div class="reader-hint">Tap to view profile</div>
-                </div>
-
-                <div class="reader-face reader-back">
-                  <div>
-                    <h2>Reader Levi</h2>
-                    <p>Sun Kim Ngưu, AC Sư Tử, Moon Xữ Nữ</p>
-                    <p>MBTI: INTP/INTJ</p>
-                    <p>Tarot Reader và Astrologer</p>
-                    <p>Đọc bài từ tâm, không phán xét.</p>
-                    <p>Mỗi buổi đọc bài là một không gian an toàn - nơi bạn có thể là chính mình, kể cả khi chính mình còn đang lạc lối.</p>
-                  </div>
-                  <div class="reader-hint">Tap to flip back</div>
-                </div>
-              </div>
+            <button class="white-btn" onclick="closePublicProfile()" style="margin-top:10px;">
+              Đóng profile
             </button>
+          `
+      }
+    </section>
+  `;
+};
+
+window.closePublicProfile = function() {
+  const box = document.getElementById("feedProfileBox");
+  if (box) box.innerHTML = "";
+};
+
+window.toggleFollow = async function(profileId) {
+  const { data } = await db
+    .from("follows")
+    .select("follower_id")
+    .eq("follower_id", currentUser.id)
+    .eq("following_id", profileId)
+    .maybeSingle();
+
+  if (data) {
+    await db
+      .from("follows")
+      .delete()
+      .eq("follower_id", currentUser.id)
+      .eq("following_id", profileId);
+  } else {
+    await db
+      .from("follows")
+      .insert({
+        follower_id: currentUser.id,
+        following_id: profileId
+      });
+  }
+
+  openPublicProfile(profileId);
+};
+
+function menuSectionHtml() {
+  if (!menuSection) {
+    return `
+      <section class="card">
+        <h2>Menu giá xem tarot</h2>
+        <p>Chọn nhóm gói để xem chi tiết.</p>
+
+        <div class="price-menu-grid">
+          <button class="quick-card" onclick="setMenuSection('single')">
+            <span>1</span>
+            <strong>Gói lẻ</strong>
+            <small>Tính theo số lượng câu hỏi.</small>
+          </button>
+
+          <button class="quick-card" onclick="setMenuSection('time')">
+            <span>⏳</span>
+            <strong>Gói thời gian</strong>
+            <small>Không giới hạn câu hỏi / vấn đề trong thời lượng.</small>
+          </button>
+
+          <button class="quick-card" onclick="setMenuSection('issue')">
+            <span>🧩</span>
+            <strong>Gói vấn đề</strong>
+            <small>Tình yêu, học tập, công việc.</small>
+          </button>
+        </div>
+      </section>
+    `;
+  }
+
+  if (menuSection === "single") return singlePackageHtml();
+  if (menuSection === "time") return timePackageHtml();
+  if (menuSection === "issue") return issuePackageHtml();
+
+  return "";
+}
+
+window.setMenuSection = function(section) {
+  menuSection = section;
+  issueMenuSection = "";
+  renderShop();
+};
+
+window.backToMenuRoot = function() {
+  menuSection = "";
+  issueMenuSection = "";
+  renderShop();
+};
+
+function singlePackageHtml() {
+  return `
+    <section class="card">
+      <button class="white-btn" onclick="backToMenuRoot()">← Quay lại Menu</button>
+    </section>
+
+    <section class="price-card">
+      <h3>Gói lẻ</h3>
+
+      <div class="price-row">
+        <span>1 câu hỏi</span>
+        <strong>50.000</strong>
+      </div>
+
+      <div class="price-row">
+        <span>3 câu hỏi</span>
+        <strong>145.000</strong>
+      </div>
+
+      <div class="price-row">
+        <span>5 câu hỏi</span>
+        <strong>240.000</strong>
+      </div>
+
+      <div class="price-row">
+        <span>7 câu hỏi</span>
+        <strong>320.000</strong>
+      </div>
+
+      <div class="price-row">
+        <span>Yes or no</span>
+        <strong>15.000 / câu</strong>
+      </div>
+    </section>
+  `;
+}
+
+function timePackageHtml() {
+  return `
+    <section class="card">
+      <button class="white-btn" onclick="backToMenuRoot()">← Quay lại Menu</button>
+    </section>
+
+    <section class="price-card">
+      <h3>Gói thời gian</h3>
+
+      <div class="price-row">
+        <span>30 phút</span>
+        <strong>200.000</strong>
+      </div>
+
+      <div class="price-row">
+        <span>30 phút</span>
+        <strong>290.000</strong>
+      </div>
+
+      <div class="price-row">
+        <span>30 phút</span>
+        <strong>380.000</strong>
+      </div>
+
+      <p class="price-note">Không giới hạn câu hỏi / vấn đề trong thời lượng đã chọn.</p>
+    </section>
+  `;
+}
+
+function issuePackageHtml() {
+  if (!issueMenuSection) {
+    return `
+      <section class="card">
+        <button class="white-btn" onclick="backToMenuRoot()">← Quay lại Menu</button>
+      </section>
+
+      <section class="card">
+        <h2>Gói vấn đề</h2>
+        <p>Chọn một nhóm vấn đề để xem giá chi tiết.</p>
+
+        <div class="price-menu-grid">
+          <button class="quick-card" onclick="setIssueMenuSection('love')">
+            <span>💗</span>
+            <strong>Tình yêu</strong>
+            <small>Người yêu cũ, người yêu hiện tại, crush.</small>
+          </button>
+
+          <button class="quick-card" onclick="setIssueMenuSection('study')">
+            <span>📚</span>
+            <strong>Học tập</strong>
+            <small>Xác suất, điểm yếu và lời khuyên.</small>
+          </button>
+
+          <button class="quick-card" onclick="setIssueMenuSection('work')">
+            <span>💼</span>
+            <strong>Công việc</strong>
+            <small>Xác suất, nhiều câu hỏi.</small>
+          </button>
+        </div>
+      </section>
+    `;
+  }
+
+  if (issueMenuSection === "love") return loveIssueHtml();
+  if (issueMenuSection === "study") return studyIssueHtml();
+  if (issueMenuSection === "work") return workIssueHtml();
+
+  return "";
+}
+
+window.setIssueMenuSection = function(section) {
+  issueMenuSection = section;
+  renderShop();
+};
+
+window.backToIssueRoot = function() {
+  issueMenuSection = "";
+  renderShop();
+};
+
+function loveIssueHtml() {
+  return `
+    <section class="card">
+      <button class="white-btn" onclick="backToIssueRoot()">← Quay lại Gói vấn đề</button>
+    </section>
+
+    <section class="price-card">
+      <h3>Tình yêu</h3>
+
+      <div class="price-row">
+        <span>Người yêu cũ</span>
+        <strong>300.000 / lượt</strong>
+      </div>
+
+      <div class="price-row">
+        <span>Người yêu hiện tại</span>
+        <strong>222.222 / lượt</strong>
+      </div>
+
+      <div class="price-row">
+        <span>Crush</span>
+        <strong>250.000 / lượt</strong>
+      </div>
+
+      <p class="price-note">Inbox để được tư vấn thêm.</p>
+    </section>
+  `;
+}
+
+function studyIssueHtml() {
+  return `
+    <section class="card">
+      <button class="white-btn" onclick="backToIssueRoot()">← Quay lại Gói vấn đề</button>
+    </section>
+
+    <section class="price-card">
+      <h3>Học tập</h3>
+
+      <div class="price-row">
+        <span>Xác suất</span>
+        <strong>75.000 / lần</strong>
+      </div>
+
+      <div class="price-row">
+        <span>Điểm yếu & lời khuyên</span>
+        <strong>150.000 / lần</strong>
+      </div>
+
+      <p class="price-note">Inbox để được tư vấn thêm.</p>
+    </section>
+  `;
+}
+
+function workIssueHtml() {
+  return `
+    <section class="card">
+      <button class="white-btn" onclick="backToIssueRoot()">← Quay lại Gói vấn đề</button>
+    </section>
+
+    <section class="price-card">
+      <h3>Công việc</h3>
+
+      <div class="price-row">
+        <span>Xác suất</span>
+        <strong>75.000 / lần</strong>
+      </div>
+
+      <div class="price-row">
+        <span>Nhiều câu hỏi</span>
+        <strong>222.222 / lần</strong>
+      </div>
+
+      <p class="price-note">Inbox để được tư vấn thêm.</p>
+    </section>
+  `;
+}
+
+function readersSectionHtml() {
+  return `
+    <section class="card">
+      <h2>Choose your reader</h2>
+      <p>Chạm vào từng khung để lật sang mặt sau và đọc thêm về reader.</p>
+
+      <div class="book-section">
+        ${READER_PROFILES.map(reader => readerCardHtml(reader)).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function readerCardHtml(reader) {
+  return `
+    <button id="${esc(reader.id)}" class="reader-card" onclick="toggleReaderFlip('${esc(reader.id)}')">
+      <div class="reader-inner">
+        <div class="reader-face reader-front">
+          <div>
+            <div class="reader-badge">${esc(reader.badge)}</div>
+            <div class="reader-name">${esc(reader.name)}</div>
+            <p class="reader-desc">${esc(reader.experience)}</p>
+            <div class="reader-location">Location: ${esc(reader.location)}</div>
           </div>
-        </section>
-      `;
-    }
+          <div class="reader-hint">Tap to view profile</div>
+        </div>
 
-    window.toggleReaderFlip = function(id) {
-      const card = document.getElementById(id);
-      if (card) card.classList.toggle("flipped");
-    };
-
-    function collabSectionHtml() {
-      return `
-        <section class="card">
-          <h2>Collaborate with FreshSpirit</h2>
-          <p>FreshSpirit đang tuyển cộng tác viên xem tarot cho các lượt trải bài trả phí.</p>
-
-          <div class="collab-box">
-            <div class="collab-title">Tuyển cộng tác viên Tarot Reader</div>
-
-            <p>Bạn muốn thực hành trải bài với querent thật, nâng cao kỹ năng đọc bài và có thêm thu nhập từ tarot?</p>
-
-            <ul class="collab-list">
-              <li>Hoa hồng cho mỗi trải bài: <strong>15% - 25%</strong> theo năng lực.</li>
-              <li>Có thưởng thêm nếu làm tốt, phản hồi ổn định và giữ chất lượng đọc bài.</li>
-              <li>Phù hợp với reader muốn luyện đọc thực tế, nghiêm túc và có trách nhiệm với querent.</li>
-            </ul>
-
-            <a class="submit" href="https://docs.google.com/forms/d/e/1FAIpQLSfcJdRzWbJSwPKzCip8Ve_EhDt4CL_EHXZrNtTBzN46Drm0Tw/viewform" target="_blank">
-              Apply here
-            </a>
+        <div class="reader-face reader-back">
+          <div>
+            <h2>${esc(reader.name)}</h2>
+            <p>${esc(reader.astrology)}</p>
+            <p>MBTI: ${esc(reader.mbti)}</p>
+            <p>${esc(reader.skills)}</p>
+            <p>${esc(reader.bio)}</p>
           </div>
-        </section>
-      `;
-    }
+          <div class="reader-hint">Tap to flip back</div>
+        </div>
+      </div>
+    </button>
+  `;
+}
+
+window.toggleReaderFlip = function(id) {
+  const card = document.getElementById(id);
+  if (card) card.classList.toggle("flipped");
+};
+
+function collabSectionHtml() {
+  return `
+    <section class="card">
+      <h2>Collaborate with FreshSpirit</h2>
+      <p>FreshSpirit đang tuyển cộng tác viên xem tarot cho các lượt trải bài trả phí.</p>
+
+      <div class="collab-box">
+        <div class="collab-title">Tuyển cộng tác viên Tarot Reader</div>
+
+        <p>Bạn muốn thực hành trải bài với querent thật, nâng cao kỹ năng đọc bài và có thêm thu nhập từ tarot?</p>
+
+        <ul class="collab-list">
+          <li>Hoa hồng cho mỗi trải bài: <strong>15% - 25%</strong> theo năng lực.</li>
+          <li>Có thưởng thêm nếu làm tốt, phản hồi ổn định và giữ chất lượng đọc bài.</li>
+          <li>Phù hợp với reader muốn luyện đọc thực tế, nghiêm túc và có trách nhiệm với querent.</li>
+        </ul>
+
+        <a class="submit" href="https://docs.google.com/forms/d/e/1FAIpQLSfcJdRzWbJSwPKzCip8Ve_EhDt4CL_EHXZrNtTBzN46Drm0Tw/viewform" target="_blank">
+          Apply here
+        </a>
+      </div>
+    </section>
+  `;
+}
 
     window.toggleMenu = function() {
       const menu = document.getElementById("avatarMenu");
