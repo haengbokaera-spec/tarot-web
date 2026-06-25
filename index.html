@@ -21,11 +21,6 @@
       color: #111;
     }
 
-    ::-moz-selection {
-      background: #FFD1DC;
-      color: #111;
-    }
-
     html,
     body {
       width: 100%;
@@ -33,10 +28,10 @@
       overflow-x: hidden;
       overscroll-behavior-x: none;
       -webkit-text-size-adjust: 100%;
+      background: #f7f7f5;
     }
 
     body {
-      background: #000;
       color: #111;
       font-family: "Be Vietnam Pro", Arial, Helvetica, sans-serif;
       touch-action: pan-y;
@@ -451,6 +446,10 @@
       font-weight: 500;
     }
 
+    .home-room-card {
+      cursor: pointer;
+    }
+
     .fan {
       position: relative;
       height: 184px;
@@ -550,8 +549,80 @@
       margin-top: 8px;
     }
 
-    .tarot-item.meaning-closed p {
-      display: none;
+    .tarot-flip-card {
+      min-height: 360px;
+      perspective: 1000px;
+      cursor: pointer;
+      padding: 0 !important;
+      overflow: hidden;
+    }
+
+    .tarot-flip-inner {
+      position: relative;
+      width: 100%;
+      min-height: 360px;
+      transition: transform 0.65s ease;
+      transform-style: preserve-3d;
+    }
+
+    .tarot-flip-card.flipped .tarot-flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .tarot-flip-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      background: #fff;
+      border-radius: 20px;
+      padding: 10px;
+      overflow: hidden;
+    }
+
+    .tarot-flip-front {
+      text-align: center;
+    }
+
+    .tarot-flip-front img {
+      width: 100%;
+      height: 260px;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      background: transparent;
+      margin-bottom: 8px;
+    }
+
+    .tarot-flip-back {
+      transform: rotateY(180deg);
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    .tarot-flip-back h2 {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .meaning-box {
+      border: 1px solid #111;
+      border-radius: 14px;
+      padding: 10px;
+      background: #fafafa;
+      margin-bottom: 8px;
+    }
+
+    .meaning-box strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .meaning-box p {
+      font-size: 12.5px;
+      line-height: 1.45;
+      margin: 0;
     }
 
     .spread-grid {
@@ -705,6 +776,37 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    .upload-avatar-box {
+      width: 100%;
+      border: 1px dashed #111;
+      border-radius: 18px;
+      background: #fafafa;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .upload-avatar-box strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .upload-avatar-box small {
+      display: block;
+      font-size: 12px;
+      color: #666;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .upload-avatar-box input {
+      width: 100%;
+      height: auto !important;
+      padding: 10px !important;
+      border-radius: 14px !important;
+      background: #fff !important;
     }
 
     .social-btn {
@@ -914,18 +1016,18 @@
       opacity: 0.45;
     }
 
-.card-back-design {
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 13px;
-  background-color: transparent;
-  background-image: url("images/cards/back-new.png");
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  box-shadow: none;
-}
+    .card-back-design {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 13px;
+      background-color: transparent;
+      background-image: url("images/cards/back-new.png");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      box-shadow: none;
+    }
 
     .deck-count {
       margin-top: 12px;
@@ -990,17 +1092,17 @@
       transform: rotateY(180deg);
     }
 
-.manual-card-visual .manual-face {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  border: none;
-  border-radius: 18px;
-  background: transparent;
-  padding: 0;
-  overflow: hidden;
-}
+    .manual-card-visual .manual-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border: none;
+      border-radius: 18px;
+      background: transparent;
+      padding: 0;
+      overflow: hidden;
+    }
 
     .manual-card-visual .manual-back {
       display: grid;
@@ -1014,14 +1116,14 @@
       box-shadow: none;
     }
 
-.manual-card-visual .manual-front {
-  transform: rotateY(180deg);
-  text-align: center;
-  border: 1px solid #111;
-  border-radius: 18px;
-  background: #fff;
-  padding: 10px;
-}
+    .manual-card-visual .manual-front {
+      transform: rotateY(180deg);
+      text-align: center;
+      border: 1px solid #111;
+      border-radius: 18px;
+      background: #fff;
+      padding: 10px;
+    }
 
     .manual-card-visual .manual-front img {
       width: 100%;
@@ -1109,116 +1211,6 @@
         padding: 0 8px;
       }
     }
-    /* Cards page: bấm vào lá bài để lật xem nghĩa xuôi/ngược */
-.home-room-card {
-  cursor: pointer;
-}
-
-.tarot-flip-card {
-  min-height: 360px;
-  perspective: 1000px;
-  cursor: pointer;
-  padding: 0 !important;
-  overflow: hidden;
-}
-
-.tarot-flip-inner {
-  position: relative;
-  width: 100%;
-  min-height: 360px;
-  transition: transform 0.65s ease;
-  transform-style: preserve-3d;
-}
-
-.tarot-flip-card.flipped .tarot-flip-inner {
-  transform: rotateY(180deg);
-}
-
-.tarot-flip-face {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  background: #fff;
-  border-radius: 20px;
-  padding: 10px;
-  overflow: hidden;
-}
-
-.tarot-flip-front {
-  text-align: center;
-}
-
-.tarot-flip-front img {
-  width: 100%;
-  height: 260px;
-  object-fit: contain;
-  object-position: center;
-  display: block;
-  background: transparent;
-  margin-bottom: 8px;
-}
-
-.tarot-flip-back {
-  transform: rotateY(180deg);
-  overflow-y: auto;
-  text-align: left;
-}
-
-.tarot-flip-back h2 {
-  text-align: center;
-  margin-bottom: 8px;
-}
-
-.meaning-box {
-  border: 1px solid #111;
-  border-radius: 14px;
-  padding: 10px;
-  background: #fafafa;
-  margin-bottom: 8px;
-}
-
-.meaning-box strong {
-  display: block;
-  font-size: 13px;
-  margin-bottom: 5px;
-}
-
-.meaning-box p {
-  font-size: 12.5px;
-  line-height: 1.45;
-  margin: 0;
-}
-    .upload-avatar-box {
-  width: 100%;
-  border: 1px dashed #111;
-  border-radius: 18px;
-  background: #fafafa;
-  padding: 14px;
-  text-align: center;
-}
-
-.upload-avatar-box strong {
-  display: block;
-  font-size: 14px;
-  margin-bottom: 8px;
-}
-
-.upload-avatar-box small {
-  display: block;
-  font-size: 12px;
-  color: #666;
-  line-height: 1.4;
-  margin-bottom: 10px;
-}
-
-.upload-avatar-box input {
-  width: 100%;
-  height: auto !important;
-  padding: 10px !important;
-  border-radius: 14px !important;
-  background: #fff !important;
-}
   </style>
 </head>
 
@@ -1260,365 +1252,58 @@
 
     const root = document.getElementById("root");
 
-const CASES = [
-  {
-    name: "Minh Anh",
-    age: 22,
-    topic: "Tình cảm",
-    question: "Người cũ có còn tình cảm với mình không?",
-    story: "Minh Anh vừa kết thúc mối quan hệ gần 2 năm. Hai người vẫn xem story của nhau nhưng không ai chủ động nhắn tin."
-  },
-  {
-    name: "Hoài",
-    age: 25,
-    topic: "Công việc",
-    question: "Mình có nên nghỉ việc hiện tại không?",
-    story: "Hoài có công việc ổn định nhưng thấy bị bào mòn năng lượng và không còn phát triển nhiều."
-  },
-  {
-    name: "Gia Hân",
-    age: 19,
-    topic: "Học tập",
-    question: "Mình có chọn đúng ngành không?",
-    story: "Gia Hân vừa vào đại học nhưng thấy ngành học không giống kỳ vọng và đang rất hoang mang."
-  },
-  {
-    name: "Tuấn",
-    age: 27,
-    topic: "Tình cảm",
-    question: "Người mình đang tìm hiểu có nghiêm túc không?",
-    story: "Tuấn đang nói chuyện với một người rất hợp vibe nhưng đối phương ít thể hiện rõ cảm xúc."
-  },
-  {
-    name: "Linh Chi",
-    age: 24,
-    topic: "Gia đình",
-    question: "Mình nên làm gì để bớt căng thẳng với mẹ?",
-    story: "Linh Chi thường xuyên cãi nhau với mẹ vì chuyện học, tiền bạc và tương lai."
-  },
-  {
-    name: "Bảo Ngọc",
-    age: 21,
-    topic: "Bản thân",
-    question: "Điều gì đang cản mình tự tin hơn?",
-    story: "Bảo Ngọc hay so sánh bản thân với người khác và sợ bị đánh giá khi bắt đầu điều mới."
-  },
-  {
-    name: "Khánh Vy",
-    age: 26,
-    topic: "Công việc",
-    question: "Dự án riêng của mình có tiềm năng không?",
-    story: "Khánh Vy muốn mở dịch vụ nhỏ online nhưng sợ không có khách và chưa biết bắt đầu từ đâu."
-  },
-  {
-    name: "An",
-    age: 20,
-    topic: "Tình cảm",
-    question: "Crush nghĩ gì về mình?",
-    story: "An và crush học chung lớp, nói chuyện vui nhưng crush lúc gần lúc xa."
-  },
-  {
-    name: "Mai Phương",
-    age: 29,
-    topic: "Tài chính",
-    question: "Mình nên tiết kiệm hay đầu tư trong giai đoạn này?",
-    story: "Mai Phương có một khoản tiền nhỏ và muốn dùng tiền thông minh hơn nhưng sợ rủi ro."
-  },
-  {
-    name: "Quỳnh",
-    age: 23,
-    topic: "Định hướng",
-    question: "Hướng đi nào phù hợp với mình trong 6 tháng tới?",
-    story: "Quỳnh đang phân vân giữa học thêm, đổi việc, xây thương hiệu cá nhân hoặc nghỉ ngơi."
-  },
-  {
-    name: "Hải Nam",
-    age: 24,
-    topic: "Công việc",
-    question: "Mình có nên nhận offer mới không?",
-    story: "Hải Nam được offer một công việc mới lương tốt hơn nhưng môi trường có vẻ áp lực."
-  },
-  {
-    name: "Thảo Nhi",
-    age: 18,
-    topic: "Học tập",
-    question: "Mình có đủ khả năng đậu kỳ thi sắp tới không?",
-    story: "Thảo Nhi còn ít thời gian ôn thi, kiến thức chưa đều và rất dễ hoảng khi làm đề."
-  },
-  {
-    name: "Đức Anh",
-    age: 28,
-    topic: "Tình cảm",
-    question: "Mối quan hệ mập mờ này có nên tiếp tục không?",
-    story: "Đức Anh và đối phương quan tâm nhau nhưng không ai xác nhận rõ ràng mối quan hệ."
-  },
-  {
-    name: "Hương Giang",
-    age: 30,
-    topic: "Gia đình",
-    question: "Mình có nên chuyển ra sống riêng không?",
-    story: "Hương Giang muốn độc lập hơn nhưng sợ gia đình buồn và sợ tài chính chưa đủ vững."
-  },
-  {
-    name: "Minh Khang",
-    age: 21,
-    topic: "Bản thân",
-    question: "Mình đang né tránh điều gì?",
-    story: "Minh Khang thường trì hoãn những quyết định quan trọng và cảm thấy bản thân mất phương hướng."
-  },
-  {
-    name: "Yến Nhi",
-    age: 23,
-    topic: "Tình cảm",
-    question: "Người ấy có đang giấu mình điều gì không?",
-    story: "Yến Nhi thấy đối phương gần đây ít chia sẻ và hay né những cuộc trò chuyện sâu."
-  },
-  {
-    name: "Quốc Bảo",
-    age: 26,
-    topic: "Sự nghiệp",
-    question: "Mình có hợp làm freelancer không?",
-    story: "Quốc Bảo muốn rời công việc văn phòng để làm tự do nhưng lo thu nhập không ổn định."
-  },
-  {
-    name: "Thanh Lam",
-    age: 25,
-    topic: "Tình cảm",
-    question: "Mình có nên chủ động nhắn tin trước không?",
-    story: "Thanh Lam và người ấy im lặng vài ngày sau một buổi đi chơi khá vui."
-  },
-  {
-    name: "Bích Trâm",
-    age: 22,
-    topic: "Bạn bè",
-    question: "Tình bạn này có còn lành mạnh không?",
-    story: "Bích Trâm cảm thấy mình luôn là người cho đi nhiều hơn trong một mối quan hệ bạn bè."
-  },
-  {
-    name: "Trung Kiên",
-    age: 31,
-    topic: "Tài chính",
-    question: "Mình có nên góp vốn kinh doanh với bạn không?",
-    story: "Trung Kiên được bạn rủ góp vốn nhưng chưa chắc người kia đủ minh bạch và trách nhiệm."
-  },
-  {
-    name: "Mỹ Duyên",
-    age: 20,
-    topic: "Học tập",
-    question: "Mình có nên đổi ngành không?",
-    story: "Mỹ Duyên học ngành hiện tại vì gia đình muốn, nhưng bản thân lại thích một lĩnh vực sáng tạo hơn."
-  },
-  {
-    name: "Nhật Minh",
-    age: 27,
-    topic: "Công việc",
-    question: "Sếp có đánh giá cao mình không?",
-    story: "Nhật Minh làm nhiều nhưng ít được phản hồi trực tiếp nên không biết vị trí của mình trong mắt sếp."
-  },
-  {
-    name: "Hoàng Yến",
-    age: 24,
-    topic: "Tình cảm",
-    question: "Người cũ có quay lại không?",
-    story: "Hoàng Yến và người cũ chia tay trong im lặng, gần đây người đó lại tương tác trên mạng xã hội."
-  },
-  {
-    name: "Phúc Lâm",
-    age: 22,
-    topic: "Bản thân",
-    question: "Mình nên chữa lành điều gì trước?",
-    story: "Phúc Lâm dễ nổi nóng khi bị góp ý và thường thấy bản thân không được công nhận."
-  },
-  {
-    name: "Ngọc Hân",
-    age: 28,
-    topic: "Định hướng",
-    question: "Mình nên ưu tiên tình yêu hay sự nghiệp lúc này?",
-    story: "Ngọc Hân đang có cơ hội công việc tốt nhưng mối quan hệ tình cảm lại cần nhiều thời gian."
-  },
-  {
-    name: "Tú Anh",
-    age: 19,
-    topic: "Tình cảm",
-    question: "Crush có để ý mình không?",
-    story: "Tú Anh thấy crush hay nhìn mình nhưng khi nói chuyện lại khá lạnh và khó đoán."
-  },
-  {
-    name: "Gia Bảo",
-    age: 25,
-    topic: "Công việc",
-    question: "Mình có nên nói thẳng với sếp về áp lực hiện tại không?",
-    story: "Gia Bảo bị giao việc quá tải nhưng sợ nói ra sẽ bị đánh giá là thiếu năng lực."
-  },
-  {
-    name: "Cẩm Tú",
-    age: 27,
-    topic: "Tài chính",
-    question: "Mình có nên mua món đồ lớn này không?",
-    story: "Cẩm Tú rất muốn mua một món đồ giá trị cao nhưng vẫn còn vài khoản cần tiết kiệm."
-  },
-  {
-    name: "Minh Thư",
-    age: 23,
-    topic: "Bạn bè",
-    question: "Người bạn này thật sự có vui cho mình không?",
-    story: "Minh Thư thấy bạn mình hay nói đùa mỉa mai mỗi khi mình đạt được điều gì đó."
-  },
-  {
-    name: "Anh Khoa",
-    age: 29,
-    topic: "Sự nghiệp",
-    question: "Mình có nên học thêm để chuyển ngành không?",
-    story: "Anh Khoa muốn chuyển sang lĩnh vực mới nhưng sợ bắt đầu lại quá muộn."
-  },
-  {
-    name: "Lệ Quyên",
-    age: 26,
-    topic: "Tình cảm",
-    question: "Mối quan hệ này có đang tiến triển không?",
-    story: "Lệ Quyên và đối phương hẹn hò đều nhưng chưa có cam kết rõ ràng."
-  },
-  {
-    name: "Tuệ Minh",
-    age: 21,
-    topic: "Bản thân",
-    question: "Mình cần buông bỏ điều gì?",
-    story: "Tuệ Minh vẫn bám vào một kỳ vọng cũ dù biết nó làm mình mệt mỏi."
-  },
-  {
-    name: "Khánh Linh",
-    age: 24,
-    topic: "Công việc",
-    question: "Đồng nghiệp có đang cạnh tranh xấu với mình không?",
-    story: "Khánh Linh thấy một đồng nghiệp hay lấy ý tưởng của mình và nói chuyện không rõ ràng."
-  },
-  {
-    name: "Văn Huy",
-    age: 32,
-    topic: "Gia đình",
-    question: "Mình nên làm gì khi gia đình không ủng hộ lựa chọn của mình?",
-    story: "Văn Huy muốn thay đổi hướng đi nhưng gia đình cho rằng quyết định đó quá rủi ro."
-  },
-  {
-    name: "Diệu Linh",
-    age: 20,
-    topic: "Học tập",
-    question: "Mình có đang đi đúng lộ trình không?",
-    story: "Diệu Linh học rất nhiều nhưng vẫn thấy kết quả chưa tương xứng với công sức."
-  },
-  {
-    name: "Hà My",
-    age: 25,
-    topic: "Tình cảm",
-    question: "Người ấy có xem mình là lựa chọn nghiêm túc không?",
-    story: "Hà My cảm thấy đối phương quan tâm nhưng vẫn giữ khoảng cách và không nói về tương lai."
-  },
-  {
-    name: "Quang Huy",
-    age: 23,
-    topic: "Bản thân",
-    question: "Mình cần tin vào bản thân hơn ở điểm nào?",
-    story: "Quang Huy hay tự hạ thấp năng lực dù người khác đánh giá khá tốt."
-  },
-  {
-    name: "Thuỳ Dương",
-    age: 28,
-    topic: "Sự nghiệp",
-    question: "Dự án này có nên tiếp tục đầu tư thời gian không?",
-    story: "Thuỳ Dương đã làm dự án cá nhân vài tháng nhưng chưa thấy kết quả rõ rệt."
-  },
-  {
-    name: "Hoàng Nam",
-    age: 26,
-    topic: "Tình cảm",
-    question: "Mình có nên cho người ấy thêm cơ hội không?",
-    story: "Hoàng Nam từng bị đối phương làm tổn thương nhưng người ấy đang cố gắng quay lại."
-  },
-  {
-    name: "Lan Anh",
-    age: 22,
-    topic: "Định hướng",
-    question: "Mình nên đi theo con đường an toàn hay thử điều mới?",
-    story: "Lan Anh có một lựa chọn ổn định và một lựa chọn rất hấp dẫn nhưng nhiều rủi ro."
-  },
-  {
-    name: "Kim Ngân",
-    age: 24,
-    topic: "Tài chính",
-    question: "Mình có đang quản lý tiền sai cách không?",
-    story: "Kim Ngân kiếm được tiền nhưng cuối tháng thường không hiểu tiền đã đi đâu."
-  },
-  {
-    name: "Minh Đức",
-    age: 30,
-    topic: "Công việc",
-    question: "Công ty hiện tại còn phù hợp với mình không?",
-    story: "Minh Đức gắn bó với công ty lâu nhưng cảm thấy mình đang đứng yên."
-  },
-  {
-    name: "Phương Uyên",
-    age: 19,
-    topic: "Tình cảm",
-    question: "Mình có nên tỏ tình không?",
-    story: "Phương Uyên thích một người đã lâu, hai người khá thân nhưng cô sợ làm hỏng tình bạn."
-  },
-  {
-    name: "Đan Thanh",
-    age: 27,
-    topic: "Bản thân",
-    question: "Vì sao mình luôn chọn người làm mình tổn thương?",
-    story: "Đan Thanh nhận ra mình thường bị thu hút bởi những người lạnh lùng hoặc không sẵn sàng."
-  },
-  {
-    name: "Việt Anh",
-    age: 24,
-    topic: "Bạn bè",
-    question: "Mình có nên giữ khoảng cách với nhóm bạn này không?",
-    story: "Việt Anh cảm thấy nhóm bạn hiện tại hay khiến mình mất năng lượng và không còn là chính mình."
-  },
-  {
-    name: "Hồng Nhung",
-    age: 31,
-    topic: "Gia đình",
-    question: "Mình có nên tha thứ cho người thân này không?",
-    story: "Hồng Nhung từng bị một người thân làm tổn thương và hiện người đó muốn làm lành."
-  },
-  {
-    name: "Bảo Châu",
-    age: 23,
-    topic: "Sự nghiệp",
-    question: "Mình có nên xây personal brand không?",
-    story: "Bảo Châu muốn chia sẻ kiến thức online nhưng sợ bị soi xét và chưa biết bắt đầu từ đâu."
-  },
-  {
-    name: "Quốc Thịnh",
-    age: 28,
-    topic: "Tài chính",
-    question: "Khoản đầu tư này có đáng để thử không?",
-    story: "Quốc Thịnh nghe về một cơ hội đầu tư mới nhưng thông tin còn khá mơ hồ."
-  },
-  {
-    name: "Ánh Dương",
-    age: 21,
-    topic: "Học tập",
-    question: "Mình có nên du học không?",
-    story: "Ánh Dương muốn đi du học nhưng lo xa nhà, tài chính và khả năng thích nghi."
-  },
-  {
-    name: "Ngọc Mai",
-    age: 26,
-    topic: "Tình cảm",
-    question: "Mình nên chờ hay nên buông?",
-    story: "Ngọc Mai đang chờ một người ổn định lại cảm xúc nhưng bản thân cô ngày càng kiệt sức."
-  },
-  {
-    name: "Thanh Sơn",
-    age: 29,
-    topic: "Định hướng",
-    question: "Bước tiếp theo quan trọng nhất của mình là gì?",
-    story: "Thanh Sơn có nhiều dự định nhưng càng nghĩ càng rối và chưa biết nên bắt đầu từ đâu."
-  }
-];
+    const CASES = [
+      { name: "Minh Anh", age: 22, topic: "Tình cảm", question: "Người cũ có còn tình cảm với mình không?", story: "Minh Anh vừa kết thúc mối quan hệ gần 2 năm. Hai người vẫn xem story của nhau nhưng không ai chủ động nhắn tin." },
+      { name: "Hoài", age: 25, topic: "Công việc", question: "Mình có nên nghỉ việc hiện tại không?", story: "Hoài có công việc ổn định nhưng thấy bị bào mòn năng lượng và không còn phát triển nhiều." },
+      { name: "Gia Hân", age: 19, topic: "Học tập", question: "Mình có chọn đúng ngành không?", story: "Gia Hân vừa vào đại học nhưng thấy ngành học không giống kỳ vọng và đang rất hoang mang." },
+      { name: "Tuấn", age: 27, topic: "Tình cảm", question: "Người mình đang tìm hiểu có nghiêm túc không?", story: "Tuấn đang nói chuyện với một người rất hợp vibe nhưng đối phương ít thể hiện rõ cảm xúc." },
+      { name: "Linh Chi", age: 24, topic: "Gia đình", question: "Mình nên làm gì để bớt căng thẳng với mẹ?", story: "Linh Chi thường xuyên cãi nhau với mẹ vì chuyện học, tiền bạc và tương lai." },
+      { name: "Bảo Ngọc", age: 21, topic: "Bản thân", question: "Điều gì đang cản mình tự tin hơn?", story: "Bảo Ngọc hay so sánh bản thân với người khác và sợ bị đánh giá khi bắt đầu điều mới." },
+      { name: "Khánh Vy", age: 26, topic: "Công việc", question: "Dự án riêng của mình có tiềm năng không?", story: "Khánh Vy muốn mở dịch vụ nhỏ online nhưng sợ không có khách và chưa biết bắt đầu từ đâu." },
+      { name: "An", age: 20, topic: "Tình cảm", question: "Crush nghĩ gì về mình?", story: "An và crush học chung lớp, nói chuyện vui nhưng crush lúc gần lúc xa." },
+      { name: "Mai Phương", age: 29, topic: "Tài chính", question: "Mình nên tiết kiệm hay đầu tư trong giai đoạn này?", story: "Mai Phương có một khoản tiền nhỏ và muốn dùng tiền thông minh hơn nhưng sợ rủi ro." },
+      { name: "Quỳnh", age: 23, topic: "Định hướng", question: "Hướng đi nào phù hợp với mình trong 6 tháng tới?", story: "Quỳnh đang phân vân giữa học thêm, đổi việc, xây thương hiệu cá nhân hoặc nghỉ ngơi." },
+      { name: "Hải Nam", age: 24, topic: "Công việc", question: "Mình có nên nhận offer mới không?", story: "Hải Nam được offer một công việc mới lương tốt hơn nhưng môi trường có vẻ áp lực." },
+      { name: "Thảo Nhi", age: 18, topic: "Học tập", question: "Mình có đủ khả năng đậu kỳ thi sắp tới không?", story: "Thảo Nhi còn ít thời gian ôn thi, kiến thức chưa đều và rất dễ hoảng khi làm đề." },
+      { name: "Đức Anh", age: 28, topic: "Tình cảm", question: "Mối quan hệ mập mờ này có nên tiếp tục không?", story: "Đức Anh và đối phương quan tâm nhau nhưng không ai xác nhận rõ ràng mối quan hệ." },
+      { name: "Hương Giang", age: 30, topic: "Gia đình", question: "Mình có nên chuyển ra sống riêng không?", story: "Hương Giang muốn độc lập hơn nhưng sợ gia đình buồn và sợ tài chính chưa đủ vững." },
+      { name: "Minh Khang", age: 21, topic: "Bản thân", question: "Mình đang né tránh điều gì?", story: "Minh Khang thường trì hoãn những quyết định quan trọng và cảm thấy bản thân mất phương hướng." },
+      { name: "Yến Nhi", age: 23, topic: "Tình cảm", question: "Người ấy có đang giấu mình điều gì không?", story: "Yến Nhi thấy đối phương gần đây ít chia sẻ và hay né những cuộc trò chuyện sâu." },
+      { name: "Quốc Bảo", age: 26, topic: "Sự nghiệp", question: "Mình có hợp làm freelancer không?", story: "Quốc Bảo muốn rời công việc văn phòng để làm tự do nhưng lo thu nhập không ổn định." },
+      { name: "Thanh Lam", age: 25, topic: "Tình cảm", question: "Mình có nên chủ động nhắn tin trước không?", story: "Thanh Lam và người ấy im lặng vài ngày sau một buổi đi chơi khá vui." },
+      { name: "Bích Trâm", age: 22, topic: "Bạn bè", question: "Tình bạn này có còn lành mạnh không?", story: "Bích Trâm cảm thấy mình luôn là người cho đi nhiều hơn trong một mối quan hệ bạn bè." },
+      { name: "Trung Kiên", age: 31, topic: "Tài chính", question: "Mình có nên góp vốn kinh doanh với bạn không?", story: "Trung Kiên được bạn rủ góp vốn nhưng chưa chắc người kia đủ minh bạch và trách nhiệm." },
+      { name: "Mỹ Duyên", age: 20, topic: "Học tập", question: "Mình có nên đổi ngành không?", story: "Mỹ Duyên học ngành hiện tại vì gia đình muốn, nhưng bản thân lại thích một lĩnh vực sáng tạo hơn." },
+      { name: "Nhật Minh", age: 27, topic: "Công việc", question: "Sếp có đánh giá cao mình không?", story: "Nhật Minh làm nhiều nhưng ít được phản hồi trực tiếp nên không biết vị trí của mình trong mắt sếp." },
+      { name: "Hoàng Yến", age: 24, topic: "Tình cảm", question: "Người cũ có quay lại không?", story: "Hoàng Yến và người cũ chia tay trong im lặng, gần đây người đó lại tương tác trên mạng xã hội." },
+      { name: "Phúc Lâm", age: 22, topic: "Bản thân", question: "Mình nên chữa lành điều gì trước?", story: "Phúc Lâm dễ nổi nóng khi bị góp ý và thường thấy bản thân không được công nhận." },
+      { name: "Ngọc Hân", age: 28, topic: "Định hướng", question: "Mình nên ưu tiên tình yêu hay sự nghiệp lúc này?", story: "Ngọc Hân đang có cơ hội công việc tốt nhưng mối quan hệ tình cảm lại cần nhiều thời gian." },
+      { name: "Tú Anh", age: 19, topic: "Tình cảm", question: "Crush có để ý mình không?", story: "Tú Anh thấy crush hay nhìn mình nhưng khi nói chuyện lại khá lạnh và khó đoán." },
+      { name: "Gia Bảo", age: 25, topic: "Công việc", question: "Mình có nên nói thẳng với sếp về áp lực hiện tại không?", story: "Gia Bảo bị giao việc quá tải nhưng sợ nói ra sẽ bị đánh giá là thiếu năng lực." },
+      { name: "Cẩm Tú", age: 27, topic: "Tài chính", question: "Mình có nên mua món đồ lớn này không?", story: "Cẩm Tú rất muốn mua một món đồ giá trị cao nhưng vẫn còn vài khoản cần tiết kiệm." },
+      { name: "Minh Thư", age: 23, topic: "Bạn bè", question: "Người bạn này thật sự có vui cho mình không?", story: "Minh Thư thấy bạn mình hay nói đùa mỉa mai mỗi khi mình đạt được điều gì đó." },
+      { name: "Anh Khoa", age: 29, topic: "Sự nghiệp", question: "Mình có nên học thêm để chuyển ngành không?", story: "Anh Khoa muốn chuyển sang lĩnh vực mới nhưng sợ bắt đầu lại quá muộn." },
+      { name: "Lệ Quyên", age: 26, topic: "Tình cảm", question: "Mối quan hệ này có đang tiến triển không?", story: "Lệ Quyên và đối phương hẹn hò đều nhưng chưa có cam kết rõ ràng." },
+      { name: "Tuệ Minh", age: 21, topic: "Bản thân", question: "Mình cần buông bỏ điều gì?", story: "Tuệ Minh vẫn bám vào một kỳ vọng cũ dù biết nó làm mình mệt mỏi." },
+      { name: "Khánh Linh", age: 24, topic: "Công việc", question: "Đồng nghiệp có đang cạnh tranh xấu với mình không?", story: "Khánh Linh thấy một đồng nghiệp hay lấy ý tưởng của mình và nói chuyện không rõ ràng." },
+      { name: "Văn Huy", age: 32, topic: "Gia đình", question: "Mình nên làm gì khi gia đình không ủng hộ lựa chọn của mình?", story: "Văn Huy muốn thay đổi hướng đi nhưng gia đình cho rằng quyết định đó quá rủi ro." },
+      { name: "Diệu Linh", age: 20, topic: "Học tập", question: "Mình có đang đi đúng lộ trình không?", story: "Diệu Linh học rất nhiều nhưng vẫn thấy kết quả chưa tương xứng với công sức." },
+      { name: "Hà My", age: 25, topic: "Tình cảm", question: "Người ấy có xem mình là lựa chọn nghiêm túc không?", story: "Hà My cảm thấy đối phương quan tâm nhưng vẫn giữ khoảng cách và không nói về tương lai." },
+      { name: "Quang Huy", age: 23, topic: "Bản thân", question: "Mình cần tin vào bản thân hơn ở điểm nào?", story: "Quang Huy hay tự hạ thấp năng lực dù người khác đánh giá khá tốt." },
+      { name: "Thuỳ Dương", age: 28, topic: "Sự nghiệp", question: "Dự án này có nên tiếp tục đầu tư thời gian không?", story: "Thuỳ Dương đã làm dự án cá nhân vài tháng nhưng chưa thấy kết quả rõ rệt." },
+      { name: "Hoàng Nam", age: 26, topic: "Tình cảm", question: "Mình có nên cho người ấy thêm cơ hội không?", story: "Hoàng Nam từng bị đối phương làm tổn thương nhưng người ấy đang cố gắng quay lại." },
+      { name: "Lan Anh", age: 22, topic: "Định hướng", question: "Mình nên đi theo con đường an toàn hay thử điều mới?", story: "Lan Anh có một lựa chọn ổn định và một lựa chọn rất hấp dẫn nhưng nhiều rủi ro." },
+      { name: "Kim Ngân", age: 24, topic: "Tài chính", question: "Mình có đang quản lý tiền sai cách không?", story: "Kim Ngân kiếm được tiền nhưng cuối tháng thường không hiểu tiền đã đi đâu." },
+      { name: "Minh Đức", age: 30, topic: "Công việc", question: "Công ty hiện tại còn phù hợp với mình không?", story: "Minh Đức gắn bó với công ty lâu nhưng cảm thấy mình đang đứng yên." },
+      { name: "Phương Uyên", age: 19, topic: "Tình cảm", question: "Mình có nên tỏ tình không?", story: "Phương Uyên thích một người đã lâu, hai người khá thân nhưng cô sợ làm hỏng tình bạn." },
+      { name: "Đan Thanh", age: 27, topic: "Bản thân", question: "Vì sao mình luôn chọn người làm mình tổn thương?", story: "Đan Thanh nhận ra mình thường bị thu hút bởi những người lạnh lùng hoặc không sẵn sàng." },
+      { name: "Việt Anh", age: 24, topic: "Bạn bè", question: "Mình có nên giữ khoảng cách với nhóm bạn này không?", story: "Việt Anh cảm thấy nhóm bạn hiện tại hay khiến mình mất năng lượng và không còn là chính mình." },
+      { name: "Hồng Nhung", age: 31, topic: "Gia đình", question: "Mình có nên tha thứ cho người thân này không?", story: "Hồng Nhung từng bị một người thân làm tổn thương và hiện người đó muốn làm lành." },
+      { name: "Bảo Châu", age: 23, topic: "Sự nghiệp", question: "Mình có nên xây personal brand không?", story: "Bảo Châu muốn chia sẻ kiến thức online nhưng sợ bị soi xét và chưa biết bắt đầu từ đâu." },
+      { name: "Quốc Thịnh", age: 28, topic: "Tài chính", question: "Khoản đầu tư này có đáng để thử không?", story: "Quốc Thịnh nghe về một cơ hội đầu tư mới nhưng thông tin còn khá mơ hồ." },
+      { name: "Ánh Dương", age: 21, topic: "Học tập", question: "Mình có nên du học không?", story: "Ánh Dương muốn đi du học nhưng lo xa nhà, tài chính và khả năng thích nghi." },
+      { name: "Ngọc Mai", age: 26, topic: "Tình cảm", question: "Mình nên chờ hay nên buông?", story: "Ngọc Mai đang chờ một người ổn định lại cảm xúc nhưng bản thân cô ngày càng kiệt sức." }
+    ];
 
     const SPREADS = [
       {
@@ -1694,19 +1379,20 @@ const CASES = [
     }
 
     function randomDeckCards(count) {
-  if (typeof getAllCards !== "function") return [];
+      if (typeof getAllCards !== "function") return [];
 
-  const deck = [...getAllCards()];
+      const deck = [...getAllCards()];
 
-  for (let i = deck.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = deck[i];
-    deck[i] = deck[j];
-    deck[j] = temp;
-  }
+      for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = deck[i];
+        deck[i] = deck[j];
+        deck[j] = temp;
+      }
 
-  return deck.slice(0, count);
-}
+      return deck.slice(0, count);
+    }
+
     function pickRandom(array) {
       return array[Math.floor(Math.random() * array.length)];
     }
@@ -1774,7 +1460,7 @@ const CASES = [
         throw new Error(data.error || "Gemini API error.");
       }
 
-      return data.text || "Gemini không trả về nội dung.";
+      return data.text || "AI FreshSpirit không trả về nội dung.";
     }
 
     async function askGPT(prompt) {
@@ -1792,7 +1478,7 @@ const CASES = [
         throw new Error(data.error || "OpenAI API error.");
       }
 
-      return data.text || "GPT không trả về nội dung.";
+      return data.text || "GPT FreshSpirit không trả về nội dung.";
     }
 
     function cardsPrompt(cards) {
@@ -1809,7 +1495,7 @@ Nghĩa: ${cardMeaning(card)}
     function buildRoomAIPrompt() {
       if (roomAiCard) {
         return `
-Bạn là FreshSpirit Tarot, một tarot reader nói tiếng Việt tự nhiên, sâu sắc nhưng dễ hiểu.
+Bạn là AI của FreshSpirit, một tarot reader nói tiếng Việt tự nhiên, sâu sắc nhưng dễ hiểu.
 
 Người dùng hỏi:
 ${roomQuestion || "Người dùng muốn nhận một thông điệp chung."}
@@ -1829,7 +1515,7 @@ Hãy diễn giải lá bài này theo câu hỏi của người dùng:
       }
 
       return `
-Bạn là FreshSpirit Tarot, một AI tarot reader nói tiếng Việt tự nhiên, dịu nhưng rõ ý.
+Bạn là AI của FreshSpirit, một AI tarot reader nói tiếng Việt tự nhiên, dịu nhưng rõ ý.
 
 Người dùng hỏi:
 ${roomQuestion}
@@ -1844,7 +1530,7 @@ Hãy trò chuyện và tư vấn nhẹ nhàng:
 
     function buildSystemAIPrompt() {
       return `
-Bạn là FreshSpirit Tarot, một tarot reader nói tiếng Việt, giọng văn tự nhiên, sâu sắc nhưng dễ hiểu.
+Bạn là AI của FreshSpirit, một tarot reader nói tiếng Việt, giọng văn tự nhiên, sâu sắc nhưng dễ hiểu.
 
 Hãy diễn giải trải bài tarot dưới đây cho người dùng.
 
@@ -1873,7 +1559,7 @@ Trả lời bằng tiếng Việt.
 
     function buildPracticePrompt() {
       return `
-Bạn là FreshSpirit Tarot, một tarot reader nói tiếng Việt, giọng văn tự nhiên, sâu sắc nhưng dễ hiểu.
+Bạn là AI của FreshSpirit, một tarot reader nói tiếng Việt, giọng văn tự nhiên, sâu sắc nhưng dễ hiểu.
 
 Hãy diễn giải trải bài tarot dưới đây cho mục đích luyện tập đọc bài.
 
@@ -1907,7 +1593,7 @@ Trả lời bằng tiếng Việt.
 
     function buildManualAIPrompt() {
       return `
-Bạn là FreshSpirit Tarot, một tarot reader nói tiếng Việt tự nhiên, sâu sắc nhưng dễ hiểu.
+Bạn là AI của FreshSpirit, một tarot reader nói tiếng Việt tự nhiên, sâu sắc nhưng dễ hiểu.
 
 Người dùng tự bốc bài trong Room.
 
@@ -2317,64 +2003,64 @@ Trả lời bằng tiếng Việt.
       render();
     }
 
-function renderHome() {
-  const fanCards = randomDeckCards(3);
-  const featuredCards = randomDeckCards(4);
+    function renderHome() {
+      const fanCards = randomDeckCards(3);
+      const featuredCards = randomDeckCards(4);
 
-  root.innerHTML = layout(`
-    <section class="card home-room-card" onclick="startRoom()">
-      <h1>Do tarot anywhere</h1>
-      <p>Chạm vào đây để vào + Room và bắt đầu xem bài riêng với FreshSpirit.</p>
+      root.innerHTML = layout(`
+        <section class="card home-room-card" onclick="startRoom()">
+          <h1>Do tarot anywhere</h1>
+          <p>Chạm vào đây để vào + Room và bắt đầu xem bài riêng với FreshSpirit.</p>
 
-      <div class="fan">
-        ${fanCards.map(card => `
-          <img src="${esc(card.image)}" alt="${esc(card.name)}">
-        `).join("")}
-      </div>
-    </section>
+          <div class="fan">
+            ${fanCards.map(card => `
+              <img src="${esc(card.image)}" alt="${esc(card.name)}">
+            `).join("")}
+          </div>
+        </section>
 
-    <section class="card">
-      <h2>Start your reading</h2>
+        <section class="card">
+          <h2>Start your reading</h2>
 
-      <div class="quick-grid">
-        <button class="quick-card" onclick="startRoom()">
-          <span>✨</span>
-          <strong>+ Room</strong>
-          <small>Phòng xem bài riêng: chọn AI FreshSpirit, hệ thống hoặc tự bốc bài.</small>
-        </button>
+          <div class="quick-grid">
+            <button class="quick-card" onclick="startRoom()">
+              <span>✨</span>
+              <strong>+ Room</strong>
+              <small>Phòng xem bài riêng: chọn AI FreshSpirit, hệ thống hoặc tự bốc bài.</small>
+            </button>
 
-        <button class="quick-card" onclick="go('practice')">
-          <span>🔮</span>
-          <strong>Practice</strong>
-          <small>Luyện trải bài ảo với querent và case thực hành.</small>
-        </button>
+            <button class="quick-card" onclick="go('practice')">
+              <span>🔮</span>
+              <strong>Practice</strong>
+              <small>Luyện trải bài ảo với querent và case thực hành.</small>
+            </button>
 
-        <button class="quick-card" onclick="go('cards')">
-          <span>🃏</span>
-          <strong>Explore cards</strong>
-          <small>Xem đủ 78 lá Rider Waite và nghĩa xuôi/ngược từng lá.</small>
-        </button>
+            <button class="quick-card" onclick="go('cards')">
+              <span>🃏</span>
+              <strong>Explore cards</strong>
+              <small>Xem đủ 78 lá Rider Waite và nghĩa xuôi/ngược từng lá.</small>
+            </button>
 
-        <button class="quick-card" onclick="go('journal')">
-          <span>📓</span>
-          <strong>Your journal</strong>
-          <small>Xem lại những case và trải bài đã lưu.</small>
-        </button>
-      </div>
-    </section>
+            <button class="quick-card" onclick="go('journal')">
+              <span>📓</span>
+              <strong>Your journal</strong>
+              <small>Xem lại những case và trải bài đã lưu.</small>
+            </button>
+          </div>
+        </section>
 
-    <section class="card">
-      <h2>Featured cards</h2>
-      <p>Mỗi lần vào Home, FreshSpirit sẽ random 4 lá bài khác nhau.</p>
+        <section class="card">
+          <h2>Featured cards</h2>
+          <p>Mỗi lần vào Home, FreshSpirit sẽ random 4 lá bài khác nhau.</p>
 
-      <div class="featured">
-        ${featuredCards.map(card => `
-          <img src="${esc(card.image)}" alt="${esc(card.name)}">
-        `).join("")}
-      </div>
-    </section>
-  `, "home");
-}
+          <div class="featured">
+            ${featuredCards.map(card => `
+              <img src="${esc(card.image)}" alt="${esc(card.name)}">
+            `).join("")}
+          </div>
+        </section>
+      `, "home");
+    }
 
     function renderRoom() {
       if (!roomSystemSpread) roomSystemSpread = SPREADS[1];
@@ -2453,7 +2139,7 @@ function renderHome() {
           </div>
 
           <button class="white-btn" onclick="chatWithRoomAI()" style="margin-top:12px;">
-            Chat với AI
+            Chat với AI FreshSpirit
           </button>
 
           <button class="submit" onclick="roomAIDrawCard()" style="margin-top:12px;">
@@ -2634,7 +2320,7 @@ function renderHome() {
           </div>
 
           <button class="white-btn" onclick="getRoomSystemAI()" style="margin-top:12px;">
-            Lấy góc nhìn FreshSpirit
+            Hỏi AI FreshSpirit
           </button>
 
           <button class="submit" onclick="saveRoomSystemJournal()" style="margin-top:12px;">
@@ -2690,7 +2376,7 @@ function renderHome() {
 
       const interpretation = [
         notes ? `Diễn giải của reader:\n${notes}` : "",
-        roomSystemAiText ? `Góc nhìn FreshSpirit:\n${roomSystemAiText}` : ""
+        roomSystemAiText ? `AI FreshSpirit:\n${roomSystemAiText}` : ""
       ].filter(Boolean).join("\n\n");
 
       message.textContent = "Đang lưu vào journal...";
@@ -2825,13 +2511,13 @@ function renderHome() {
                     Hỏi GPT FreshSpirit
                   </button>
 
-<button class="submit" onclick="getManualFreshInterpretation()">
-  Hỏi hệ thống FreshSpirit
-</button>
+                  <button class="submit" onclick="getManualFreshInterpretation()">
+                    Hỏi hệ thống FreshSpirit
+                  </button>
 
-<button class="white-btn" onclick="saveManualJournal()">
-  Thêm vào journal
-</button>
+                  <button class="white-btn" onclick="saveManualJournal()">
+                    Thêm vào journal
+                  </button>
                 </div>
 
                 <p id="manualActionMessage" class="message"></p>
@@ -3091,43 +2777,44 @@ Lời khuyên:
     };
 
     window.saveManualJournal = async function() {
-  const message = document.getElementById("manualActionMessage");
+      const message = document.getElementById("manualActionMessage");
 
-  if (!manualReadingReady()) {
-    if (message) message.textContent = "Bạn cần rút đủ lá và lật hết bài trước.";
-    return;
-  }
+      if (!manualReadingReady()) {
+        if (message) message.textContent = "Bạn cần rút đủ lá và lật hết bài trước.";
+        return;
+      }
 
-  const interpretation = [
-    manualAiText ? `AI FreshSpirit:\n${manualAiText}` : "",
-    manualFreshText ? `Hệ thống FreshSpirit:\n${manualFreshText}` : ""
-  ].filter(Boolean).join("\n\n");
+      const interpretation = [
+        manualAiText ? `AI FreshSpirit:\n${manualAiText}` : "",
+        manualFreshText ? `Hệ thống FreshSpirit:\n${manualFreshText}` : ""
+      ].filter(Boolean).join("\n\n");
 
-  if (message) message.textContent = "Đang lưu vào journal...";
+      if (message) message.textContent = "Đang lưu vào journal...";
 
-  const { error } = await db.from("journal_entries").insert({
-    user_id: currentUser.id,
-    title: `${manualSpread.name} — Tự bốc bài`,
-    spread_type: manualSpread.id,
-    question: roomQuestion || "Tự bốc bài trong FreshSpirit Room",
-    cards: manualDrawnCards,
-    interpretation: interpretation || "Tự bốc bài. Chưa có diễn giải từ AI hoặc hệ thống FreshSpirit."
-  });
+      const { error } = await db.from("journal_entries").insert({
+        user_id: currentUser.id,
+        title: `${manualSpread.name} — Tự bốc bài`,
+        spread_type: manualSpread.id,
+        question: roomQuestion || "Tự bốc bài trong FreshSpirit Room",
+        cards: manualDrawnCards,
+        interpretation: interpretation || "Tự bốc bài. Chưa có diễn giải từ AI hoặc hệ thống FreshSpirit."
+      });
 
-  if (error) {
-    if (message) message.textContent = error.message;
-    return;
-  }
+      if (error) {
+        if (message) message.textContent = error.message;
+        return;
+      }
 
-  if (message) message.textContent = "Đã thêm vào journal.";
-};
+      if (message) message.textContent = "Đã thêm vào journal.";
+    };
+
     function renderPractice() {
       if (!practiceSpread) practiceSpread = SPREADS[1];
 
       root.innerHTML = layout(`
         <section class="card">
           <h1>Practice</h1>
-          <p>Đây là phần luyện trải bài ảo. Chọn querent/case, chọn spread rồi tập diễn giải.</p>
+          <p>Đây là phần luyện trải bài ảo. FreshSpirit sẽ chọn ngẫu nhiên một querent ảo để bạn luyện đọc bài.</p>
         </section>
 
         ${practiceCase ? practiceCaseHtml() : practiceCaseListHtml()}
@@ -3139,18 +2826,18 @@ Lời khuyên:
       `, "practice");
     }
 
-function practiceCaseListHtml() {
-  return `
-    <section class="card">
-      <h2>Chọn case để thực hành</h2>
-      <p>FreshSpirit sẽ chọn ngẫu nhiên một querent ảo để bạn luyện trải bài. Người dùng sẽ không thấy danh sách case phía sau.</p>
+    function practiceCaseListHtml() {
+      return `
+        <section class="card">
+          <h2>Chọn case để thực hành</h2>
+          <p>FreshSpirit sẽ random một querent ảo để bạn luyện trải bài. Danh sách case được giữ ẩn trong hệ thống.</p>
 
-      <button class="submit" onclick="randomPracticeCase()">
-        Random một querent
-      </button>
-    </section>
-  `;
-}
+          <button class="submit" onclick="randomPracticeCase()">
+            Random một querent
+          </button>
+        </section>
+      `;
+    }
 
     function practiceCaseHtml() {
       return `
@@ -3164,7 +2851,7 @@ function practiceCaseListHtml() {
           </div>
 
           <button class="white-btn" onclick="clearPracticeCase()" style="margin-top:12px;">
-            Chọn case khác
+            Random case khác
           </button>
         </section>
       `;
@@ -3185,13 +2872,6 @@ function practiceCaseListHtml() {
         </section>
       `;
     }
-
-    window.selectPracticeCase = function(index) {
-      practiceCase = CASES[index];
-      practiceCards = [];
-      practiceAiText = "";
-      renderPractice();
-    };
 
     window.randomPracticeCase = function() {
       practiceCase = pickRandom(CASES);
@@ -3249,7 +2929,7 @@ function practiceCaseListHtml() {
           </div>
 
           <button class="white-btn" onclick="getPracticeAI()" style="margin-top:12px;">
-            Lấy góc nhìn FreshSpirit
+            Hỏi AI FreshSpirit
           </button>
 
           <button class="submit" onclick="savePracticeJournal()" style="margin-top:12px;">
@@ -3306,7 +2986,7 @@ function practiceCaseListHtml() {
 
       const interpretation = [
         notes ? `Diễn giải của reader:\n${notes}` : "",
-        practiceAiText ? `Góc nhìn FreshSpirit:\n${practiceAiText}` : ""
+        practiceAiText ? `AI FreshSpirit:\n${practiceAiText}` : ""
       ].filter(Boolean).join("\n\n");
 
       message.textContent = "Đang lưu vào journal...";
@@ -3368,7 +3048,7 @@ function practiceCaseListHtml() {
       root.innerHTML = layout(`
         <section class="card">
           <h1>Tarot cards</h1>
-          <p>Xem nhanh 78 lá Rider Waite trong FreshSpirit.</p>
+          <p>Bấm vào từng lá bài để lật sang mặt sau và xem nghĩa xuôi / nghĩa ngược.</p>
 
           <div class="form">
             <input id="cardSearch" type="text" placeholder="Tìm lá bài...">
@@ -3393,61 +3073,62 @@ function practiceCaseListHtml() {
       });
     }
 
-function renderCardGrid(cards) {
-  const grid = document.getElementById("cardsGrid");
+    function renderCardGrid(cards) {
+      const grid = document.getElementById("cardsGrid");
 
-  if (!grid) return;
+      if (!grid) return;
 
-  if (!cards.length) {
-    grid.innerHTML = `<section class="card"><p>Không tìm thấy lá bài phù hợp.</p></section>`;
-    return;
-  }
+      if (!cards.length) {
+        grid.innerHTML = `<section class="card"><p>Không tìm thấy lá bài phù hợp.</p></section>`;
+        return;
+      }
 
-  grid.innerHTML = cards.map((card, index) => `
-    <article
-      id="cardFlip${index}"
-      class="tarot-item tarot-flip-card"
-      onclick="toggleCardFlip(${index})"
-    >
-      <div class="tarot-flip-inner">
-        <div class="tarot-flip-face tarot-flip-front">
-          <img src="${esc(card.image)}" alt="${esc(card.name)}">
-          <h2>${esc(card.name)}</h2>
-          <small>${esc(card.viName)}</small>
-          <small>Chạm vào lá bài để xem nghĩa</small>
-        </div>
+      grid.innerHTML = cards.map((card, index) => `
+        <article
+          id="cardFlip${index}"
+          class="tarot-item tarot-flip-card"
+          onclick="toggleCardFlip(${index})"
+        >
+          <div class="tarot-flip-inner">
+            <div class="tarot-flip-face tarot-flip-front">
+              <img src="${esc(card.image)}" alt="${esc(card.name)}">
+              <h2>${esc(card.name)}</h2>
+              <small>${esc(card.viName)}</small>
+              <small>Chạm vào lá bài để xem nghĩa</small>
+            </div>
 
-        <div class="tarot-flip-face tarot-flip-back">
-          <h2>${esc(card.name)}</h2>
-          <small style="display:block;text-align:center;margin-bottom:10px;">
-            ${esc(card.viName)}
-          </small>
+            <div class="tarot-flip-face tarot-flip-back">
+              <h2>${esc(card.name)}</h2>
+              <small style="display:block;text-align:center;margin-bottom:10px;">
+                ${esc(card.viName)}
+              </small>
 
-          <div class="meaning-box">
-            <strong>Nghĩa xuôi</strong>
-            <p>${esc(card.meaning)}</p>
+              <div class="meaning-box">
+                <strong>Nghĩa xuôi</strong>
+                <p>${esc(card.meaning)}</p>
+              </div>
+
+              <div class="meaning-box">
+                <strong>Nghĩa ngược</strong>
+                <p>${esc(reversedMeaning(card))}</p>
+              </div>
+
+              <small style="display:block;text-align:center;color:#666;font-weight:700;">
+                Chạm để quay lại mặt bài
+              </small>
+            </div>
           </div>
+        </article>
+      `).join("");
+    }
 
-          <div class="meaning-box">
-            <strong>Nghĩa ngược</strong>
-            <p>${esc(reversedMeaning(card))}</p>
-          </div>
+    window.toggleCardFlip = function(index) {
+      const card = document.getElementById(`cardFlip${index}`);
+      if (!card) return;
 
-          <small style="display:block;text-align:center;color:#666;font-weight:700;">
-            Chạm để quay lại mặt bài
-          </small>
-        </div>
-      </div>
-    </article>
-  `).join("");
-}
+      card.classList.toggle("flipped");
+    };
 
-window.toggleCardFlip = function(index) {
-  const card = document.getElementById(`cardFlip${index}`);
-  if (!card) return;
-
-  card.classList.toggle("flipped");
-};
     function renderJournal() {
       root.innerHTML = layout(`
         <section class="card">
@@ -3572,11 +3253,13 @@ window.toggleCardFlip = function(index) {
 
           <form id="profileForm" class="form">
             <input id="profileName" type="text" placeholder="Tên hiển thị" value="${esc(currentProfile.display_name || "")}">
+
             <div class="upload-avatar-box">
-  <strong>Ảnh đại diện</strong>
-  <small>Chọn ảnh từ thư viện máy. Hỗ trợ PNG, JPG, JPEG, WEBP. Tối đa 5MB.</small>
-  <input id="profileAvatarFile" type="file" accept="image/png, image/jpeg, image/jpg, image/webp">
-</div>
+              <strong>Ảnh đại diện</strong>
+              <small>Chọn ảnh từ thư viện máy. Hỗ trợ PNG, JPG, JPEG, WEBP. Tối đa 5MB.</small>
+              <input id="profileAvatarFile" type="file" accept="image/png, image/jpeg, image/jpg, image/webp">
+            </div>
+
             <input id="profileTiktok" type="text" placeholder="TikTok" value="${esc(currentProfile.tiktok_handle || "")}">
 
             <select id="profileHeardFrom">
@@ -3601,80 +3284,66 @@ window.toggleCardFlip = function(index) {
       document.getElementById("profileForm").addEventListener("submit", saveProfile);
     }
 
-async function saveProfile(event) {
-  event.preventDefault();
+    async function saveProfile(event) {
+      event.preventDefault();
 
-  const message = document.getElementById("profileMessage");
-  message.textContent = "Đang lưu...";
+      const message = document.getElementById("profileMessage");
+      message.textContent = "Đang lưu...";
 
-  let avatarUrl = currentProfile.avatar_url || "";
+      let avatarUrl = currentProfile.avatar_url || "";
 
-  const avatarInput = document.getElementById("profileAvatarFile");
-  const avatarFile = avatarInput && avatarInput.files && avatarInput.files[0]
-    ? avatarInput.files[0]
-    : null;
+      const avatarInput = document.getElementById("profileAvatarFile");
+      const avatarFile = avatarInput && avatarInput.files && avatarInput.files[0]
+        ? avatarInput.files[0]
+        : null;
 
-  if (avatarFile) {
-    const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+      if (avatarFile) {
+        const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
 
-    if (!allowedTypes.includes(avatarFile.type)) {
-      message.textContent = "Ảnh phải là PNG, JPG, JPEG hoặc WEBP.";
-      return;
-    }
+        if (!allowedTypes.includes(avatarFile.type)) {
+          message.textContent = "Ảnh phải là PNG, JPG, JPEG hoặc WEBP.";
+          return;
+        }
 
-    if (avatarFile.size > 5 * 1024 * 1024) {
-      message.textContent = "Ảnh đại diện tối đa 5MB.";
-      return;
-    }
+        if (avatarFile.size > 5 * 1024 * 1024) {
+          message.textContent = "Ảnh đại diện tối đa 5MB.";
+          return;
+        }
 
-    message.textContent = "Đang upload ảnh đại diện...";
+        message.textContent = "Đang upload ảnh đại diện...";
 
-    const fileExt = avatarFile.name.split(".").pop().toLowerCase() || "png";
-    const filePath = `${currentUser.id}/avatar-${Date.now()}.${fileExt}`;
+        const fileExt = avatarFile.name.split(".").pop().toLowerCase() || "png";
+        const filePath = `${currentUser.id}/avatar-${Date.now()}.${fileExt}`;
 
-    const { error: uploadError } = await db.storage
-      .from("avatars")
-      .upload(filePath, avatarFile, {
-        cacheControl: "3600",
-        upsert: true,
-        contentType: avatarFile.type
-      });
+        const { error: uploadError } = await db.storage
+          .from("avatars")
+          .upload(filePath, avatarFile, {
+            cacheControl: "3600",
+            upsert: true,
+            contentType: avatarFile.type
+          });
 
-    if (uploadError) {
-      message.textContent = uploadError.message;
-      return;
-    }
+        if (uploadError) {
+          message.textContent = uploadError.message;
+          return;
+        }
 
-    const { data: publicData } = db.storage
-      .from("avatars")
-      .getPublicUrl(filePath);
+        const { data: publicData } = db.storage
+          .from("avatars")
+          .getPublicUrl(filePath);
 
-    avatarUrl = publicData.publicUrl;
-  }
+        avatarUrl = publicData.publicUrl;
+      }
 
-  const updates = {
-    display_name: document.getElementById("profileName").value.trim() || "Người dùng FreshSpirit",
-    avatar_url: avatarUrl,
-    tiktok_handle: document.getElementById("profileTiktok").value.trim(),
-    heard_from: document.getElementById("profileHeardFrom").value,
-    updated_at: new Date().toISOString()
-  };
+      const updates = {
+        display_name: document.getElementById("profileName").value.trim() || "Người dùng FreshSpirit",
+        avatar_url: avatarUrl,
+        tiktok_handle: document.getElementById("profileTiktok").value.trim(),
+        heard_from: document.getElementById("profileHeardFrom").value,
+        updated_at: new Date().toISOString()
+      };
 
-  message.textContent = "Đang cập nhật hồ sơ...";
-
-  const { error } = await db
-    .from("profiles")
-    .update(updates)
-    .eq("id", currentUser.id);
-
-  if (error) {
-    message.textContent = error.message;
-    return;
-  }
-
-  await loadProfile();
-  renderProfile();
-}
+      message.textContent = "Đang cập nhật hồ sơ...";
 
       const { error } = await db
         .from("profiles")
