@@ -1513,8 +1513,9 @@ Trả lời bằng tiếng Việt.
     }
 
     async function init() {
-      roomSystemSpread = SPREADS[1];
-      practiceSpread = SPREADS[1];
+roomSystemSpread = SPREADS[1];
+practiceSpread = SPREADS[1];
+manualSpread = SPREADS[1];
 
       const { data } = await db.auth.getUser();
       currentUser = data.user || null;
@@ -1887,39 +1888,45 @@ Trả lời bằng tiếng Việt.
       `, "home");
     }
 
-    function renderRoom() {
-      if (!roomSystemSpread) roomSystemSpread = SPREADS[1];
+function renderRoom() {
+  if (!roomSystemSpread) roomSystemSpread = SPREADS[1];
+  if (!manualSpread) manualSpread = SPREADS[1];
 
-      if (!roomMode) {
-        root.innerHTML = layout(`
-          <section class="card">
-            <h1>+ Room</h1>
-            <p>Đây là phòng xem bài riêng. Chọn cách bạn muốn xem bài.</p>
+  if (!roomMode) {
+    root.innerHTML = layout(`
+      <section class="card">
+        <h1>+ Room</h1>
+        <p>Đây là phòng xem bài riêng. Chọn cách bạn muốn xem bài.</p>
 
-            <div class="quick-grid">
-              <button class="quick-card" onclick="selectRoomMode('ai')">
-                <span>✨</span>
-                <strong>Xem bài với AI của FreshSpirit</strong>
-                <small>Chat với AI, hỏi câu hỏi riêng và để AI bốc bài / diễn giải.</small>
-              </button>
+        <div class="quick-grid">
+          <button class="quick-card" onclick="selectRoomMode('ai')">
+            <span>✨</span>
+            <strong>Xem bài với AI của FreshSpirit</strong>
+            <small>Chat với AI, hỏi câu hỏi riêng và để AI bốc bài / diễn giải.</small>
+          </button>
 
-              <button class="quick-card" onclick="selectRoomMode('system')">
-                <span>🃏</span>
-                <strong>Xem bài với hệ thống FreshSpirit</strong>
-                <small>Chọn spread, hệ thống rút bài và hiển thị nghĩa để bạn tự đọc.</small>
-              </button>
-            </div>
-          </section>
-        `, "home");
+          <button class="quick-card" onclick="selectRoomMode('system')">
+            <span>🃏</span>
+            <strong>Xem bài với hệ thống FreshSpirit</strong>
+            <small>Chọn spread, hệ thống rút bài và hiển thị nghĩa để bạn tự đọc.</small>
+          </button>
 
-        return;
-      }
+          <button class="quick-card" onclick="selectRoomMode('manual')">
+            <span>🖐️</span>
+            <strong>Tự bốc bài</strong>
+            <small>Chọn bộ bài, chọn kiểu trải, xáo bài và tự rút từng lá.</small>
+          </button>
+        </div>
+      </section>
+    `, "home");
 
-      if (roomMode === "ai") renderRoomAI();
-      else renderRoomSystem();
-    }
+    return;
+  }
 
-    window.selectRoomMode = function(mode) {
+  if (roomMode === "ai") renderRoomAI();
+  else if (roomMode === "system") renderRoomSystem();
+  else if (roomMode === "manual") renderRoomManual();
+}
       roomMode = mode;
       roomQuestion = "";
       roomAiText = "";
