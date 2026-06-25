@@ -1672,7 +1672,13 @@ Trả lời bằng tiếng Việt.
               <button class="icon-btn" onclick="go('shop')">🛍️</button>
               <button id="heartBtn" class="icon-btn" onclick="toggleHeart()">🤍</button>
               <button class="black-btn" onclick="startRoom()">✨ Room</button>
-              <button class="avatar-btn" onclick="toggleMenu()">🌙</button>
+              <button class="avatar-btn" onclick="toggleMenu()" title="Profile">
+  ${
+    currentProfile && currentProfile.avatar_url
+      ? `<img src="${esc(currentProfile.avatar_url)}" alt="Avatar">`
+      : `<span class="avatar-initial">${esc((currentProfile?.display_name || currentUser?.email || "F").charAt(0).toUpperCase())}</span>`
+  }
+</button>
             </div>
           </header>
 
