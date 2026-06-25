@@ -1230,78 +1230,365 @@
 
     const root = document.getElementById("root");
 
-    const CASES = [
-      {
-        name: "Minh Anh",
-        age: 22,
-        topic: "Tình cảm",
-        question: "Người cũ có còn tình cảm với mình không?",
-        story: "Minh Anh vừa kết thúc mối quan hệ gần 2 năm. Hai người vẫn xem story của nhau nhưng không ai chủ động nhắn tin."
-      },
-      {
-        name: "Hoài",
-        age: 25,
-        topic: "Công việc",
-        question: "Mình có nên nghỉ việc hiện tại không?",
-        story: "Hoài có công việc ổn định nhưng thấy bị bào mòn năng lượng, không còn phát triển nhiều."
-      },
-      {
-        name: "Gia Hân",
-        age: 19,
-        topic: "Học tập",
-        question: "Mình có chọn đúng ngành không?",
-        story: "Gia Hân vừa vào đại học nhưng thấy ngành học không giống kỳ vọng và đang rất hoang mang."
-      },
-      {
-        name: "Tuấn",
-        age: 27,
-        topic: "Tình cảm",
-        question: "Người mình đang tìm hiểu có nghiêm túc không?",
-        story: "Tuấn đang nói chuyện với một người rất hợp vibe nhưng đối phương ít thể hiện rõ cảm xúc."
-      },
-      {
-        name: "Linh Chi",
-        age: 24,
-        topic: "Gia đình",
-        question: "Mình nên làm gì để bớt căng thẳng với mẹ?",
-        story: "Linh Chi thường xuyên cãi nhau với mẹ vì chuyện học, tiền bạc và tương lai."
-      },
-      {
-        name: "Bảo Ngọc",
-        age: 21,
-        topic: "Bản thân",
-        question: "Điều gì đang cản mình tự tin hơn?",
-        story: "Bảo Ngọc hay so sánh bản thân với người khác và sợ bị đánh giá khi bắt đầu điều mới."
-      },
-      {
-        name: "Khánh Vy",
-        age: 26,
-        topic: "Công việc",
-        question: "Dự án riêng của mình có tiềm năng không?",
-        story: "Khánh Vy muốn mở dịch vụ nhỏ online nhưng sợ không có khách và chưa biết bắt đầu từ đâu."
-      },
-      {
-        name: "An",
-        age: 20,
-        topic: "Tình cảm",
-        question: "Crush nghĩ gì về mình?",
-        story: "An và crush học chung lớp, nói chuyện vui nhưng crush lúc gần lúc xa."
-      },
-      {
-        name: "Mai Phương",
-        age: 29,
-        topic: "Tài chính",
-        question: "Mình nên tiết kiệm hay đầu tư trong giai đoạn này?",
-        story: "Mai Phương có một khoản tiền nhỏ và muốn dùng tiền thông minh hơn nhưng sợ rủi ro."
-      },
-      {
-        name: "Quỳnh",
-        age: 23,
-        topic: "Định hướng",
-        question: "Hướng đi nào phù hợp với mình trong 6 tháng tới?",
-        story: "Quỳnh đang phân vân giữa học thêm, đổi việc, xây thương hiệu cá nhân hoặc nghỉ ngơi."
-      }
-    ];
+const CASES = [
+  {
+    name: "Minh Anh",
+    age: 22,
+    topic: "Tình cảm",
+    question: "Người cũ có còn tình cảm với mình không?",
+    story: "Minh Anh vừa kết thúc mối quan hệ gần 2 năm. Hai người vẫn xem story của nhau nhưng không ai chủ động nhắn tin."
+  },
+  {
+    name: "Hoài",
+    age: 25,
+    topic: "Công việc",
+    question: "Mình có nên nghỉ việc hiện tại không?",
+    story: "Hoài có công việc ổn định nhưng thấy bị bào mòn năng lượng và không còn phát triển nhiều."
+  },
+  {
+    name: "Gia Hân",
+    age: 19,
+    topic: "Học tập",
+    question: "Mình có chọn đúng ngành không?",
+    story: "Gia Hân vừa vào đại học nhưng thấy ngành học không giống kỳ vọng và đang rất hoang mang."
+  },
+  {
+    name: "Tuấn",
+    age: 27,
+    topic: "Tình cảm",
+    question: "Người mình đang tìm hiểu có nghiêm túc không?",
+    story: "Tuấn đang nói chuyện với một người rất hợp vibe nhưng đối phương ít thể hiện rõ cảm xúc."
+  },
+  {
+    name: "Linh Chi",
+    age: 24,
+    topic: "Gia đình",
+    question: "Mình nên làm gì để bớt căng thẳng với mẹ?",
+    story: "Linh Chi thường xuyên cãi nhau với mẹ vì chuyện học, tiền bạc và tương lai."
+  },
+  {
+    name: "Bảo Ngọc",
+    age: 21,
+    topic: "Bản thân",
+    question: "Điều gì đang cản mình tự tin hơn?",
+    story: "Bảo Ngọc hay so sánh bản thân với người khác và sợ bị đánh giá khi bắt đầu điều mới."
+  },
+  {
+    name: "Khánh Vy",
+    age: 26,
+    topic: "Công việc",
+    question: "Dự án riêng của mình có tiềm năng không?",
+    story: "Khánh Vy muốn mở dịch vụ nhỏ online nhưng sợ không có khách và chưa biết bắt đầu từ đâu."
+  },
+  {
+    name: "An",
+    age: 20,
+    topic: "Tình cảm",
+    question: "Crush nghĩ gì về mình?",
+    story: "An và crush học chung lớp, nói chuyện vui nhưng crush lúc gần lúc xa."
+  },
+  {
+    name: "Mai Phương",
+    age: 29,
+    topic: "Tài chính",
+    question: "Mình nên tiết kiệm hay đầu tư trong giai đoạn này?",
+    story: "Mai Phương có một khoản tiền nhỏ và muốn dùng tiền thông minh hơn nhưng sợ rủi ro."
+  },
+  {
+    name: "Quỳnh",
+    age: 23,
+    topic: "Định hướng",
+    question: "Hướng đi nào phù hợp với mình trong 6 tháng tới?",
+    story: "Quỳnh đang phân vân giữa học thêm, đổi việc, xây thương hiệu cá nhân hoặc nghỉ ngơi."
+  },
+  {
+    name: "Hải Nam",
+    age: 24,
+    topic: "Công việc",
+    question: "Mình có nên nhận offer mới không?",
+    story: "Hải Nam được offer một công việc mới lương tốt hơn nhưng môi trường có vẻ áp lực."
+  },
+  {
+    name: "Thảo Nhi",
+    age: 18,
+    topic: "Học tập",
+    question: "Mình có đủ khả năng đậu kỳ thi sắp tới không?",
+    story: "Thảo Nhi còn ít thời gian ôn thi, kiến thức chưa đều và rất dễ hoảng khi làm đề."
+  },
+  {
+    name: "Đức Anh",
+    age: 28,
+    topic: "Tình cảm",
+    question: "Mối quan hệ mập mờ này có nên tiếp tục không?",
+    story: "Đức Anh và đối phương quan tâm nhau nhưng không ai xác nhận rõ ràng mối quan hệ."
+  },
+  {
+    name: "Hương Giang",
+    age: 30,
+    topic: "Gia đình",
+    question: "Mình có nên chuyển ra sống riêng không?",
+    story: "Hương Giang muốn độc lập hơn nhưng sợ gia đình buồn và sợ tài chính chưa đủ vững."
+  },
+  {
+    name: "Minh Khang",
+    age: 21,
+    topic: "Bản thân",
+    question: "Mình đang né tránh điều gì?",
+    story: "Minh Khang thường trì hoãn những quyết định quan trọng và cảm thấy bản thân mất phương hướng."
+  },
+  {
+    name: "Yến Nhi",
+    age: 23,
+    topic: "Tình cảm",
+    question: "Người ấy có đang giấu mình điều gì không?",
+    story: "Yến Nhi thấy đối phương gần đây ít chia sẻ và hay né những cuộc trò chuyện sâu."
+  },
+  {
+    name: "Quốc Bảo",
+    age: 26,
+    topic: "Sự nghiệp",
+    question: "Mình có hợp làm freelancer không?",
+    story: "Quốc Bảo muốn rời công việc văn phòng để làm tự do nhưng lo thu nhập không ổn định."
+  },
+  {
+    name: "Thanh Lam",
+    age: 25,
+    topic: "Tình cảm",
+    question: "Mình có nên chủ động nhắn tin trước không?",
+    story: "Thanh Lam và người ấy im lặng vài ngày sau một buổi đi chơi khá vui."
+  },
+  {
+    name: "Bích Trâm",
+    age: 22,
+    topic: "Bạn bè",
+    question: "Tình bạn này có còn lành mạnh không?",
+    story: "Bích Trâm cảm thấy mình luôn là người cho đi nhiều hơn trong một mối quan hệ bạn bè."
+  },
+  {
+    name: "Trung Kiên",
+    age: 31,
+    topic: "Tài chính",
+    question: "Mình có nên góp vốn kinh doanh với bạn không?",
+    story: "Trung Kiên được bạn rủ góp vốn nhưng chưa chắc người kia đủ minh bạch và trách nhiệm."
+  },
+  {
+    name: "Mỹ Duyên",
+    age: 20,
+    topic: "Học tập",
+    question: "Mình có nên đổi ngành không?",
+    story: "Mỹ Duyên học ngành hiện tại vì gia đình muốn, nhưng bản thân lại thích một lĩnh vực sáng tạo hơn."
+  },
+  {
+    name: "Nhật Minh",
+    age: 27,
+    topic: "Công việc",
+    question: "Sếp có đánh giá cao mình không?",
+    story: "Nhật Minh làm nhiều nhưng ít được phản hồi trực tiếp nên không biết vị trí của mình trong mắt sếp."
+  },
+  {
+    name: "Hoàng Yến",
+    age: 24,
+    topic: "Tình cảm",
+    question: "Người cũ có quay lại không?",
+    story: "Hoàng Yến và người cũ chia tay trong im lặng, gần đây người đó lại tương tác trên mạng xã hội."
+  },
+  {
+    name: "Phúc Lâm",
+    age: 22,
+    topic: "Bản thân",
+    question: "Mình nên chữa lành điều gì trước?",
+    story: "Phúc Lâm dễ nổi nóng khi bị góp ý và thường thấy bản thân không được công nhận."
+  },
+  {
+    name: "Ngọc Hân",
+    age: 28,
+    topic: "Định hướng",
+    question: "Mình nên ưu tiên tình yêu hay sự nghiệp lúc này?",
+    story: "Ngọc Hân đang có cơ hội công việc tốt nhưng mối quan hệ tình cảm lại cần nhiều thời gian."
+  },
+  {
+    name: "Tú Anh",
+    age: 19,
+    topic: "Tình cảm",
+    question: "Crush có để ý mình không?",
+    story: "Tú Anh thấy crush hay nhìn mình nhưng khi nói chuyện lại khá lạnh và khó đoán."
+  },
+  {
+    name: "Gia Bảo",
+    age: 25,
+    topic: "Công việc",
+    question: "Mình có nên nói thẳng với sếp về áp lực hiện tại không?",
+    story: "Gia Bảo bị giao việc quá tải nhưng sợ nói ra sẽ bị đánh giá là thiếu năng lực."
+  },
+  {
+    name: "Cẩm Tú",
+    age: 27,
+    topic: "Tài chính",
+    question: "Mình có nên mua món đồ lớn này không?",
+    story: "Cẩm Tú rất muốn mua một món đồ giá trị cao nhưng vẫn còn vài khoản cần tiết kiệm."
+  },
+  {
+    name: "Minh Thư",
+    age: 23,
+    topic: "Bạn bè",
+    question: "Người bạn này thật sự có vui cho mình không?",
+    story: "Minh Thư thấy bạn mình hay nói đùa mỉa mai mỗi khi mình đạt được điều gì đó."
+  },
+  {
+    name: "Anh Khoa",
+    age: 29,
+    topic: "Sự nghiệp",
+    question: "Mình có nên học thêm để chuyển ngành không?",
+    story: "Anh Khoa muốn chuyển sang lĩnh vực mới nhưng sợ bắt đầu lại quá muộn."
+  },
+  {
+    name: "Lệ Quyên",
+    age: 26,
+    topic: "Tình cảm",
+    question: "Mối quan hệ này có đang tiến triển không?",
+    story: "Lệ Quyên và đối phương hẹn hò đều nhưng chưa có cam kết rõ ràng."
+  },
+  {
+    name: "Tuệ Minh",
+    age: 21,
+    topic: "Bản thân",
+    question: "Mình cần buông bỏ điều gì?",
+    story: "Tuệ Minh vẫn bám vào một kỳ vọng cũ dù biết nó làm mình mệt mỏi."
+  },
+  {
+    name: "Khánh Linh",
+    age: 24,
+    topic: "Công việc",
+    question: "Đồng nghiệp có đang cạnh tranh xấu với mình không?",
+    story: "Khánh Linh thấy một đồng nghiệp hay lấy ý tưởng của mình và nói chuyện không rõ ràng."
+  },
+  {
+    name: "Văn Huy",
+    age: 32,
+    topic: "Gia đình",
+    question: "Mình nên làm gì khi gia đình không ủng hộ lựa chọn của mình?",
+    story: "Văn Huy muốn thay đổi hướng đi nhưng gia đình cho rằng quyết định đó quá rủi ro."
+  },
+  {
+    name: "Diệu Linh",
+    age: 20,
+    topic: "Học tập",
+    question: "Mình có đang đi đúng lộ trình không?",
+    story: "Diệu Linh học rất nhiều nhưng vẫn thấy kết quả chưa tương xứng với công sức."
+  },
+  {
+    name: "Hà My",
+    age: 25,
+    topic: "Tình cảm",
+    question: "Người ấy có xem mình là lựa chọn nghiêm túc không?",
+    story: "Hà My cảm thấy đối phương quan tâm nhưng vẫn giữ khoảng cách và không nói về tương lai."
+  },
+  {
+    name: "Quang Huy",
+    age: 23,
+    topic: "Bản thân",
+    question: "Mình cần tin vào bản thân hơn ở điểm nào?",
+    story: "Quang Huy hay tự hạ thấp năng lực dù người khác đánh giá khá tốt."
+  },
+  {
+    name: "Thuỳ Dương",
+    age: 28,
+    topic: "Sự nghiệp",
+    question: "Dự án này có nên tiếp tục đầu tư thời gian không?",
+    story: "Thuỳ Dương đã làm dự án cá nhân vài tháng nhưng chưa thấy kết quả rõ rệt."
+  },
+  {
+    name: "Hoàng Nam",
+    age: 26,
+    topic: "Tình cảm",
+    question: "Mình có nên cho người ấy thêm cơ hội không?",
+    story: "Hoàng Nam từng bị đối phương làm tổn thương nhưng người ấy đang cố gắng quay lại."
+  },
+  {
+    name: "Lan Anh",
+    age: 22,
+    topic: "Định hướng",
+    question: "Mình nên đi theo con đường an toàn hay thử điều mới?",
+    story: "Lan Anh có một lựa chọn ổn định và một lựa chọn rất hấp dẫn nhưng nhiều rủi ro."
+  },
+  {
+    name: "Kim Ngân",
+    age: 24,
+    topic: "Tài chính",
+    question: "Mình có đang quản lý tiền sai cách không?",
+    story: "Kim Ngân kiếm được tiền nhưng cuối tháng thường không hiểu tiền đã đi đâu."
+  },
+  {
+    name: "Minh Đức",
+    age: 30,
+    topic: "Công việc",
+    question: "Công ty hiện tại còn phù hợp với mình không?",
+    story: "Minh Đức gắn bó với công ty lâu nhưng cảm thấy mình đang đứng yên."
+  },
+  {
+    name: "Phương Uyên",
+    age: 19,
+    topic: "Tình cảm",
+    question: "Mình có nên tỏ tình không?",
+    story: "Phương Uyên thích một người đã lâu, hai người khá thân nhưng cô sợ làm hỏng tình bạn."
+  },
+  {
+    name: "Đan Thanh",
+    age: 27,
+    topic: "Bản thân",
+    question: "Vì sao mình luôn chọn người làm mình tổn thương?",
+    story: "Đan Thanh nhận ra mình thường bị thu hút bởi những người lạnh lùng hoặc không sẵn sàng."
+  },
+  {
+    name: "Việt Anh",
+    age: 24,
+    topic: "Bạn bè",
+    question: "Mình có nên giữ khoảng cách với nhóm bạn này không?",
+    story: "Việt Anh cảm thấy nhóm bạn hiện tại hay khiến mình mất năng lượng và không còn là chính mình."
+  },
+  {
+    name: "Hồng Nhung",
+    age: 31,
+    topic: "Gia đình",
+    question: "Mình có nên tha thứ cho người thân này không?",
+    story: "Hồng Nhung từng bị một người thân làm tổn thương và hiện người đó muốn làm lành."
+  },
+  {
+    name: "Bảo Châu",
+    age: 23,
+    topic: "Sự nghiệp",
+    question: "Mình có nên xây personal brand không?",
+    story: "Bảo Châu muốn chia sẻ kiến thức online nhưng sợ bị soi xét và chưa biết bắt đầu từ đâu."
+  },
+  {
+    name: "Quốc Thịnh",
+    age: 28,
+    topic: "Tài chính",
+    question: "Khoản đầu tư này có đáng để thử không?",
+    story: "Quốc Thịnh nghe về một cơ hội đầu tư mới nhưng thông tin còn khá mơ hồ."
+  },
+  {
+    name: "Ánh Dương",
+    age: 21,
+    topic: "Học tập",
+    question: "Mình có nên du học không?",
+    story: "Ánh Dương muốn đi du học nhưng lo xa nhà, tài chính và khả năng thích nghi."
+  },
+  {
+    name: "Ngọc Mai",
+    age: 26,
+    topic: "Tình cảm",
+    question: "Mình nên chờ hay nên buông?",
+    story: "Ngọc Mai đang chờ một người ổn định lại cảm xúc nhưng bản thân cô ngày càng kiệt sức."
+  },
+  {
+    name: "Thanh Sơn",
+    age: 29,
+    topic: "Định hướng",
+    question: "Bước tiếp theo quan trọng nhất của mình là gì?",
+    story: "Thanh Sơn có nhiều dự định nhưng càng nghĩ càng rối và chưa biết nên bắt đầu từ đâu."
+  }
+];
 
     const SPREADS = [
       {
