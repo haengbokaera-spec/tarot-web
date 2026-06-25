@@ -4571,12 +4571,25 @@ window.createComment = async function(postId, parentId = null) {
 
   if (parentId !== null) commentData.parent_id = parentId;
 
-  const { error } = await db.from("feed_comments").insert(commentData);
+  let { error } = await db.rpc("create_feed_comment", {
+    p_post_id: Number(postId),
+    p_content: content,
+    p_parent_id: parentId === null ? null : Number(parentId)
+  });
+
+  // Giữ tương thích nếu file SQL mới chưa được chạy hoặc PostgREST chưa reload schema.
+  if (
+    error &&
+    (error.code === "PGRST202" || String(error.message || "").includes("create_feed_comment"))
+  ) {
+    const fallbackResult = await db.from("feed_comments").insert(commentData);
+    error = fallbackResult.error;
+  }
 
   if (error) {
     if (button) button.disabled = false;
     if (status) {
-      status.textContent = error.message.includes("parent_id")
+      status.textContent = String(error.message || "").includes("parent_id")
         ? "Chưa cập nhật SQL phản hồi bình luận. Hãy chạy file SQL mới."
         : `Không gửi được: ${error.message}`;
     }
