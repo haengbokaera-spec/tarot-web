@@ -2637,6 +2637,26 @@ Trả lời bằng tiếng Việt.
       }
     };
 
+    window.getManualGPT = async function() {
+  const box = document.getElementById("manualResultBox");
+  const message = document.getElementById("manualActionMessage");
+
+  if (!manualReadingReady()) {
+    if (message) message.textContent = "Bạn cần rút đủ lá và lật hết bài trước.";
+    return;
+  }
+
+  if (box) box.innerHTML = aiBoxHtml("Đang hỏi GPT FreshSpirit...");
+
+  try {
+    manualAiText = await askGPT(buildManualAIPrompt());
+    manualFreshText = "";
+
+    if (box) box.innerHTML = aiBoxHtml(manualAiText);
+  } catch (error) {
+    if (box) box.innerHTML = aiBoxHtml(error.message);
+  }
+};
     window.getManualFreshInterpretation = function() {
       const box = document.getElementById("manualResultBox");
       const message = document.getElementById("manualActionMessage");
