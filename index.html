@@ -1583,6 +1583,12 @@
   display: block;
   filter: none !important;
 }
+    /* Heart icon giữ nguyên màu PNG */
+#heartBtn img {
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  opacity: 1 !important;
+}
   </style>
 </head>
 
@@ -2089,9 +2095,11 @@ Trả lời bằng tiếng Việt.
 
             <div class="top-actions">
               <button class="icon-btn" onclick="go('shop')" title="Shop">
-  ${appIcon("shopping-bag.png", "Shop", "icon-img top-icon")}
+  ${appIcon("shop.png", "Shop", "icon-img top-icon")}
 </button>
-              <button id="heartBtn" class="icon-btn" onclick="toggleHeart()">🤍</button>
+              <button id="heartBtn" class="icon-btn" onclick="toggleHeart()" title="Favorite">
+  ${appIcon("heart.png", "Heart", "icon-img top-icon")}
+</button>
               <button class="black-btn" onclick="startRoom()">
   ${appIcon("video-call.png", "Room", "room-top-icon")}
   <span>Room</span>
@@ -4756,14 +4764,13 @@ function collabSectionHtml() {
       if (menu) menu.classList.toggle("hidden");
     };
 
-    window.toggleHeart = function() {
-      const heart = document.getElementById("heartBtn");
+window.toggleHeart = function() {
+  const heart = document.getElementById("heartBtn");
 
-      if (!heart) return;
+  if (!heart) return;
 
-      heart.classList.toggle("liked");
-      heart.textContent = heart.classList.contains("liked") ? "🖤" : "🤍";
-    };
+  heart.classList.toggle("liked");
+};
 
     window.signOut = async function() {
       await db.auth.signOut();
