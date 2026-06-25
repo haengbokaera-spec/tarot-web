@@ -1096,6 +1096,44 @@
         padding: 0 8px;
       }
     }
+    /* FIX: Hiển thị full lá bài, không crop hình */
+.fan img,
+.featured img,
+.tarot-item img,
+.journal-card-row img,
+.manual-card-visual .manual-front img {
+  object-fit: contain !important;
+  object-position: center !important;
+  background: transparent !important;
+}
+
+/* Lá bài trong trang Cards / Room / Practice: giữ full size */
+.tarot-item img {
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  display: block !important;
+}
+
+/* Lá bài featured vẫn giữ khung đều nhưng không crop */
+.featured img {
+  height: 118px !important;
+  padding: 2px !important;
+}
+
+/* Lá bài đang lật trong Tự bốc bài: không crop */
+.manual-card-visual .manual-front img {
+  width: 100% !important;
+  height: 184px !important;
+  object-fit: contain !important;
+  padding: 0 !important;
+}
+
+/* Lá bài trong journal không crop */
+.journal-card-row img {
+  height: auto !important;
+  object-fit: contain !important;
+}
   </style>
 </head>
 
