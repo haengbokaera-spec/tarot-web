@@ -1298,6 +1298,11 @@
   border-radius: 999px;
   background: #fff;
   font-weight: 800;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  pointer-events: auto !important;
+  touch-action: manipulation;
 }
 
 .feed-action-btn.active {
@@ -4340,6 +4345,8 @@ async function loadFeedPosts() {
 
   feedList.innerHTML = data.map(post => feedPostHtml(post)).join("");
 
+  bindFeedCommentButtons(feedList);
+
   if (expandedCommentsPostId) {
     loadComments(expandedCommentsPostId);
   }
@@ -4394,7 +4401,13 @@ ${
   </span>
 </button>
 
-        <button class="feed-action-btn" onclick="toggleComments(${post.id})">
+        <button
+          class="feed-action-btn feed-comment-toggle"
+          type="button"
+          data-comment-post-id="${post.id}"
+          aria-controls="commentsBox${post.id}"
+          aria-expanded="false"
+        >
           💬 ${commentCount}
         </button>
       </div>
@@ -4443,17 +4456,43 @@ async function deleteFeedPost(postId) {
   loadFeedPosts();
 }
 
+function bindFeedCommentButtons(feedList) {
+  feedList.querySelectorAll(".feed-comment-toggle[data-comment-post-id]").forEach(button => {
+    button.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      window.toggleComments(Number(button.dataset.commentPostId));
+    });
+  });
+}
+
 window.toggleComments = async function(postId) {
+  postId = Number(postId);
   const box = document.getElementById(`commentsBox${postId}`);
-  if (!box) return;
+  const button = document.querySelector(`[data-comment-post-id="${postId}"]`);
+
+  if (!box) {
+    console.error("Không tìm thấy khung bình luận cho bài viết", postId);
+    return;
+  }
 
   if (expandedCommentsPostId === postId && !box.classList.contains("hidden")) {
     box.classList.add("hidden");
     expandedCommentsPostId = null;
+    if (button) {
+      button.classList.remove("active");
+      button.setAttribute("aria-expanded", "false");
+    }
     return;
   }
 
   expandedCommentsPostId = postId;
+  box.classList.remove("hidden");
+  box.innerHTML = `<p class="message">Đang mở bình luận...</p>`;
+  if (button) {
+    button.classList.add("active");
+    button.setAttribute("aria-expanded", "true");
+  }
   await loadComments(postId);
 };
 
