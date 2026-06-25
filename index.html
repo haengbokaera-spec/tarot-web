@@ -2677,6 +2677,37 @@ Lời khuyên:
       if (box) box.innerHTML = aiBoxHtml(manualFreshText);
     };
 
+    window.saveManualJournal = async function() {
+  const message = document.getElementById("manualActionMessage");
+
+  if (!manualReadingReady()) {
+    if (message) message.textContent = "Bạn cần rút đủ lá và lật hết bài trước.";
+    return;
+  }
+
+  const interpretation = [
+    manualAiText ? `AI FreshSpirit:\n${manualAiText}` : "",
+    manualFreshText ? `Hệ thống FreshSpirit:\n${manualFreshText}` : ""
+  ].filter(Boolean).join("\n\n");
+
+  if (message) message.textContent = "Đang lưu vào journal...";
+
+  const { error } = await db.from("journal_entries").insert({
+    user_id: currentUser.id,
+    title: `${manualSpread.name} — Tự bốc bài`,
+    spread_type: manualSpread.id,
+    question: roomQuestion || "Tự bốc bài trong FreshSpirit Room",
+    cards: manualDrawnCards,
+    interpretation: interpretation || "Tự bốc bài. Chưa có diễn giải từ AI hoặc hệ thống FreshSpirit."
+  });
+
+  if (error) {
+    if (message) message.textContent = error.message;
+    return;
+  }
+
+  if (message) message.textContent = "Đã thêm vào journal.";
+};
     function renderPractice() {
       if (!practiceSpread) practiceSpread = SPREADS[1];
 
