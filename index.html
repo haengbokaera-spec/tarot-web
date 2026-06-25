@@ -3572,7 +3572,11 @@ window.toggleCardFlip = function(index) {
 
           <form id="profileForm" class="form">
             <input id="profileName" type="text" placeholder="Tên hiển thị" value="${esc(currentProfile.display_name || "")}">
-            <input id="profileAvatar" type="url" placeholder="Link ảnh đại diện" value="${esc(currentProfile.avatar_url || "")}">
+            <div class="upload-avatar-box">
+  <strong>Ảnh đại diện</strong>
+  <small>Chọn ảnh từ thư viện máy. Hỗ trợ PNG, JPG, JPEG, WEBP. Tối đa 5MB.</small>
+  <input id="profileAvatarFile" type="file" accept="image/png, image/jpeg, image/jpg, image/webp">
+</div>
             <input id="profileTiktok" type="text" placeholder="TikTok" value="${esc(currentProfile.tiktok_handle || "")}">
 
             <select id="profileHeardFrom">
