@@ -1202,6 +1202,68 @@ body::before {
 .app::before {
   display: none !important;
 }
+    /* FIX CUỐI: nền full màn hình + topbar/bottom nav luôn ở layer cao nhất */
+
+/* Biến nền caro thành background thật, không còn layer giả đè lên UI */
+html,
+body {
+  background-color: #f8f7f2 !important;
+  background-image:
+    linear-gradient(45deg, rgba(0, 0, 0, 0.035) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.035) 75%),
+    linear-gradient(45deg, rgba(0, 0, 0, 0.035) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.035) 75%) !important;
+  background-size: 34px 34px !important;
+  background-position: 0 0, 17px 17px !important;
+  background-attachment: fixed !important;
+}
+
+/* Tắt mọi background layer giả trước đó */
+body::before,
+.app::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* App nằm trên nền, nhưng không tạo layer đè thanh */
+#root {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.app {
+  background: transparent !important;
+  position: relative !important;
+  isolation: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* Nội dung luôn thấp hơn 2 thanh */
+.page {
+  position: relative !important;
+  z-index: 1 !important;
+  padding-top: 104px !important;
+  padding-bottom: 104px !important;
+}
+
+/* Thanh trên luôn cao nhất */
+.topbar {
+  position: fixed !important;
+  z-index: 999999 !important;
+  background: #f7f7f5 !important;
+  isolation: isolate !important;
+}
+
+/* Thanh dưới luôn cao nhất */
+.bottom-nav {
+  position: fixed !important;
+  z-index: 999999 !important;
+  background: #ffffff !important;
+  isolation: isolate !important;
+}
+
+/* Menu phải cao hơn cả topbar */
+.menu {
+  z-index: 1000000 !important;
+}
   </style>
 </head>
 
