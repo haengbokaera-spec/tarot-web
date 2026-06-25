@@ -1401,6 +1401,77 @@
   margin-top: 10px;
   font-weight: 600;
 }
+  /* PNG icons */
+.icon-img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: block;
+}
+
+.icon-btn {
+  display: grid;
+  place-items: center;
+}
+
+.top-icon {
+  width: 19px;
+  height: 19px;
+}
+
+.menu button {
+  display: flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+}
+
+.menu-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.quick-icon-img {
+  width: 21px;
+  height: 21px;
+  object-fit: contain;
+  display: block;
+  filter: invert(1);
+}
+
+.bottom-nav span {
+  display: grid;
+  place-items: center;
+  height: 24px;
+}
+
+.nav-icon {
+  width: 21px;
+  height: 21px;
+  object-fit: contain;
+  display: block;
+}
+
+.bottom-nav button.active .nav-icon {
+  filter: invert(1);
+}
+
+.social-arrow-wrap {
+  width: 24px !important;
+  height: 24px !important;
+  display: grid !important;
+  place-items: center !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.social-arrow-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  display: block;
+}
   </style>
 </head>
 
@@ -1558,6 +1629,9 @@ let expandedCommentsPostId = null;
         .replaceAll("'", "&#039;");
     }
 
+    function appIcon(file, alt = "", className = "icon-img") {
+  return `<img class="${className}" src="images/icons/${file}" alt="${esc(alt)}" loading="lazy">`;
+}
     function hasBirthday(profile) {
       return profile && profile.birthday_month && profile.birthday_day && profile.birthday_year;
     }
@@ -1903,7 +1977,9 @@ Trả lời bằng tiếng Việt.
             </div>
 
             <div class="top-actions">
-              <button class="icon-btn" onclick="go('shop')">🛍️</button>
+              <button class="icon-btn" onclick="go('shop')" title="Shop">
+  ${appIcon("shopping-bag.png", "Shop", "icon-img top-icon")}
+</button>
               <button id="heartBtn" class="icon-btn" onclick="toggleHeart()">🤍</button>
               <button class="black-btn" onclick="startRoom()">✨ Room</button>
 
@@ -1917,41 +1993,65 @@ Trả lời bằng tiếng Việt.
             </div>
           </header>
 
-          <div id="avatarMenu" class="menu hidden">
-            <button onclick="go('profile')">👤 Profile</button>
-            <button onclick="startRoom()">✨ New room</button>
-            <button onclick="go('home')">🏠 Return home</button>
-            <button onclick="go('journal')">📓 Journal</button>
-            <button onclick="go('about')">🔗 About</button>
-            <hr>
-            <button onclick="signOut()">🚪 Sign out</button>
-          </div>
+<div id="avatarMenu" class="menu hidden">
+  <button onclick="go('profile')">
+    ${appIcon("user.png", "Profile", "menu-icon")}
+    <span>Profile</span>
+  </button>
+
+  <button onclick="startRoom()">
+    ${appIcon("crystal-ball.png", "New room", "menu-icon")}
+    <span>New room</span>
+  </button>
+
+  <button onclick="go('home')">
+    ${appIcon("house.png", "Home", "menu-icon")}
+    <span>Return home</span>
+  </button>
+
+  <button onclick="go('journal')">
+    ${appIcon("notes.png", "Journal", "menu-icon")}
+    <span>Journal</span>
+  </button>
+
+  <button onclick="go('about')">
+    ${appIcon("link.png", "About", "menu-icon")}
+    <span>About</span>
+  </button>
+
+  <hr>
+
+  <button onclick="signOut()">
+    ${appIcon("logout.png", "Sign out", "menu-icon")}
+    <span>Sign out</span>
+  </button>
+</div>
 
           <main class="page">
             ${content}
           </main>
 
-          <nav class="bottom-nav">
-            <button class="${active === "home" ? "active" : ""}" onclick="go('home')">
-              <span>🏠</span>home
-            </button>
+<nav class="bottom-nav">
+  <button class="${active === "home" ? "active" : ""}" onclick="go('home')">
+    <span>${appIcon("house.png", "Home", "nav-icon")}</span>home
+  </button>
 
-            <button class="${active === "cards" ? "active" : ""}" onclick="go('cards')">
-              <span>🃏</span>cards
-            </button>
+  <button class="${active === "cards" ? "active" : ""}" onclick="go('cards')">
+    <span>${appIcon("tarot.png", "Cards", "nav-icon")}</span>cards
+  </button>
 
-            <button class="${active === "practice" ? "active" : ""}" onclick="go('practice')">
-              <span>🔮</span>practice
-            </button>
+  <button class="${active === "practice" ? "active" : ""}" onclick="go('practice')">
+    <span>${appIcon("crystal-ball.png", "Practice", "nav-icon")}</span>practice
+  </button>
 
-            <button class="${active === "shop" ? "active" : ""}" onclick="go('shop')">
-              <span>📖</span>book
-            </button>
+  <button class="${active === "shop" ? "active" : ""}" onclick="go('shop')">
+    <span>${appIcon("newspaper.png", "Book", "nav-icon")}</span>book
+  </button>
 
-            <button class="${active === "more" ? "active" : ""}" onclick="toggleMenu()">
-              <span>☰</span>more
-            </button>
-          </nav>
+  <button class="${active === "more" ? "active" : ""}" onclick="toggleMenu()">
+    <span>${appIcon("user.png", "More", "nav-icon")}</span>more
+  </button>
+</nav>
         </div>
       `;
     }
@@ -2223,19 +2323,19 @@ Trả lời bằng tiếng Việt.
             </button>
 
             <button class="quick-card" onclick="go('practice')">
-              <span>🔮</span>
+              <span>${appIcon("crystal-ball.png", "Practice", "quick-icon-img")}</span>
               <strong>Practice</strong>
               <small>Luyện trải bài ảo với querent và case thực hành.</small>
             </button>
 
             <button class="quick-card" onclick="go('cards')">
-              <span>🃏</span>
+              <span>${appIcon("tarot.png", "Cards", "quick-icon-img")}</span>
               <strong>Explore cards</strong>
               <small>Xem đủ 78 lá Rider Waite và nghĩa xuôi/ngược từng lá.</small>
             </button>
 
             <button class="quick-card" onclick="go('journal')">
-              <span>📓</span>
+              <span>${appIcon("notes.png", "Journal", "quick-icon-img")}</span>
               <strong>Your journal</strong>
               <small>Xem lại những case và trải bài đã lưu.</small>
             </button>
@@ -3561,31 +3661,31 @@ Lời khuyên:
           <a class="social-btn" href="https://www.threads.com/@freshspirit.tarot" target="_blank">
             <span><img class="social-logo" src="images/social/black/threads.png" alt="Threads"></span>
             <strong>Threads<br><small>@freshspirit.tarot</small></strong>
-            <span>↗</span>
+            <span class="social-arrow-wrap">${appIcon("new-tab.png", "Open new tab", "social-arrow-icon")}</span>
           </a>
 
           <a class="social-btn" href="https://www.instagram.com/freshspirit.tarot" target="_blank">
             <span><img class="social-logo" src="images/social/black/instagram.png" alt="Instagram"></span>
             <strong>Instagram<br><small>@freshspirit.tarot</small></strong>
-            <span>↗</span>
+            <span class="social-arrow-wrap">${appIcon("new-tab.png", "Open new tab", "social-arrow-icon")}</span>
           </a>
 
           <a class="social-btn" href="https://www.facebook.com/share/1afMZGvmZE/?mibextid=wwXIfr" target="_blank">
             <span><img class="social-logo" src="images/social/black/facebook.png" alt="Facebook"></span>
             <strong>Facebook<br><small>FreshSpirit Tarot</small></strong>
-            <span>↗</span>
+            <span class="social-arrow-wrap">${appIcon("new-tab.png", "Open new tab", "social-arrow-icon")}</span>
           </a>
 
           <a class="social-btn" href="https://www.tiktok.com/@freshspirit.tarot" target="_blank">
             <span><img class="social-logo" src="images/social/black/tiktok.png" alt="TikTok"></span>
             <strong>TikTok<br><small>@freshspirit.tarot</small></strong>
-            <span>↗</span>
+            <span class="social-arrow-wrap">${appIcon("new-tab.png", "Open new tab", "social-arrow-icon")}</span>
           </a>
 
           <a class="social-btn" href="https://youtube.com/@freshspirittarot?si=ztlbn7sAeAv5lUz0" target="_blank">
             <span><img class="social-logo" src="images/social/black/youtube.png" alt="YouTube"></span>
             <strong>YouTube<br><small>@freshspirittarot</small></strong>
-            <span>↗</span>
+            <span class="social-arrow-wrap">${appIcon("new-tab.png", "Open new tab", "social-arrow-icon")}</span>
           </a>
         </section>
       `, "more");
@@ -3734,25 +3834,25 @@ function renderShop() {
 
       <div class="quick-grid">
         <button class="quick-card" onclick="openShopSection('feed')">
-          <span>🧵</span>
+          <span>${appIcon("archive.png", "Feed", "quick-icon-img")}</span>
           <strong>Feed</strong>
           <small>Đăng bài viết, ảnh, tim, bình luận, follow và xem profile người dùng.</small>
         </button>
 
         <button class="quick-card" onclick="openShopSection('menu')">
-          <span>💸</span>
+          <span>${appIcon("money.png", "Menu", "quick-icon-img")}</span>
           <strong>Menu</strong>
           <small>Xem giá các gói trải bài tarot của FreshSpirit.</small>
         </button>
 
         <button class="quick-card" onclick="openShopSection('readers')">
-          <span>🔮</span>
+          <span>${appIcon("crystal-ball.png", "Readers", "quick-icon-img")}</span>
           <strong>Tarot Readers</strong>
           <small>Xem profile các reader hiện có và chọn người phù hợp.</small>
         </button>
 
         <button class="quick-card" onclick="openShopSection('collab')">
-          <span>📝</span>
+          <span>${appIcon("completed-task.png", "Apply", "quick-icon-img")}</span>
           <strong>Apply as Collaborator</strong>
           <small>Ứng tuyển cộng tác viên xem tarot cùng FreshSpirit.</small>
         </button>
