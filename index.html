@@ -61,29 +61,10 @@
       width: min(100%, 390px);
       min-height: 100vh;
       margin: 0 auto;
+      background: #f7f7f5;
       padding-bottom: 86px;
       overflow-x: hidden;
       position: relative;
-      isolation: isolate;
-      background: #f8f7f2;
-    }
-
-    .app::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(100%, 390px);
-      min-height: 100dvh;
-      z-index: 0;
-      pointer-events: none;
-      background-color: #f8f7f2;
-      background-image:
-        linear-gradient(45deg, rgba(0, 0, 0, 0.035) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.035) 75%),
-        linear-gradient(45deg, rgba(0, 0, 0, 0.035) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.035) 75%);
-      background-size: 34px 34px;
-      background-position: 0 0, 17px 17px;
     }
 
     .topbar {
@@ -93,8 +74,8 @@
       top: 10px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 50;
-      background: rgba(247, 247, 245, 0.94);
+      z-index: 9999;
+      background: rgba(247, 247, 245, 0.97);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border: 1px solid #1f1f1f;
@@ -139,8 +120,7 @@
       color: #111;
     }
 
-    .icon-btn,
-    .avatar-btn {
+    .icon-btn {
       width: 34px;
       font-size: 17px;
     }
@@ -151,6 +131,37 @@
       color: #fff;
       font-size: 13px;
       white-space: nowrap;
+    }
+
+    .avatar-btn {
+      width: 36px;
+      height: 36px;
+      min-height: 36px;
+      padding: 0;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: #fff;
+    }
+
+    .avatar-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .avatar-initial {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      background: #111;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 1;
     }
 
     .liked {
@@ -167,7 +178,7 @@
       border: 1px solid #1f1f1f;
       border-radius: 22px;
       padding: 10px;
-      z-index: 80;
+      z-index: 10000;
     }
 
     .menu button {
@@ -199,7 +210,7 @@
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.94);
+      background: #fff;
       border: 1px solid #1f1f1f;
       border-radius: 26px;
       padding: 20px;
@@ -453,7 +464,7 @@
       left: 50%;
       width: 108px;
       height: 172px;
-      object-fit: cover;
+      object-fit: contain;
       border: none;
       border-radius: 10px;
       background: transparent;
@@ -482,10 +493,11 @@
     .featured img {
       width: 100%;
       height: 118px;
-      object-fit: cover;
+      object-fit: contain;
       border: none;
       border-radius: 8px;
       background: transparent;
+      padding: 2px;
     }
 
     .cards-grid {
@@ -504,12 +516,14 @@
 
     .tarot-item img {
       width: 100%;
-      height: 204px;
-      object-fit: cover;
+      height: auto;
+      object-fit: contain;
+      object-position: center;
       border: none;
       border-radius: 9px;
       margin-bottom: 9px;
       background: transparent;
+      display: block;
     }
 
     .tarot-item h2 {
@@ -653,6 +667,8 @@
 
     .journal-card-row img {
       width: 72px;
+      height: auto;
+      object-fit: contain;
       border: none;
       border-radius: 8px;
       background: transparent;
@@ -1044,14 +1060,14 @@
       left: 50%;
       bottom: 10px;
       transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.94);
+      background: rgba(255, 255, 255, 0.97);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border: 1px solid #1f1f1f;
       border-radius: 26px;
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      z-index: 60;
+      z-index: 9999;
       overflow: hidden;
     }
 
@@ -1083,10 +1099,6 @@
         grid-template-columns: 1fr;
       }
 
-      .tarot-item img {
-        height: auto;
-      }
-
       .logo {
         font-size: 25px;
       }
@@ -1096,561 +1108,10 @@
         padding: 0 8px;
       }
     }
-    /* FIX: Hiển thị full lá bài, không crop hình */
-.fan img,
-.featured img,
-.tarot-item img,
-.journal-card-row img,
-.manual-card-visual .manual-front img {
-  object-fit: contain !important;
-  object-position: center !important;
-  background: transparent !important;
-}
-
-/* Lá bài trong trang Cards / Room / Practice: giữ full size */
-.tarot-item img {
-  width: 100% !important;
-  height: auto !important;
-  max-height: none !important;
-  display: block !important;
-}
-
-/* Lá bài featured vẫn giữ khung đều nhưng không crop */
-.featured img {
-  height: 118px !important;
-  padding: 2px !important;
-}
-
-/* Lá bài đang lật trong Tự bốc bài: không crop */
-.manual-card-visual .manual-front img {
-  width: 100% !important;
-  height: 184px !important;
-  object-fit: contain !important;
-  padding: 0 !important;
-}
-
-/* Lá bài trong journal không crop */
-.journal-card-row img {
-  height: auto !important;
-  object-fit: contain !important;
-}
-    /* Avatar user trên topbar */
-.avatar-btn {
-  width: 36px !important;
-  height: 36px !important;
-  min-height: 36px !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  display: grid !important;
-  place-items: center !important;
-  border-radius: 999px !important;
-  background: #fff !important;
-}
-
-.avatar-btn img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.avatar-initial {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  place-items: center;
-  background: #111;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 900;
-  line-height: 1;
-}
-    /* FIX: Background caro tràn full màn hình mọi thiết bị */
-body {
-  background: #f8f7f2 !important;
-  position: relative !important;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100dvh;
-  z-index: 0;
-  pointer-events: none;
-
-  background-color: #f8f7f2;
-  background-image:
-    linear-gradient(45deg, rgba(0, 0, 0, 0.035) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.035) 75%),
-    linear-gradient(45deg, rgba(0, 0, 0, 0.035) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.035) 75%);
-  background-size: 34px 34px;
-  background-position: 0 0, 17px 17px;
-}
-
-#root {
-  position: relative;
-  z-index: 1;
-}
-
-/* bỏ nền giới hạn 390px của app */
-.app {
-  background: transparent !important;
-}
-
-/* tắt layer nền cũ đang bị bó trong khung app */
-.app::before {
-  display: none !important;
-}
-    /* FIX CUỐI: nền full màn hình + topbar/bottom nav luôn ở layer cao nhất */
-
-/* Biến nền caro thành background thật, không còn layer giả đè lên UI */
-html,
-body {
-  background-color: #f8f7f2 !important;
-  background-image:
-    linear-gradient(45deg, rgba(0, 0, 0, 0.035) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.035) 75%),
-    linear-gradient(45deg, rgba(0, 0, 0, 0.035) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.035) 75%) !important;
-  background-size: 34px 34px !important;
-  background-position: 0 0, 17px 17px !important;
-  background-attachment: fixed !important;
-}
-
-/* Tắt mọi background layer giả trước đó */
-body::before,
-.app::before {
-  content: none !important;
-  display: none !important;
-}
-
-/* App nằm trên nền, nhưng không tạo layer đè thanh */
-#root {
-  position: relative !important;
-  z-index: 1 !important;
-}
-
-.app {
-  background: transparent !important;
-  position: relative !important;
-  isolation: auto !important;
-  overflow-x: hidden !important;
-}
-
-/* Nội dung luôn thấp hơn 2 thanh */
-.page {
-  position: relative !important;
-  z-index: 1 !important;
-  padding-top: 104px !important;
-  padding-bottom: 104px !important;
-}
-
-/* Thanh trên luôn cao nhất */
-.topbar {
-  position: fixed !important;
-  z-index: 999999 !important;
-  background: #f7f7f5 !important;
-  isolation: isolate !important;
-}
-
-/* Thanh dưới luôn cao nhất */
-.bottom-nav {
-  position: fixed !important;
-  z-index: 999999 !important;
-  background: #ffffff !important;
-  isolation: isolate !important;
-}
-
-/* Menu phải cao hơn cả topbar */
-.menu {
-  z-index: 1000000 !important;
-}
-    /* FINAL FIX: nền caro fixed full màn hình, không scroll theo nội dung */
-
-html {
-  min-height: 100%;
-  background-color: #fffdf8 !important;
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0px,
-      transparent 31px,
-      #AAF0D1 31px,
-      #AAF0D1 32px,
-      transparent 32px,
-      transparent 63px,
-      #E6E6FA 63px,
-      #E6E6FA 64px,
-      transparent 64px,
-      transparent 95px,
-      #B1CAE9 95px,
-      #B1CAE9 96px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0px,
-      transparent 31px,
-      #B1CAE9 31px,
-      #B1CAE9 32px,
-      transparent 32px,
-      transparent 63px,
-      #AAF0D1 63px,
-      #AAF0D1 64px,
-      transparent 64px,
-      transparent 95px,
-      #E6E6FA 95px,
-      #E6E6FA 96px
-    ) !important;
-  background-size: 96px 96px !important;
-  background-position: center center !important;
-  background-attachment: fixed !important;
-}
-
-body {
-  min-height: 100%;
-  background: transparent !important;
-  position: relative !important;
-  color: #111 !important;
-}
-
-/* Tắt toàn bộ layer nền giả cũ để không đè thanh trên/dưới */
-body::before,
-.app::before {
-  content: none !important;
-  display: none !important;
-}
-
-/* App trong suốt để thấy nền caro full màn hình phía sau */
-.app {
-  background: transparent !important;
-  position: relative !important;
-  isolation: auto !important;
-  z-index: auto !important;
-}
-
-/* Nội dung nằm dưới thanh top/bottom */
-.page {
-  position: relative !important;
-  z-index: 1 !important;
-  padding-top: 104px !important;
-  padding-bottom: 112px !important;
-}
-
-/* Card hơi trắng để đọc rõ nhưng vẫn thấy nền */
-.card {
-  background: rgba(255, 255, 255, 0.94) !important;
-}
-
-/* Hai thanh luôn nằm layer trên cùng, không bị che */
-.topbar {
-  position: fixed !important;
-  z-index: 999999 !important;
-  background: rgba(247, 247, 245, 0.97) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
-}
-
-.bottom-nav {
-  position: fixed !important;
-  z-index: 999999 !important;
-  background: rgba(255, 255, 255, 0.97) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
-}
-
-.menu {
-  z-index: 1000000 !important;
-}
-    /* REAL FINAL FIX: nền caro là layer riêng cố định dưới cùng */
-
-/* nền gốc */
-html,
-body {
-  background: #fffdf8 !important;
-}
-
-/* tắt toàn bộ nền cũ từng tạo trước đó */
-html::before,
-body::before,
-.app::before {
-  content: none !important;
-  display: none !important;
-}
-
-/* root giữ app ở trên background layer */
-#root {
-  position: relative !important;
-  z-index: 0 !important;
-  min-height: 100dvh !important;
-}
-
-/* background layer riêng, fixed, nằm dưới toàn bộ app */
-#root::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  background-color: #fffdf8;
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0px,
-      transparent 31px,
-      #AAF0D1 31px,
-      #AAF0D1 32px,
-      transparent 32px,
-      transparent 63px,
-      #E6E6FA 63px,
-      #E6E6FA 64px,
-      transparent 64px,
-      transparent 95px,
-      #B1CAE9 95px,
-      #B1CAE9 96px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0px,
-      transparent 31px,
-      #B1CAE9 31px,
-      #B1CAE9 32px,
-      transparent 32px,
-      transparent 63px,
-      #AAF0D1 63px,
-      #AAF0D1 64px,
-      transparent 64px,
-      transparent 95px,
-      #E6E6FA 95px,
-      #E6E6FA 96px
-    );
-  background-size: 96px 96px;
-  background-position: center center;
-}
-
-/* app trong suốt, không tự có nền riêng nữa */
-.app {
-  background: transparent !important;
-  position: relative !important;
-  z-index: 1 !important;
-  isolation: auto !important;
-}
-
-/* chỉ phần nội dung/card lướt trên nền */
-.page {
-  position: relative !important;
-  z-index: 2 !important;
-  padding-top: 104px !important;
-  padding-bottom: 112px !important;
-}
-
-/* các khung trắng lướt phía trên layer caro */
-.card,
-.quick-card,
-.tarot-item,
-.journal-entry,
-.auth-card,
-.reader-face,
-.collab-box {
-  position: relative !important;
-  z-index: 2 !important;
-}
-
-/* topbar luôn là layer trên cùng */
-.topbar {
-  position: fixed !important;
-  z-index: 999999 !important;
-  background: rgba(247, 247, 245, 0.97) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
-}
-
-/* bottom nav luôn là layer trên cùng */
-.bottom-nav {
-  position: fixed !important;
-  z-index: 999999 !important;
-  background: rgba(255, 255, 255, 0.97) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
-}
-
-/* menu avatar cao hơn cả topbar */
-.menu {
-  z-index: 1000000 !important;
-}
-/* FINAL STACK FIX: background dưới cùng, card scroll ở giữa, top/bottom bar trên cùng */
-
-/* Tắt hết pseudo background cũ để khỏi bị đè layer */
-html::before,
-html::after,
-body::before,
-body::after,
-#root::before,
-#root::after,
-.app::before,
-.app::after {
-  content: none !important;
-  display: none !important;
-}
-
-/* Nền gốc */
-html,
-body {
-  min-height: 100% !important;
-  background: #fffdf8 !important;
-  overflow-x: hidden !important;
-}
-
-/* Layer nền caro riêng, cố định dưới cùng */
-#fixedCaroBg {
-  position: fixed !important;
-  inset: 0 !important;
-  width: 100vw !important;
-  height: 100dvh !important;
-  z-index: 0 !important;
-  pointer-events: none !important;
-
-  background-color: #fffdf8 !important;
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0px,
-      transparent 31px,
-      #AAF0D1 31px,
-      #AAF0D1 32px,
-      transparent 32px,
-      transparent 63px,
-      #E6E6FA 63px,
-      #E6E6FA 64px,
-      transparent 64px,
-      transparent 95px,
-      #B1CAE9 95px,
-      #B1CAE9 96px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0px,
-      transparent 31px,
-      #B1CAE9 31px,
-      #B1CAE9 32px,
-      transparent 32px,
-      transparent 63px,
-      #AAF0D1 63px,
-      #AAF0D1 64px,
-      transparent 64px,
-      transparent 95px,
-      #E6E6FA 95px,
-      #E6E6FA 96px
-    ) !important;
-  background-size: 96px 96px !important;
-  background-position: center center !important;
-}
-
-/* Root/app nằm trên nền nhưng không tạo layer che thanh */
-#root {
-  position: relative !important;
-  z-index: 1 !important;
-  min-height: 100dvh !important;
-}
-
-.app {
-  width: min(100%, 390px) !important;
-  min-height: 100dvh !important;
-  margin: 0 auto !important;
-  background: transparent !important;
-  position: relative !important;
-  z-index: 1 !important;
-  isolation: auto !important;
-  overflow: visible !important;
-}
-
-/* QUAN TRỌNG: chỉ phần page/card được scroll, và bị đẩy xuống dưới topbar */
-.page {
-  position: relative !important;
-  z-index: 2 !important;
-  padding-top: 132px !important;
-  padding-bottom: 142px !important;
-}
-
-/* Ép mọi card/content thấp hơn 2 thanh */
-.card,
-.quick-card,
-.tarot-item,
-.journal-entry,
-.auth-card,
-.reader-face,
-.collab-box,
-.cards-grid,
-.featured,
-.fan {
-  position: relative !important;
-  z-index: 2 !important;
-}
-
-/* Topbar luôn nổi trên cùng, không bị card/page chui lên */
-.topbar {
-  position: fixed !important;
-  top: calc(env(safe-area-inset-top) + 12px) !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  width: min(94vw, 370px) !important;
-  min-height: 82px !important;
-  z-index: 2147483647 !important;
-
-  background: #f7f7f5 !important;
-  border: 1px solid #1f1f1f !important;
-  border-radius: 28px !important;
-  padding: 12px 12px !important;
-
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  overflow: hidden !important;
-  isolation: isolate !important;
-}
-
-/* Đảm bảo chữ/logo/nút trong topbar nằm trên nền của chính topbar */
-.topbar > * {
-  position: relative !important;
-  z-index: 2 !important;
-}
-
-.logo {
-  font-size: 27px !important;
-  line-height: 1 !important;
-}
-
-.tagline {
-  font-size: 11px !important;
-  line-height: 1.2 !important;
-}
-
-/* Bottom nav luôn nổi trên cùng, không bị card/page chui lên */
-.bottom-nav {
-  position: fixed !important;
-  left: 50% !important;
-  bottom: calc(env(safe-area-inset-bottom) + 10px) !important;
-  transform: translateX(-50%) !important;
-  width: min(94vw, 370px) !important;
-  height: 68px !important;
-  z-index: 2147483647 !important;
-
-  background: #ffffff !important;
-  border: 1px solid #1f1f1f !important;
-  border-radius: 26px !important;
-  overflow: hidden !important;
-  isolation: isolate !important;
-}
-
-/* Menu avatar cao nhất */
-.menu {
-  position: fixed !important;
-  z-index: 2147483647 !important;
-}
   </style>
 </head>
 
 <body>
-  <div id="fixedCaroBg" aria-hidden="true"></div>
   <div id="root"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1886,41 +1347,41 @@ body {
       }
     }
 
-async function askGemini(prompt) {
-  const response = await fetch("/api/gemini", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ prompt })
-  });
+    async function askGemini(prompt) {
+      const response = await fetch("/api/gemini", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ prompt })
+      });
 
-  const data = await response.json();
+      const data = await response.json();
 
-  if (!response.ok) {
-    throw new Error(data.error || "Gemini API error.");
-  }
+      if (!response.ok) {
+        throw new Error(data.error || "Gemini API error.");
+      }
 
-  return data.text || "Gemini không trả về nội dung.";
-}
+      return data.text || "Gemini không trả về nội dung.";
+    }
 
-async function askGPT(prompt) {
-  const response = await fetch("/api/openai", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ prompt })
-  });
+    async function askGPT(prompt) {
+      const response = await fetch("/api/openai", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ prompt })
+      });
 
-  const data = await response.json();
+      const data = await response.json();
 
-  if (!response.ok) {
-    throw new Error(data.error || "OpenAI API error.");
-  }
+      if (!response.ok) {
+        throw new Error(data.error || "OpenAI API error.");
+      }
 
-  return data.text || "GPT không trả về nội dung.";
-}
+      return data.text || "GPT không trả về nội dung.";
+    }
 
     function cardsPrompt(cards) {
       return cards.map((card, index) => {
@@ -2154,13 +1615,14 @@ Trả lời bằng tiếng Việt.
               <button class="icon-btn" onclick="go('shop')">🛍️</button>
               <button id="heartBtn" class="icon-btn" onclick="toggleHeart()">🤍</button>
               <button class="black-btn" onclick="startRoom()">✨ Room</button>
+
               <button class="avatar-btn" onclick="toggleMenu()" title="Profile">
-  ${
-    currentProfile && currentProfile.avatar_url
-      ? `<img src="${esc(currentProfile.avatar_url)}" alt="Avatar">`
-      : `<span class="avatar-initial">${esc((currentProfile?.display_name || currentUser?.email || "F").charAt(0).toUpperCase())}</span>`
-  }
-</button>
+                ${
+                  currentProfile && currentProfile.avatar_url
+                    ? `<img src="${esc(currentProfile.avatar_url)}" alt="Avatar">`
+                    : `<span class="avatar-initial">${esc((currentProfile?.display_name || currentUser?.email || "F").charAt(0).toUpperCase())}</span>`
+                }
+              </button>
             </div>
           </header>
 
@@ -2941,17 +2403,17 @@ Trả lời bằng tiếng Việt.
                 <p>Bạn đã lật đủ bài. Chọn một cách diễn giải bên dưới.</p>
 
                 <div class="manual-actions">
-<button class="white-btn" onclick="getManualAI()">
-  Hỏi AI FreshSpirit
-</button>
+                  <button class="white-btn" onclick="getManualAI()">
+                    Hỏi AI FreshSpirit
+                  </button>
 
-<button class="white-btn" onclick="getManualGPT()">
-  Hỏi GPT FreshSpirit
-</button>
+                  <button class="white-btn" onclick="getManualGPT()">
+                    Hỏi GPT FreshSpirit
+                  </button>
 
-<button class="submit" onclick="getManualFreshInterpretation()">
-  Hỏi hệ thống FreshSpirit
-</button>
+                  <button class="submit" onclick="getManualFreshInterpretation()">
+                    Hỏi hệ thống FreshSpirit
+                  </button>
                 </div>
 
                 <p id="manualActionMessage" class="message"></p>
@@ -3157,25 +2619,26 @@ Trả lời bằng tiếng Việt.
     };
 
     window.getManualGPT = async function() {
-  const box = document.getElementById("manualResultBox");
-  const message = document.getElementById("manualActionMessage");
+      const box = document.getElementById("manualResultBox");
+      const message = document.getElementById("manualActionMessage");
 
-  if (!manualReadingReady()) {
-    if (message) message.textContent = "Bạn cần rút đủ lá và lật hết bài trước.";
-    return;
-  }
+      if (!manualReadingReady()) {
+        if (message) message.textContent = "Bạn cần rút đủ lá và lật hết bài trước.";
+        return;
+      }
 
-  if (box) box.innerHTML = aiBoxHtml("Đang hỏi GPT FreshSpirit...");
+      if (box) box.innerHTML = aiBoxHtml("Đang hỏi GPT FreshSpirit...");
 
-  try {
-    manualAiText = await askGPT(buildManualAIPrompt());
-    manualFreshText = "";
+      try {
+        manualAiText = await askGPT(buildManualAIPrompt());
+        manualFreshText = "";
 
-    if (box) box.innerHTML = aiBoxHtml(manualAiText);
-  } catch (error) {
-    if (box) box.innerHTML = aiBoxHtml(error.message);
-  }
-};
+        if (box) box.innerHTML = aiBoxHtml(manualAiText);
+      } catch (error) {
+        if (box) box.innerHTML = aiBoxHtml(error.message);
+      }
+    };
+
     window.getManualFreshInterpretation = function() {
       const box = document.getElementById("manualResultBox");
       const message = document.getElementById("manualActionMessage");
