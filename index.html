@@ -1721,6 +1721,25 @@
   margin-top: 9px;
 }
 
+.comment-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.comment-form .message,
+.reply-form .message {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.comment-form button:disabled,
+.reply-form button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
 .public-profile-posts {
   display: grid;
   gap: 10px;
@@ -4464,10 +4483,11 @@ async function loadComments(postId) {
   }
 
   box.innerHTML = `
-    <div class="form">
+    <form class="comment-form" onsubmit="event.preventDefault(); createComment(${postId})">
       <input id="commentInput${postId}" type="text" placeholder="Viết bình luận...">
-      <button class="white-btn" onclick="createComment(${postId})">Bình luận</button>
-    </div>
+      <button id="commentSubmit${postId}" class="white-btn" type="submit">Bình luận</button>
+      <p id="commentStatus${postId}" class="message" aria-live="polite"></p>
+    </form>
 
     <div style="margin-top:12px;">
       ${
@@ -4501,10 +4521,11 @@ function renderCommentTree(comments, postId, parentId = null, depth = 0) {
             <span>${new Date(comment.created_at).toLocaleString("vi-VN")}</span>
             <button class="comment-reply-btn" onclick="toggleReplyForm(${comment.id})">Phản hồi</button>
           </div>
-          <div id="replyForm${comment.id}" class="reply-form hidden">
+          <form id="replyForm${comment.id}" class="reply-form hidden" onsubmit="event.preventDefault(); createComment(${postId}, ${comment.id})">
             <input id="replyInput${comment.id}" type="text" placeholder="Phản hồi ${esc(name)}...">
-            <button class="white-btn" onclick="createComment(${postId}, ${comment.id})">Gửi</button>
-          </div>
+            <button id="replySubmit${comment.id}" class="white-btn" type="submit">Gửi</button>
+            <p id="replyStatus${comment.id}" class="message" aria-live="polite"></p>
+          </form>
           ${replies}
         </div>
       `;
@@ -4523,24 +4544,47 @@ window.toggleReplyForm = function(commentId) {
 
 window.createComment = async function(postId, parentId = null) {
   const input = document.getElementById(parentId ? `replyInput${parentId}` : `commentInput${postId}`);
-  if (!input) return;
+  const button = document.getElementById(parentId ? `replySubmit${parentId}` : `commentSubmit${postId}`);
+  const status = document.getElementById(parentId ? `replyStatus${parentId}` : `commentStatus${postId}`);
+
+  if (!input || !currentUser) {
+    if (status) status.textContent = "Vui lòng đăng nhập lại để bình luận.";
+    return;
+  }
+
   const content = input.value.trim();
 
-  if (!content) return;
+  if (!content) {
+    if (status) status.textContent = "Hãy nhập nội dung bình luận.";
+    input.focus();
+    return;
+  }
 
-  const { error } = await db.from("feed_comments").insert({
+  if (button) button.disabled = true;
+  if (status) status.textContent = "Đang gửi...";
+
+  const commentData = {
     post_id: postId,
     user_id: currentUser.id,
-    content,
-    parent_id: parentId
-  });
+    content
+  };
+
+  if (parentId !== null) commentData.parent_id = parentId;
+
+  const { error } = await db.from("feed_comments").insert(commentData);
 
   if (error) {
-    alert(error.message);
+    if (button) button.disabled = false;
+    if (status) {
+      status.textContent = error.message.includes("parent_id")
+        ? "Chưa cập nhật SQL phản hồi bình luận. Hãy chạy file SQL mới."
+        : `Không gửi được: ${error.message}`;
+    }
     return;
   }
 
   input.value = "";
+  if (status) status.textContent = "Đã gửi bình luận.";
   await loadFeedPosts();
 };
 
