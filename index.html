@@ -57,40 +57,34 @@
       display: none !important;
     }
 
-.app {
-  width: min(100%, 390px);
-  min-height: 100vh;
-  margin: 0 auto;
-  padding-bottom: 86px;
-  overflow-x: hidden;
-  position: relative;
-  isolation: isolate;
-  background: #f7f7f5;
-}
-.app::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(100%, 390px);
-  height: 100dvh;
-  z-index: 0;
-  pointer-events: none;
+    .app {
+      width: min(100%, 390px);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding-bottom: 86px;
+      overflow-x: hidden;
+      position: relative;
+      isolation: isolate;
+      background: #f8f7f2;
+    }
 
-  background-color: #f8f7f2;
-  background-image:
-    linear-gradient(45deg, rgba(0, 0, 0, 0.035) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(0, 0, 0, 0.035) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, rgba(0, 0, 0, 0.035) 75%),
-    linear-gradient(-45deg, transparent 75%, rgba(0, 0, 0, 0.035) 75%);
-  background-size: 42px 42px;
-  background-position:
-    0 0,
-    0 21px,
-    21px -21px,
-    -21px 0;
-}
+    .app::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 390px);
+      min-height: 100dvh;
+      z-index: 0;
+      pointer-events: none;
+      background-color: #f8f7f2;
+      background-image:
+        linear-gradient(45deg, rgba(0, 0, 0, 0.035) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.035) 75%),
+        linear-gradient(45deg, rgba(0, 0, 0, 0.035) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.035) 75%);
+      background-size: 34px 34px;
+      background-position: 0 0, 17px 17px;
+    }
 
     .topbar {
       width: min(94%, 370px);
@@ -198,14 +192,14 @@
       margin: 8px 0;
     }
 
-.page {
-  padding: 96px 14px 20px;
-  position: relative;
-  z-index: 1;
-}
+    .page {
+      padding: 96px 14px 20px;
+      position: relative;
+      z-index: 1;
+    }
 
     .card {
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.94);
       border: 1px solid #1f1f1f;
       border-radius: 26px;
       padding: 20px;
@@ -861,6 +855,188 @@
       font-weight: 500;
     }
 
+    .manual-room-box {
+      display: grid;
+      gap: 12px;
+    }
+
+    .deck-choice {
+      width: 100%;
+      border: 1px solid #111;
+      border-radius: 18px;
+      background: #111;
+      color: #fff;
+      padding: 14px;
+      text-align: left;
+      font-weight: 700;
+    }
+
+    .deck-choice small {
+      display: block;
+      margin-top: 5px;
+      font-size: 12px;
+      line-height: 1.35;
+      font-weight: 500;
+      opacity: 0.82;
+    }
+
+    .deck-area {
+      display: grid;
+      place-items: center;
+      margin: 18px 0;
+    }
+
+    .deck-pile {
+      width: 118px;
+      height: 178px;
+      border: none;
+      background: transparent;
+      position: relative;
+    }
+
+    .deck-pile:disabled {
+      opacity: 0.45;
+    }
+
+    .card-back-design {
+      width: 100%;
+      height: 100%;
+      border: 1px solid #111;
+      border-radius: 13px;
+      background:
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.16) 0 18%, transparent 19%),
+        linear-gradient(45deg, rgba(255, 255, 255, 0.12) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255, 255, 255, 0.12) 25%, transparent 25%),
+        #111;
+      background-size: 100% 100%, 18px 18px, 18px 18px;
+      box-shadow:
+        5px 5px 0 rgba(0, 0, 0, 0.12),
+        10px 10px 0 rgba(0, 0, 0, 0.06);
+    }
+
+    .deck-count {
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #333;
+      text-align: center;
+    }
+
+    .manual-control-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .manual-drawn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .manual-card-slot {
+      display: grid;
+      gap: 8px;
+    }
+
+    .manual-position-label {
+      min-height: 38px;
+      border: 1px solid #111;
+      border-radius: 14px;
+      background: #fff;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 7px 8px;
+      font-family: "Lora", serif;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .manual-card-visual {
+      width: 100%;
+      height: 250px;
+      border: none;
+      background: transparent;
+      perspective: 1000px;
+      padding: 0;
+    }
+
+    .manual-card-visual .manual-flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.65s ease;
+      transform-style: preserve-3d;
+    }
+
+    .manual-card-visual.flipped .manual-flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .manual-card-visual .manual-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border: 1px solid #111;
+      border-radius: 18px;
+      background: #fff;
+      padding: 10px;
+      overflow: hidden;
+    }
+
+    .manual-card-visual .manual-back {
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .manual-card-visual .manual-back .card-back-design {
+      width: 100%;
+      height: 100%;
+      box-shadow: none;
+    }
+
+    .manual-card-visual .manual-front {
+      transform: rotateY(180deg);
+      text-align: center;
+    }
+
+    .manual-card-visual .manual-front img {
+      width: 100%;
+      height: 184px;
+      object-fit: contain;
+      object-position: center;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      background: transparent;
+    }
+
+    .manual-card-visual .manual-front h2 {
+      font-family: "Lora", serif;
+      font-size: 14px;
+      line-height: 1.25;
+      margin-bottom: 5px;
+    }
+
+    .manual-card-visual .manual-front small {
+      display: block;
+      font-size: 12px;
+      line-height: 1.35;
+      color: #555;
+      font-weight: 600;
+    }
+
+    .manual-actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
     .bottom-nav {
       width: min(94%, 370px);
       height: 66px;
@@ -901,293 +1077,9 @@
       color: #fff;
     }
 
-    .manual-room-box {
-  display: grid;
-  gap: 12px;
-}
-
-.deck-choice {
-  width: 100%;
-  border: 1px solid #111;
-  border-radius: 18px;
-  background: #111;
-  color: #fff;
-  padding: 14px;
-  text-align: left;
-  font-weight: 700;
-}
-
-.deck-choice small {
-  display: block;
-  margin-top: 5px;
-  font-size: 12px;
-  line-height: 1.35;
-  font-weight: 500;
-  opacity: 0.82;
-}
-
-.deck-area {
-  display: grid;
-  place-items: center;
-  margin: 18px 0;
-}
-
-.deck-pile {
-  width: 118px;
-  height: 178px;
-  border: none;
-  background: transparent;
-  position: relative;
-}
-
-.deck-pile:disabled {
-  opacity: 0.45;
-}
-
-.card-back-design {
-  width: 100%;
-  height: 100%;
-  border: 1px solid #111;
-  border-radius: 13px;
-  background:
-    radial-gradient(circle at center, rgba(255, 255, 255, 0.16) 0 18%, transparent 19%),
-    linear-gradient(45deg, rgba(255, 255, 255, 0.12) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(255, 255, 255, 0.12) 25%, transparent 25%),
-    #111;
-  background-size: 100% 100%, 18px 18px, 18px 18px;
-  box-shadow:
-    5px 5px 0 rgba(0, 0, 0, 0.12),
-    10px 10px 0 rgba(0, 0, 0, 0.06);
-}
-
-.deck-count {
-  margin-top: 12px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #333;
-  text-align: center;
-}
-
-.manual-drawn-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 14px;
-}
-
-.manual-flip-card {
-  width: 100%;
-  min-height: 252px;
-  border: none;
-  background: transparent;
-  perspective: 1000px;
-  padding: 0;
-}
-
-.manual-flip-inner {
-  position: relative;
-  width: 100%;
-  min-height: 252px;
-  transition: transform 0.65s ease;
-  transform-style: preserve-3d;
-}
-
-.manual-flip-card.flipped .manual-flip-inner {
-  transform: rotateY(180deg);
-}
-
-.manual-face {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  border: 1px solid #111;
-  border-radius: 18px;
-  background: #fff;
-  padding: 10px;
-  overflow: hidden;
-}
-
-.manual-back {
-  display: grid;
-  place-items: center;
-  gap: 8px;
-  text-align: center;
-}
-
-.manual-back .card-back-design {
-  width: 92px;
-  height: 142px;
-  box-shadow: none;
-}
-
-.manual-back strong {
-  font-family: "Lora", serif;
-  font-size: 15px;
-  line-height: 1.25;
-}
-
-.manual-back small {
-  color: #666;
-  font-weight: 600;
-  font-size: 12px;
-}
-
-.manual-front {
-  transform: rotateY(180deg);
-  text-align: center;
-}
-
-.manual-front img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 9px;
-  margin-bottom: 8px;
-}
-
-.manual-front h2 {
-  font-size: 14px;
-  line-height: 1.25;
-  margin-bottom: 4px;
-}
-
-.manual-front small {
-  display: block;
-  font-size: 12px;
-  line-height: 1.35;
-  color: #555;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-.manual-front p {
-  font-size: 12px;
-  line-height: 1.35;
-  color: #333;
-  margin-bottom: 0;
-  text-align: left;
-}
-
-.manual-actions {
-  display: grid;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.manual-control-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.manual-card-slot {
-  display: grid;
-  gap: 8px;
-}
-
-.manual-position-label {
-  min-height: 38px;
-  border: 1px solid #111;
-  border-radius: 14px;
-  background: #fff;
-  display: grid;
-  place-items: center;
-  text-align: center;
-  padding: 7px 8px;
-  font-family: "Lora", serif;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.25;
-}
-
-.manual-card-visual {
-  width: 100%;
-  height: 250px;
-  border: none;
-  background: transparent;
-  perspective: 1000px;
-  padding: 0;
-}
-
-.manual-card-visual .manual-flip-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-  transition: transform 0.65s ease;
-  transform-style: preserve-3d;
-}
-
-.manual-card-visual.flipped .manual-flip-inner {
-  transform: rotateY(180deg);
-}
-
-.manual-card-visual .manual-face {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  border: 1px solid #111;
-  border-radius: 18px;
-  background: #fff;
-  padding: 10px;
-  overflow: hidden;
-}
-
-.manual-card-visual .manual-back {
-  display: grid;
-  place-items: center;
-  text-align: center;
-}
-
-.manual-card-visual .manual-back .card-back-design {
-  width: 100%;
-  height: 100%;
-  box-shadow: none;
-}
-
-.manual-card-visual .manual-front {
-  transform: rotateY(180deg);
-  text-align: center;
-}
-
-.manual-card-visual .manual-front img {
-  width: 100%;
-  height: 184px;
-  object-fit: contain;
-  object-position: center;
-  border-radius: 10px;
-  margin-bottom: 8px;
-  background: transparent;
-}
-
-.manual-card-visual .manual-front h2 {
-  font-family: "Lora", serif;
-  font-size: 14px;
-  line-height: 1.25;
-  margin-bottom: 5px;
-}
-
-.manual-card-visual .manual-front small {
-  display: block;
-  font-size: 12px;
-  line-height: 1.35;
-  color: #555;
-  font-weight: 600;
-}
-
-.manual-card-visual .manual-front p {
-  display: none;
-}
     @media (max-width: 360px) {
-  .manual-drawn-grid {
-    grid-template-columns: 1fr;
-  }
-}
-    @media (max-width: 360px) {
-      .cards-grid {
+      .cards-grid,
+      .manual-drawn-grid {
         grid-template-columns: 1fr;
       }
 
@@ -1234,14 +1126,14 @@
     let practiceCards = [];
     let practiceAiText = "";
 
-let shopSection = "";
+    let shopSection = "";
 
-let manualDeckId = "rws";
-let manualSpread = null;
-let manualDeck = [];
-let manualDrawnCards = [];
-let manualAiText = "";
-let manualFreshText = "";
+    let manualDeckId = "rws";
+    let manualSpread = null;
+    let manualDeck = [];
+    let manualDrawnCards = [];
+    let manualAiText = "";
+    let manualFreshText = "";
 
     const root = document.getElementById("root");
 
@@ -1571,6 +1463,37 @@ Trả lời bằng tiếng Việt.
 `;
     }
 
+    function buildManualAIPrompt() {
+      return `
+Bạn là FreshSpirit Tarot, một tarot reader nói tiếng Việt tự nhiên, sâu sắc nhưng dễ hiểu.
+
+Người dùng tự bốc bài trong Room.
+
+Câu hỏi:
+${roomQuestion || "Người dùng chưa nhập câu hỏi cụ thể."}
+
+Bộ bài:
+Rider Waite Smith
+
+Kiểu trải:
+${manualSpread.name}
+${manualSpread.description}
+
+Các lá bài:
+${cardsPrompt(manualDrawnCards)}
+
+Hãy diễn giải trải bài này:
+- Không khẳng định tuyệt đối tương lai.
+- Không chỉ dịch từng lá.
+- Hãy nối các lá thành một câu chuyện.
+- Có tổng quan, phân tích từng vị trí và lời khuyên thực tế.
+- Văn phong tự nhiên, thân thiện, không robot.
+- Không dùng bảng.
+
+Trả lời bằng tiếng Việt.
+`;
+    }
+
     function go(view) {
       location.hash = view;
       currentView = view;
@@ -1586,6 +1509,14 @@ Trả lời bằng tiếng Việt.
       roomAiCard = null;
       roomSystemCards = [];
       roomSystemAiText = "";
+
+      manualDeckId = "rws";
+      manualSpread = SPREADS[1];
+      manualDeck = [];
+      manualDrawnCards = [];
+      manualAiText = "";
+      manualFreshText = "";
+
       location.hash = "room";
       currentView = "room";
       render();
@@ -1619,9 +1550,9 @@ Trả lời bằng tiếng Việt.
     }
 
     async function init() {
-roomSystemSpread = SPREADS[1];
-practiceSpread = SPREADS[1];
-manualSpread = SPREADS[1];
+      roomSystemSpread = SPREADS[1];
+      practiceSpread = SPREADS[1];
+      manualSpread = SPREADS[1];
 
       const { data } = await db.auth.getUser();
       currentUser = data.user || null;
@@ -1957,7 +1888,7 @@ manualSpread = SPREADS[1];
             <button class="quick-card" onclick="startRoom()">
               <span>✨</span>
               <strong>+ Room</strong>
-              <small>Phòng xem bài riêng: chọn AI FreshSpirit hoặc hệ thống FreshSpirit.</small>
+              <small>Phòng xem bài riêng: chọn AI FreshSpirit, hệ thống hoặc tự bốc bài.</small>
             </button>
 
             <button class="quick-card" onclick="go('practice')">
@@ -1994,62 +1925,63 @@ manualSpread = SPREADS[1];
       `, "home");
     }
 
-function renderRoom() {
-  if (!roomSystemSpread) roomSystemSpread = SPREADS[1];
-  if (!manualSpread) manualSpread = SPREADS[1];
+    function renderRoom() {
+      if (!roomSystemSpread) roomSystemSpread = SPREADS[1];
+      if (!manualSpread) manualSpread = SPREADS[1];
 
-  if (!roomMode) {
-    root.innerHTML = layout(`
-      <section class="card">
-        <h1>+ Room</h1>
-        <p>Đây là phòng xem bài riêng. Chọn cách bạn muốn xem bài.</p>
+      if (!roomMode) {
+        root.innerHTML = layout(`
+          <section class="card">
+            <h1>+ Room</h1>
+            <p>Đây là phòng xem bài riêng. Chọn cách bạn muốn xem bài.</p>
 
-        <div class="quick-grid">
-          <button class="quick-card" onclick="selectRoomMode('ai')">
-            <span>✨</span>
-            <strong>Xem bài với AI của FreshSpirit</strong>
-            <small>Chat với AI, hỏi câu hỏi riêng và để AI bốc bài / diễn giải.</small>
-          </button>
+            <div class="quick-grid">
+              <button class="quick-card" onclick="selectRoomMode('ai')">
+                <span>✨</span>
+                <strong>Xem bài với AI của FreshSpirit</strong>
+                <small>Chat với AI, hỏi câu hỏi riêng và để AI bốc bài / diễn giải.</small>
+              </button>
 
-          <button class="quick-card" onclick="selectRoomMode('system')">
-            <span>🃏</span>
-            <strong>Xem bài với hệ thống FreshSpirit</strong>
-            <small>Chọn spread, hệ thống rút bài và hiển thị nghĩa để bạn tự đọc.</small>
-          </button>
+              <button class="quick-card" onclick="selectRoomMode('system')">
+                <span>🃏</span>
+                <strong>Xem bài với hệ thống FreshSpirit</strong>
+                <small>Chọn spread, hệ thống rút bài và hiển thị nghĩa để bạn tự đọc.</small>
+              </button>
 
-          <button class="quick-card" onclick="selectRoomMode('manual')">
-            <span>🖐️</span>
-            <strong>Tự bốc bài</strong>
-            <small>Chọn bộ bài, chọn kiểu trải, xáo bài và tự rút từng lá.</small>
-          </button>
-        </div>
-      </section>
-    `, "home");
+              <button class="quick-card" onclick="selectRoomMode('manual')">
+                <span>🖐️</span>
+                <strong>Tự bốc bài</strong>
+                <small>Chọn bộ bài, chọn kiểu trải, xáo bài và tự rút từng lá.</small>
+              </button>
+            </div>
+          </section>
+        `, "home");
 
-    return;
-  }
+        return;
+      }
 
-  if (roomMode === "ai") renderRoomAI();
-  else if (roomMode === "system") renderRoomSystem();
-  else if (roomMode === "manual") renderRoomManual();
-}
-window.selectRoomMode = function(mode) {
-  roomMode = mode;
-  roomQuestion = "";
-  roomAiText = "";
-  roomAiCard = null;
-  roomSystemCards = [];
-  roomSystemAiText = "";
+      if (roomMode === "ai") renderRoomAI();
+      else if (roomMode === "system") renderRoomSystem();
+      else if (roomMode === "manual") renderRoomManual();
+    }
 
-  manualDeckId = "rws";
-  manualSpread = SPREADS[1];
-  manualDeck = [];
-  manualDrawnCards = [];
-  manualAiText = "";
-  manualFreshText = "";
+    window.selectRoomMode = function(mode) {
+      roomMode = mode;
+      roomQuestion = "";
+      roomAiText = "";
+      roomAiCard = null;
+      roomSystemCards = [];
+      roomSystemAiText = "";
 
-  renderRoom();
-};
+      manualDeckId = "rws";
+      manualSpread = SPREADS[1];
+      manualDeck = [];
+      manualDrawnCards = [];
+      manualAiText = "";
+      manualFreshText = "";
+
+      renderRoom();
+    };
 
     function renderRoomAI() {
       root.innerHTML = layout(`
@@ -2329,367 +2261,336 @@ window.selectRoomMode = function(mode) {
       message.textContent = "Đã lưu vào journal.";
     };
 
-function renderRoomManual() {
-  if (!manualSpread) manualSpread = SPREADS[1];
+    function renderRoomManual() {
+      if (!manualSpread) manualSpread = SPREADS[1];
 
-  const hasStarted = manualDeck.length > 0 || manualDrawnCards.length > 0;
-  const remaining = manualSpread.positions.length - manualDrawnCards.length;
-  const ready = manualReadingReady();
+      const hasStarted = manualDeck.length > 0 || manualDrawnCards.length > 0;
+      const remaining = manualSpread.positions.length - manualDrawnCards.length;
+      const ready = manualReadingReady();
 
-  root.innerHTML = layout(`
-    <section class="card">
-      <h1>Tự bốc bài</h1>
-      <p>Chọn bộ bài, chọn kiểu trải bài, xáo bài rồi tự rút từng lá. Lá bài sẽ nằm úp, chạm vào từng lá đã rút để lật mặt bài.</p>
+      root.innerHTML = layout(`
+        <section class="card">
+          <h1>Tự bốc bài</h1>
+          <p>Chọn bộ bài, chọn kiểu trải bài, xáo bài rồi tự rút từng lá. Lá bài sẽ nằm úp, chạm vào từng lá đã rút để lật mặt bài.</p>
 
-      <button class="white-btn" onclick="selectRoomMode('')">
-        Đổi kiểu xem bài
-      </button>
-    </section>
+          <button class="white-btn" onclick="selectRoomMode('')">
+            Đổi kiểu xem bài
+          </button>
+        </section>
 
-    <section class="card">
-      <h2>Câu hỏi của bạn</h2>
+        <section class="card">
+          <h2>Câu hỏi của bạn</h2>
 
-      <div class="form">
-        <input
-          id="manualQuestion"
-          type="text"
-          placeholder="Ví dụ: Mối quan hệ này đang đi về đâu?"
-          value="${esc(roomQuestion)}"
-        >
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>Chọn bộ bài</h2>
-
-      <button class="deck-choice" onclick="selectManualDeck('rws')">
-        Rider Waite Smith
-        <small>Bộ bài hiện tại của FreshSpirit. Các bộ khác có thể thêm sau.</small>
-      </button>
-    </section>
-
-    <section class="card">
-      <h2>Chọn kiểu trải bài</h2>
-      <p>${esc(manualSpread.description)}</p>
-
-      <div class="spread-grid">
-        ${spreadButtons(manualSpread, "changeManualSpread")}
-      </div>
-
-      <button class="submit" onclick="startManualDraw()">
-        Bắt đầu tự bốc bài
-      </button>
-
-      <p id="manualMessage" class="message"></p>
-    </section>
-
-    ${
-      hasStarted
-        ? `
-          <section class="card">
-            <h2>Bộ bài đang úp</h2>
-            <p>
-              ${
-                remaining > 0
-                  ? `Còn ${remaining} lá cần rút cho trải bài này. Bấm vào bộ bài để rút từng lá.`
-                  : "Bạn đã rút đủ số lá cho trải bài này."
-              }
-            </p>
-
-            <div class="deck-area">
-              <button class="deck-pile" onclick="drawManualCard()" ${remaining <= 0 ? "disabled" : ""}>
-                <div class="card-back-design"></div>
-                <div class="deck-count">${remaining > 0 ? `Rút lá ${manualDrawnCards.length + 1}` : "Đã đủ lá"}</div>
-              </button>
-            </div>
-
-            <div class="manual-control-row">
-              <button class="white-btn" onclick="shuffleManualDeck()">
-                Xáo bài
-              </button>
-
-              <button class="white-btn" onclick="resetManualDraw()">
-                Reset
-              </button>
-            </div>
-          </section>
-
-          <section class="card">
-            <h2>Lá đã rút</h2>
-            <p>Chạm vào từng lá bài đang úp để lật bài. Mặt ngửa chỉ hiện lá bài, chưa hiện ý nghĩa.</p>
-
-            <div class="manual-drawn-grid">
-              ${manualDrawnCards.map((card, index) => manualCardHtml(card, index)).join("")}
-            </div>
-          </section>
-        `
-        : ""
-    }
-
-    ${
-      ready
-        ? `
-          <section class="card">
-            <h2>Hỏi FreshSpirit</h2>
-            <p>Bạn đã lật đủ bài. Chọn một cách diễn giải bên dưới.</p>
-
-            <div class="manual-actions">
-              <button class="white-btn" onclick="getManualAI()">
-                Hỏi AI FreshSpirit
-              </button>
-
-              <button class="submit" onclick="getManualFreshInterpretation()">
-                Hỏi hệ thống FreshSpirit
-              </button>
-            </div>
-
-            <p id="manualActionMessage" class="message"></p>
-          </section>
-
-          <section id="manualResultBox">
-            ${manualAiText ? aiBoxHtml(manualAiText) : ""}
-            ${manualFreshText ? aiBoxHtml(manualFreshText) : ""}
-          </section>
-        `
-        : ""
-    }
-  `, "home");
-}
-
-window.selectManualDeck = function(deckId) {
-  manualDeckId = deckId;
-  manualDeck = [];
-  manualDrawnCards = [];
-  manualAiText = "";
-  manualFreshText = "";
-  renderRoomManual();
-};
-
-window.changeManualSpread = function(spreadId) {
-  const input = document.getElementById("manualQuestion");
-  if (input) roomQuestion = input.value.trim();
-
-  manualSpread = SPREADS.find(spread => spread.id === spreadId) || SPREADS[1];
-  manualDeck = [];
-  manualDrawnCards = [];
-  manualAiText = "";
-  manualFreshText = "";
-
-  renderRoomManual();
-};
-
-window.startManualDraw = function() {
-  const input = document.getElementById("manualQuestion");
-  if (input) roomQuestion = input.value.trim();
-
-  if (typeof getAllCards !== "function") {
-    const message = document.getElementById("manualMessage");
-    if (message) message.textContent = "Chưa tìm thấy database 78 lá trong script.js.";
-    return;
-  }
-
-  manualDeck = shuffledDeck();
-  manualDrawnCards = [];
-  manualAiText = "";
-  manualFreshText = "";
-
-  renderRoomManual();
-};
-
-window.shuffleManualDeck = function() {
-  const input = document.getElementById("manualQuestion");
-  if (input) roomQuestion = input.value.trim();
-
-  if (typeof getAllCards !== "function") return;
-
-  if (!manualDeck.length && manualDrawnCards.length === 0) {
-    manualDeck = shuffledDeck();
-  } else {
-    for (let i = manualDeck.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      const temp = manualDeck[i];
-      manualDeck[i] = manualDeck[j];
-      manualDeck[j] = temp;
-    }
-  }
-
-  manualAiText = "";
-  manualFreshText = "";
-
-  renderRoomManual();
-};
-
-window.resetManualDraw = function() {
-  const input = document.getElementById("manualQuestion");
-  if (input) roomQuestion = input.value.trim();
-
-  if (typeof getAllCards !== "function") {
-    manualDeck = [];
-  } else {
-    manualDeck = shuffledDeck();
-  }
-
-  manualDrawnCards = [];
-  manualAiText = "";
-  manualFreshText = "";
-
-  renderRoomManual();
-};
-
-window.drawManualCard = function() {
-  if (!manualSpread) manualSpread = SPREADS[1];
-
-  if (!manualDeck.length) {
-    manualDeck = shuffledDeck();
-  }
-
-  if (manualDrawnCards.length >= manualSpread.positions.length) {
-    return;
-  }
-
-  const nextCard = manualDeck.shift();
-
-  manualDrawnCards.push({
-    ...nextCard,
-    position: manualSpread.positions[manualDrawnCards.length],
-    isReversed: Math.random() < 0.25,
-    isFlipped: false
-  });
-
-  manualAiText = "";
-  manualFreshText = "";
-
-  renderRoomManual();
-};
-
-function manualCardHtml(card, index) {
-  return `
-    <div class="manual-card-slot">
-      <div class="manual-position-label">
-        ${esc(card.position)}
-      </div>
-
-      <button
-        id="manualCard${index}"
-        class="manual-card-visual ${card.isFlipped ? "flipped" : ""}"
-        onclick="flipManualCard(${index})"
-      >
-        <div class="manual-flip-inner">
-          <div class="manual-face manual-back">
-            <div class="card-back-design"></div>
-          </div>
-
-          <div class="manual-face manual-front">
-            <img
-              src="${esc(card.image)}"
-              alt="${esc(card.name)}"
-              style="${card.isReversed ? "transform: rotate(180deg);" : ""}"
+          <div class="form">
+            <input
+              id="manualQuestion"
+              type="text"
+              placeholder="Ví dụ: Mối quan hệ này đang đi về đâu?"
+              value="${esc(roomQuestion)}"
             >
-
-            <h2>${esc(card.name)}</h2>
-
-            <small>
-              ${esc(card.viName)}
-              ${card.isReversed ? " · Ngược" : " · Xuôi"}
-            </small>
           </div>
+        </section>
+
+        <section class="card">
+          <h2>Chọn bộ bài</h2>
+
+          <button class="deck-choice" onclick="selectManualDeck('rws')">
+            Rider Waite Smith
+            <small>Bộ bài hiện tại của FreshSpirit. Các bộ khác có thể thêm sau.</small>
+          </button>
+        </section>
+
+        <section class="card">
+          <h2>Chọn kiểu trải bài</h2>
+          <p>${esc(manualSpread.description)}</p>
+
+          <div class="spread-grid">
+            ${spreadButtons(manualSpread, "changeManualSpread")}
+          </div>
+
+          <button class="submit" onclick="startManualDraw()">
+            Bắt đầu tự bốc bài
+          </button>
+
+          <p id="manualMessage" class="message"></p>
+        </section>
+
+        ${
+          hasStarted
+            ? `
+              <section class="card">
+                <h2>Bộ bài đang úp</h2>
+                <p>
+                  ${
+                    remaining > 0
+                      ? `Còn ${remaining} lá cần rút cho trải bài này. Bấm vào bộ bài để rút từng lá.`
+                      : "Bạn đã rút đủ số lá cho trải bài này."
+                  }
+                </p>
+
+                <div class="deck-area">
+                  <button class="deck-pile" onclick="drawManualCard()" ${remaining <= 0 ? "disabled" : ""}>
+                    <div class="card-back-design"></div>
+                    <div class="deck-count">${remaining > 0 ? `Rút lá ${manualDrawnCards.length + 1}` : "Đã đủ lá"}</div>
+                  </button>
+                </div>
+
+                <div class="manual-control-row">
+                  <button class="white-btn" onclick="shuffleManualDeck()">
+                    Xáo bài
+                  </button>
+
+                  <button class="white-btn" onclick="resetManualDraw()">
+                    Reset
+                  </button>
+                </div>
+              </section>
+
+              <section class="card">
+                <h2>Lá đã rút</h2>
+                <p>Chạm vào từng lá bài đang úp để lật bài. Mặt ngửa chỉ hiện lá bài, chưa hiện ý nghĩa.</p>
+
+                <div class="manual-drawn-grid">
+                  ${manualDrawnCards.map((card, index) => manualCardHtml(card, index)).join("")}
+                </div>
+              </section>
+            `
+            : ""
+        }
+
+        ${
+          ready
+            ? `
+              <section class="card">
+                <h2>Hỏi FreshSpirit</h2>
+                <p>Bạn đã lật đủ bài. Chọn một cách diễn giải bên dưới.</p>
+
+                <div class="manual-actions">
+                  <button class="white-btn" onclick="getManualAI()">
+                    Hỏi AI FreshSpirit
+                  </button>
+
+                  <button class="submit" onclick="getManualFreshInterpretation()">
+                    Hỏi hệ thống FreshSpirit
+                  </button>
+                </div>
+
+                <p id="manualActionMessage" class="message"></p>
+              </section>
+
+              <section id="manualResultBox">
+                ${manualAiText ? aiBoxHtml(manualAiText) : ""}
+                ${manualFreshText ? aiBoxHtml(manualFreshText) : ""}
+              </section>
+            `
+            : ""
+        }
+      `, "home");
+    }
+
+    window.selectManualDeck = function(deckId) {
+      manualDeckId = deckId;
+      manualDeck = [];
+      manualDrawnCards = [];
+      manualAiText = "";
+      manualFreshText = "";
+      renderRoomManual();
+    };
+
+    window.changeManualSpread = function(spreadId) {
+      const input = document.getElementById("manualQuestion");
+      if (input) roomQuestion = input.value.trim();
+
+      manualSpread = SPREADS.find(spread => spread.id === spreadId) || SPREADS[1];
+      manualDeck = [];
+      manualDrawnCards = [];
+      manualAiText = "";
+      manualFreshText = "";
+
+      renderRoomManual();
+    };
+
+    window.startManualDraw = function() {
+      const input = document.getElementById("manualQuestion");
+      if (input) roomQuestion = input.value.trim();
+
+      if (typeof getAllCards !== "function") {
+        const message = document.getElementById("manualMessage");
+        if (message) message.textContent = "Chưa tìm thấy database 78 lá trong script.js.";
+        return;
+      }
+
+      manualDeck = shuffledDeck();
+      manualDrawnCards = [];
+      manualAiText = "";
+      manualFreshText = "";
+
+      renderRoomManual();
+    };
+
+    window.shuffleManualDeck = function() {
+      const input = document.getElementById("manualQuestion");
+      if (input) roomQuestion = input.value.trim();
+
+      if (typeof getAllCards !== "function") return;
+
+      if (!manualDeck.length && manualDrawnCards.length === 0) {
+        manualDeck = shuffledDeck();
+      } else {
+        for (let i = manualDeck.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const temp = manualDeck[i];
+          manualDeck[i] = manualDeck[j];
+          manualDeck[j] = temp;
+        }
+      }
+
+      manualAiText = "";
+      manualFreshText = "";
+
+      renderRoomManual();
+    };
+
+    window.resetManualDraw = function() {
+      const input = document.getElementById("manualQuestion");
+      if (input) roomQuestion = input.value.trim();
+
+      if (typeof getAllCards !== "function") {
+        manualDeck = [];
+      } else {
+        manualDeck = shuffledDeck();
+      }
+
+      manualDrawnCards = [];
+      manualAiText = "";
+      manualFreshText = "";
+
+      renderRoomManual();
+    };
+
+    window.drawManualCard = function() {
+      if (!manualSpread) manualSpread = SPREADS[1];
+
+      if (!manualDeck.length) {
+        manualDeck = shuffledDeck();
+      }
+
+      if (manualDrawnCards.length >= manualSpread.positions.length) {
+        return;
+      }
+
+      const nextCard = manualDeck.shift();
+
+      manualDrawnCards.push({
+        ...nextCard,
+        position: manualSpread.positions[manualDrawnCards.length],
+        isReversed: Math.random() < 0.25,
+        isFlipped: false
+      });
+
+      manualAiText = "";
+      manualFreshText = "";
+
+      renderRoomManual();
+    };
+
+    function manualCardHtml(card, index) {
+      return `
+        <div class="manual-card-slot">
+          <div class="manual-position-label">
+            ${esc(card.position)}
+          </div>
+
+          <button
+            id="manualCard${index}"
+            class="manual-card-visual ${card.isFlipped ? "flipped" : ""}"
+            onclick="flipManualCard(${index})"
+          >
+            <div class="manual-flip-inner">
+              <div class="manual-face manual-back">
+                <div class="card-back-design"></div>
+              </div>
+
+              <div class="manual-face manual-front">
+                <img
+                  src="${esc(card.image)}"
+                  alt="${esc(card.name)}"
+                  style="${card.isReversed ? "transform: rotate(180deg);" : ""}"
+                >
+
+                <h2>${esc(card.name)}</h2>
+
+                <small>
+                  ${esc(card.viName)}
+                  ${card.isReversed ? " · Ngược" : " · Xuôi"}
+                </small>
+              </div>
+            </div>
+          </button>
         </div>
-      </button>
-    </div>
-  `;
-}
+      `;
+    }
 
-window.flipManualCard = function(index) {
-  const card = manualDrawnCards[index];
-  if (!card) return;
+    window.flipManualCard = function(index) {
+      const card = manualDrawnCards[index];
+      if (!card) return;
 
-  card.isFlipped = true;
+      card.isFlipped = true;
 
-  const element = document.getElementById(`manualCard${index}`);
-  if (element) element.classList.add("flipped");
+      const element = document.getElementById(`manualCard${index}`);
+      if (element) element.classList.add("flipped");
 
-  manualAiText = "";
-  manualFreshText = "";
+      manualAiText = "";
+      manualFreshText = "";
 
-  setTimeout(() => {
-    renderRoomManual();
-  }, 680);
-};
+      setTimeout(() => {
+        renderRoomManual();
+      }, 680);
+    };
 
-function manualReadingReady() {
-  return (
-    manualSpread &&
-    manualDrawnCards.length === manualSpread.positions.length &&
-    manualDrawnCards.every(card => card.isFlipped)
-  );
-}
+    function manualReadingReady() {
+      return (
+        manualSpread &&
+        manualDrawnCards.length === manualSpread.positions.length &&
+        manualDrawnCards.every(card => card.isFlipped)
+      );
+    }
 
-function buildManualAIPrompt() {
-  return `
-Bạn là FreshSpirit Tarot, một tarot reader nói tiếng Việt tự nhiên, sâu sắc nhưng dễ hiểu.
+    window.getManualAI = async function() {
+      const box = document.getElementById("manualResultBox");
+      const message = document.getElementById("manualActionMessage");
 
-Người dùng tự bốc bài trong Room.
+      if (!manualReadingReady()) {
+        if (message) message.textContent = "Bạn cần rút đủ lá và lật hết bài trước.";
+        return;
+      }
 
-Câu hỏi:
-${roomQuestion || "Người dùng chưa nhập câu hỏi cụ thể."}
+      if (box) box.innerHTML = aiBoxHtml("Đang hỏi AI FreshSpirit...");
 
-Bộ bài:
-Rider Waite Smith
+      try {
+        manualAiText = await askGemini(buildManualAIPrompt());
+        manualFreshText = "";
 
-Kiểu trải:
-${manualSpread.name}
-${manualSpread.description}
+        if (box) box.innerHTML = aiBoxHtml(manualAiText);
+      } catch (error) {
+        if (box) box.innerHTML = aiBoxHtml(error.message);
+      }
+    };
 
-Các lá bài:
-${cardsPrompt(manualDrawnCards)}
+    window.getManualFreshInterpretation = function() {
+      const box = document.getElementById("manualResultBox");
+      const message = document.getElementById("manualActionMessage");
 
-Hãy diễn giải trải bài này:
-- Không khẳng định tuyệt đối tương lai.
-- Không chỉ dịch từng lá.
-- Hãy nối các lá thành một câu chuyện.
-- Có tổng quan, phân tích từng vị trí và lời khuyên thực tế.
-- Văn phong tự nhiên, thân thiện, không robot.
-- Không dùng bảng.
+      if (!manualReadingReady()) {
+        if (message) message.textContent = "Bạn cần rút đủ lá và lật hết bài trước.";
+        return;
+      }
 
-Trả lời bằng tiếng Việt.
-`;
-}
+      const lines = manualDrawnCards.map((card, index) => {
+        return `${index + 1}. ${card.position}: ${card.name} / ${card.viName} ${card.isReversed ? "(ngược)" : "(xuôi)"}\n${cardMeaning(card)}`;
+      }).join("\n\n");
 
-window.getManualAI = async function() {
-  const box = document.getElementById("manualResultBox");
-  const message = document.getElementById("manualActionMessage");
-
-  if (!manualReadingReady()) {
-    if (message) message.textContent = "Bạn cần rút đủ lá và lật hết bài trước.";
-    return;
-  }
-
-  if (box) box.innerHTML = aiBoxHtml("Đang hỏi AI FreshSpirit...");
-
-  try {
-    manualAiText = await askGemini(buildManualAIPrompt());
-    manualFreshText = "";
-
-    if (box) box.innerHTML = aiBoxHtml(manualAiText);
-  } catch (error) {
-    if (box) box.innerHTML = aiBoxHtml(error.message);
-  }
-};
-
-window.getManualFreshInterpretation = function() {
-  const box = document.getElementById("manualResultBox");
-  const message = document.getElementById("manualActionMessage");
-
-  if (!manualReadingReady()) {
-    if (message) message.textContent = "Bạn cần rút đủ lá và lật hết bài trước.";
-    return;
-  }
-
-  const lines = manualDrawnCards.map((card, index) => {
-    return `${index + 1}. ${card.position}: ${card.name} / ${card.viName} ${card.isReversed ? "(ngược)" : "(xuôi)"}\n${cardMeaning(card)}`;
-  }).join("\n\n");
-
-  manualFreshText = `
+      manualFreshText = `
 Hệ thống FreshSpirit
 
 Câu hỏi: ${roomQuestion || "Không có câu hỏi cụ thể."}
@@ -2704,34 +2605,11 @@ Lời khuyên:
 Đừng chỉ đọc từng lá riêng lẻ. Hãy nhìn xem các vị trí đang nối với nhau như một câu chuyện: điều gì đang diễn ra, điều gì bị kẹt, và hành động nào giúp bạn đi tiếp rõ ràng hơn.
 `.trim();
 
-  manualAiText = "";
+      manualAiText = "";
 
-  if (box) box.innerHTML = aiBoxHtml(manualFreshText);
-};
+      if (box) box.innerHTML = aiBoxHtml(manualFreshText);
+    };
 
-  const lines = manualDrawnCards.map((card, index) => {
-    return `${index + 1}. ${card.position}: ${card.name} / ${card.viName} ${card.isReversed ? "(ngược)" : "(xuôi)"}\n${cardMeaning(card)}`;
-  }).join("\n\n");
-
-  manualFreshText = `
-Diễn giải của FreshSpirit
-
-Câu hỏi: ${roomQuestion || "Không có câu hỏi cụ thể."}
-
-Tổng quan:
-Trải bài này cho thấy tình huống đang cần được nhìn chậm lại, thay vì chỉ hỏi kết quả cuối cùng. Các lá bài đang chỉ ra cả năng lượng hiện tại, điểm nghẽn và hướng hành động phù hợp.
-
-Các lá bài:
-${lines}
-
-Lời khuyên:
-Hãy nhìn lá bài mạnh nhất hoặc lá khiến bạn chú ý nhất trước. Đó thường là điểm mà trực giác của bạn đang muốn nhấn mạnh. Sau đó nối các vị trí lại với nhau để xem câu chuyện đang đi từ đâu, bị kẹt ở đâu và cần mở ra bằng hành động nào.
-`.trim();
-
-  manualAiText = "";
-
-  if (box) box.innerHTML = aiBoxHtml(manualFreshText);
-};
     function renderPractice() {
       if (!practiceSpread) practiceSpread = SPREADS[1];
 
