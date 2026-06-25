@@ -61,21 +61,38 @@
   width: min(100%, 390px);
   min-height: 100vh;
   margin: 0 auto;
+  background: #f7f7f5;
   padding-bottom: 86px;
   overflow-x: hidden;
   position: relative;
+  isolation: isolate;
+}
+    .app::before {
+  content: "";
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: min(100%, 390px);
+  height: 175px;
+  z-index: 0;
+  pointer-events: none;
 
-  background-color: #f8f7f2;
+  background-color: #f8f8f4;
   background-image:
-    linear-gradient(rgba(20, 20, 20, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(20, 20, 20, 0.055) 1px, transparent 1px),
-    linear-gradient(rgba(20, 20, 20, 0.028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(20, 20, 20, 0.028) 1px, transparent 1px);
+    linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
   background-size:
-    24px 24px,
-    24px 24px,
+    32px 32px,
+    32px 32px,
     8px 8px,
     8px 8px;
+
+  box-shadow:
+    inset 0 -2px 0 #111,
+    inset 0 1px 0 rgba(0, 0, 0, 0.08);
 }
 
     .topbar {
