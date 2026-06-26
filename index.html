@@ -1987,6 +1987,106 @@
   color: #fff;
 }
 
+  
+/* Notifications */
+.notify-btn {
+  position: relative;
+}
+
+.notify-dot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #e60023;
+  border: 1px solid #fff;
+  box-shadow: 0 0 0 1px rgba(17, 17, 17, 0.28);
+}
+
+.notification-list {
+  display: grid;
+  gap: 10px;
+}
+
+.notification-item {
+  width: 100%;
+  border: 1px solid #111;
+  border-radius: 20px;
+  background: #fff;
+  padding: 14px;
+  text-align: left;
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.notification-item.unread {
+  background: rgba(255, 209, 220, 0.48);
+}
+
+.notification-avatar {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #111;
+  border-radius: 999px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: #111;
+  color: #fff;
+  font-weight: 900;
+}
+
+.notification-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.notification-text strong {
+  display: block;
+  font-size: 14px;
+  line-height: 1.35;
+  margin-bottom: 4px;
+}
+
+.notification-text small {
+  display: block;
+  color: #666;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.notification-unread-mark {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #e60023;
+  display: block;
+}
+
+.notification-permission-box {
+  border: 1px dashed #111;
+  border-radius: 20px;
+  background: #fff8fb;
+  padding: 14px;
+  margin-top: 12px;
+}
+
+.notification-permission-box p {
+  margin-bottom: 10px;
+}
+
+.comment-item:target,
+.comment-item.comment-focus {
+  background: rgba(255, 209, 220, 0.68) !important;
+  outline: 2px solid #111;
+  outline-offset: 2px;
+}
+
   </style>
 </head>
 
@@ -2022,6 +2122,9 @@ let menuSection = "";
 let issueMenuSection = "";
 let expandedCommentsPostId = null;
 let followingUserIds = [];
+let unreadNotificationCount = 0;
+let notificationChannel = null;
+let notificationTarget = null;
 
     let manualDeckId = "rws";
     let manualSpread = null;
@@ -2470,6 +2573,8 @@ Trả lời bằng tiếng Việt.
 
       if (currentUser) {
         await loadProfile();
+        await loadUnreadNotifications();
+        setupNotificationRealtime();
       }
 
       currentView = getHashView();
@@ -2495,6 +2600,11 @@ Trả lời bằng tiếng Việt.
             <div class="top-actions">
               <button class="icon-btn" onclick="go('shop')" title="Shop">
   ${appIcon("shopping-cart.png", "Shop", "icon-img top-icon")}
+</button>
+
+              <button class="icon-btn notify-btn" onclick="go('notifications')" title="Thông báo" aria-label="Thông báo">
+  ${appIcon("letter.png", "Notifications", "icon-img top-icon")}
+  ${unreadNotificationCount > 0 ? `<span class="notify-dot" aria-label="Có thông báo chưa đọc"></span>` : ""}
 </button>
 
               <button class="black-btn" onclick="startRoom()">
@@ -2588,6 +2698,7 @@ Trả lời bằng tiếng Việt.
 
 if (currentView === "cards") renderCardsPage();
 else if (currentView === "feed") renderFeedPage();
+else if (currentView === "notifications") renderNotificationsPage();
 else if (currentView === "room") renderRoom();
       else if (currentView === "practice" || currentView === "match") renderPractice();
       else if (currentView === "journal") renderJournal();
@@ -2659,6 +2770,8 @@ else if (currentView === "room") renderRoom();
 
         currentUser = data.user;
         await loadProfile();
+        await loadUnreadNotifications();
+        setupNotificationRealtime();
 
         currentView = hasBirthday(currentProfile) ? "home" : "onboarding";
         location.hash = currentView;
@@ -2700,6 +2813,8 @@ else if (currentView === "room") renderRoom();
       });
 
       await loadProfile();
+      await loadUnreadNotifications();
+      setupNotificationRealtime();
 
       currentView = "onboarding";
       location.hash = "onboarding";
@@ -4357,12 +4472,297 @@ const READER_PROFILES = [
   }
 ];
 
-    function renderFeedPage() {
+    
+async function loadUnreadNotifications() {
+  if (!currentUser) return 0;
+
+  const { count, error } = await db
+    .from("notifications")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", currentUser.id)
+    .is("read_at", null);
+
+  if (!error) {
+    unreadNotificationCount = count || 0;
+  }
+
+  return unreadNotificationCount;
+}
+
+function updateNotificationBadge() {
+  document.querySelectorAll(".notify-dot").forEach(dot => dot.remove());
+
+  if (unreadNotificationCount <= 0) return;
+
+  document.querySelectorAll(".notify-btn").forEach(button => {
+    if (!button.querySelector(".notify-dot")) {
+      button.insertAdjacentHTML("beforeend", `<span class="notify-dot" aria-label="Có thông báo chưa đọc"></span>`);
+    }
+  });
+}
+
+async function requestNotificationPermission() {
+  if (!("Notification" in window)) {
+    alert("Trình duyệt này chưa hỗ trợ thông báo hệ thống.");
+    return;
+  }
+
+  const permission = await Notification.requestPermission();
+  if (permission === "granted") {
+    alert("Đã bật thông báo FreshSpirit. Khi web đang mở, điện thoại sẽ rung và hiện thông báo nếu có reply/follow mới.");
+  } else {
+    alert("Bạn chưa cấp quyền thông báo. Có thể bật lại trong phần cài đặt trình duyệt.");
+  }
+}
+
+function showDeviceNotification(notification) {
+  if (navigator.vibrate) {
+    navigator.vibrate([120, 50, 120]);
+  }
+
+  if (!("Notification" in window) || Notification.permission !== "granted") return;
+
+  const title = notification.type === "follow"
+    ? "FreshSpirit: Có người theo dõi bạn"
+    : "FreshSpirit: Có phản hồi bình luận mới";
+
+  const body = notification.message || "Bạn có thông báo mới.";
+  const systemNotification = new Notification(title, {
+    body,
+    icon: "images/icons/letter.png",
+    badge: "images/icons/letter.png"
+  });
+
+  systemNotification.onclick = function() {
+    window.focus();
+    openNotification(
+      notification.id,
+      notification.type,
+      notification.post_id,
+      notification.comment_id,
+      notification.actor_id
+    );
+  };
+}
+
+function setupNotificationRealtime() {
+  if (!currentUser || !db.channel || notificationChannel) return;
+
+  notificationChannel = db
+    .channel(`freshspirit-notifications-${currentUser.id}`)
+    .on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "public",
+        table: "notifications",
+        filter: `user_id=eq.${currentUser.id}`
+      },
+      payload => {
+        unreadNotificationCount += 1;
+        updateNotificationBadge();
+        showDeviceNotification(payload.new);
+
+        if (currentView === "notifications") {
+          loadNotifications();
+        }
+      }
+    )
+    .subscribe();
+}
+
+async function renderNotificationsPage() {
+  root.innerHTML = layout(`
+    <section class="card">
+      <h1>Thông báo</h1>
+      <p>FreshSpirit sẽ báo khi có người phản hồi bình luận của bạn hoặc theo dõi trang cá nhân của bạn.</p>
+
+      <div class="notification-permission-box">
+        <p><strong>Bật thông báo điện thoại</strong></p>
+        <p>Khi web đang mở và bạn đã cấp quyền, điện thoại có thể rung và hiện thông báo mới.</p>
+        <button class="white-btn" type="button" onclick="requestNotificationPermission()">Bật thông báo</button>
+      </div>
+
+      <button class="submit" type="button" onclick="markAllNotificationsRead()">Đánh dấu tất cả đã đọc</button>
+    </section>
+
+    <section id="notificationList" class="notification-list">
+      <section class="card"><p class="message">Đang tải thông báo...</p></section>
+    </section>
+  `, "more");
+
+  await loadNotifications();
+}
+
+async function loadNotifications() {
+  const list = document.getElementById("notificationList");
+  if (!list || !currentUser) return;
+
+  const { data, error } = await db
+    .from("notifications")
+    .select("*")
+    .eq("user_id", currentUser.id)
+    .order("created_at", { ascending: false })
+    .limit(80);
+
+  if (error) {
+    list.innerHTML = `<section class="card"><p>${esc(error.message)}</p></section>`;
+    return;
+  }
+
+  const actorIds = [...new Set((data || []).map(item => item.actor_id).filter(Boolean))];
+  let actorMap = {};
+
+  if (actorIds.length > 0) {
+    const { data: actors } = await db
+      .from("profiles")
+      .select("id, display_name, avatar_url")
+      .in("id", actorIds);
+
+    actorMap = Object.fromEntries((actors || []).map(actor => [actor.id, actor]));
+  }
+
+  const enrichedData = (data || []).map(item => ({
+    ...item,
+    actor: actorMap[item.actor_id] || {}
+  }));
+
+  if (!enrichedData || enrichedData.length === 0) {
+    list.innerHTML = `
+      <section class="card">
+        <h2>Chưa có thông báo</h2>
+        <p>Khi có người phản hồi bình luận hoặc follow bạn, thông báo sẽ hiện ở đây.</p>
+      </section>
+    `;
+    return;
+  }
+
+  list.innerHTML = enrichedData.map(notificationHtml).join("");
+}
+
+function notificationHtml(item) {
+  const actor = item.actor || {};
+  const name = actor.display_name || "Người dùng FreshSpirit";
+  const avatar = actor.avatar_url || "";
+  const unread = !item.read_at;
+  const message = item.message || (
+    item.type === "follow"
+      ? `${name} đã theo dõi bạn.`
+      : `${name} đã phản hồi bình luận của bạn.`
+  );
+
+  return `
+    <button
+      class="notification-item ${unread ? "unread" : ""}"
+      type="button"
+      onclick="openNotification(${item.id}, '${esc(item.type)}', ${item.post_id || "null"}, ${item.comment_id || "null"}, '${esc(item.actor_id || "")}' )"
+    >
+      <span class="notification-avatar">
+        ${avatar ? `<img src="${esc(avatar)}" alt="Avatar">` : esc(name.charAt(0).toUpperCase())}
+      </span>
+
+      <span class="notification-text">
+        <strong>${esc(message)}</strong>
+        <small>${new Date(item.created_at).toLocaleString("vi-VN")}</small>
+      </span>
+
+      ${unread ? `<span class="notification-unread-mark"></span>` : `<span></span>`}
+    </button>
+  `;
+}
+
+async function markNotificationRead(notificationId) {
+  if (!notificationId || !currentUser) return;
+
+  const { error } = await db
+    .from("notifications")
+    .update({ read_at: new Date().toISOString() })
+    .eq("id", Number(notificationId))
+    .eq("user_id", currentUser.id)
+    .is("read_at", null);
+
+  if (!error) {
+    await loadUnreadNotifications();
+    updateNotificationBadge();
+  }
+}
+
+async function markAllNotificationsRead() {
+  if (!currentUser) return;
+
+  const { error } = await db
+    .from("notifications")
+    .update({ read_at: new Date().toISOString() })
+    .eq("user_id", currentUser.id)
+    .is("read_at", null);
+
+  if (error) {
+    alert("Không đánh dấu được: " + error.message);
+    return;
+  }
+
+  unreadNotificationCount = 0;
+  updateNotificationBadge();
+  await loadNotifications();
+}
+
+async function openNotification(notificationId, type, postId, commentId, actorId) {
+  await markNotificationRead(notificationId);
+
+  if (type === "follow") {
+    notificationTarget = null;
+    currentView = "feed";
+    location.hash = "feed";
+    renderFeedPage();
+    setTimeout(() => openPublicProfile(actorId), 350);
+    return;
+  }
+
+  if (postId) {
+    notificationTarget = {
+      postId: Number(postId),
+      commentId: commentId ? Number(commentId) : null
+    };
+
+    currentView = "feed";
+    location.hash = "feed";
+    renderFeedPage();
+  }
+}
+
+async function focusFeedNotificationTarget(postId, commentId) {
+  expandedCommentsPostId = Number(postId);
+  await loadComments(Number(postId));
+
+  setTimeout(() => {
+    const target = commentId
+      ? document.getElementById(`comment-${commentId}`)
+      : document.getElementById(`post-${postId}`);
+
+    if (!target) return;
+
+    target.scrollIntoView({ behavior: "smooth", block: "center" });
+    target.classList.add("comment-focus");
+    setTimeout(() => target.classList.remove("comment-focus"), 2400);
+  }, 250);
+}
+
+window.requestNotificationPermission = requestNotificationPermission;
+window.openNotification = openNotification;
+window.markAllNotificationsRead = markAllNotificationsRead;
+
+function renderFeedPage() {
   root.innerHTML = layout(`
     ${feedSectionHtml()}
   `, "home");
 
-  setTimeout(loadFeedPosts, 0);
+  setTimeout(async () => {
+    await loadFeedPosts();
+    if (notificationTarget && notificationTarget.postId) {
+      await focusFeedNotificationTarget(notificationTarget.postId, notificationTarget.commentId);
+      notificationTarget = null;
+    }
+  }, 0);
 }
 function renderShop() {
   root.innerHTML = layout(`
@@ -4583,7 +4983,7 @@ function feedPostHtml(post) {
   const followed = followingUserIds.includes(post.user_id);
 
   return `
-    <article class="feed-post-card">
+    <article id="post-${post.id}" class="feed-post-card">
       <div class="feed-author">
         <button onclick="openPublicProfile('${esc(post.user_id)}')">
           <div class="feed-avatar">
@@ -4771,7 +5171,7 @@ function renderCommentTree(comments, postId, parentId = null, depth = 0) {
       const replies = renderCommentTree(comments, postId, comment.id, depth + 1);
 
       return `
-        <div class="comment-item ${depth > 0 ? "is-reply" : ""}">
+        <div id="comment-${comment.id}" class="comment-item ${depth > 0 ? "is-reply" : ""}">
           <div class="comment-head">
             <button class="comment-author" onclick="openPublicProfile('${esc(comment.user_id)}')">
               <span class="comment-avatar">
@@ -5401,6 +5801,12 @@ function collabSectionHtml() {
     };
 
     window.signOut = async function() {
+      if (notificationChannel && db.removeChannel) {
+        await db.removeChannel(notificationChannel);
+      }
+      notificationChannel = null;
+      unreadNotificationCount = 0;
+
       await db.auth.signOut();
 
       currentUser = null;
