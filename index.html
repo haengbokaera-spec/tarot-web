@@ -1766,6 +1766,62 @@
   border-radius: 12px;
   margin-top: 9px;
 }
+    /* DESKTOP ONLY: giữ nguyên mobile, chỉ làm đẹp giao diện trên máy tính */
+@media (min-width: 768px) {
+  html,
+  body {
+    background:
+      radial-gradient(circle at top left, rgba(255, 209, 220, 0.45), transparent 34%),
+      radial-gradient(circle at bottom right, rgba(255, 255, 224, 0.65), transparent 34%),
+      #f7f7f5 !important;
+  }
+
+  body {
+    min-height: 100vh;
+  }
+
+  .app,
+  .auth-page {
+    width: 430px !important;
+    max-width: 430px !important;
+    min-height: 100vh !important;
+    margin: 0 auto !important;
+    border-left: 1px solid rgba(17, 17, 17, 0.16);
+    border-right: 1px solid rgba(17, 17, 17, 0.16);
+    box-shadow:
+      0 0 0 1px rgba(17, 17, 17, 0.04),
+      0 24px 80px rgba(17, 17, 17, 0.13);
+  }
+
+  .topbar {
+    width: 404px !important;
+    max-width: 404px !important;
+    top: 18px !important;
+  }
+
+  .bottom-nav {
+    width: 404px !important;
+    max-width: 404px !important;
+    bottom: 18px !important;
+  }
+
+  .menu {
+    right: calc((100vw - 404px) / 2) !important;
+    top: 98px !important;
+  }
+
+  .page {
+    padding-top: 108px !important;
+    padding-bottom: 106px !important;
+  }
+
+  .card,
+  .feed-post-card,
+  .journal-entry,
+  .price-card {
+    box-shadow: 0 8px 22px rgba(17, 17, 17, 0.045);
+  }
+}
   </style>
 </head>
 
