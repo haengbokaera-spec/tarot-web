@@ -1766,6 +1766,199 @@
   border-radius: 12px;
   margin-top: 9px;
 }
+    /* DESKTOP REAL LAYOUT: mobile giữ nguyên, desktop bung ngang */
+@media (min-width: 900px) {
+  html,
+  body {
+    background:
+      radial-gradient(circle at top left, rgba(255, 209, 220, 0.42), transparent 32%),
+      radial-gradient(circle at bottom right, rgba(255, 255, 224, 0.55), transparent 34%),
+      #f7f7f5 !important;
+  }
+
+  .app {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding-bottom: 0 !important;
+    background: transparent !important;
+    overflow-x: hidden;
+  }
+
+  .topbar {
+    width: calc(100% - 48px) !important;
+    max-width: 1180px !important;
+    min-height: 72px !important;
+    top: 18px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    padding: 12px 18px !important;
+    border-radius: 28px !important;
+  }
+
+  .page {
+    width: 100% !important;
+    max-width: 1180px !important;
+    margin: 0 auto !important;
+    padding: 112px 24px 42px 284px !important;
+  }
+
+  .bottom-nav {
+    width: 236px !important;
+    height: auto !important;
+    left: max(24px, calc((100vw - 1180px) / 2)) !important;
+    top: 112px !important;
+    bottom: auto !important;
+    transform: none !important;
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+    padding: 10px !important;
+    border-radius: 28px !important;
+    overflow: visible !important;
+  }
+
+  .bottom-nav button {
+    min-height: 50px !important;
+    border-radius: 18px !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 0 14px !important;
+    font-size: 13px !important;
+    text-align: left !important;
+  }
+
+  .bottom-nav span {
+    width: 28px !important;
+    height: 28px !important;
+    flex: 0 0 auto !important;
+  }
+
+  .nav-icon {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  .menu {
+    top: 102px !important;
+    right: max(24px, calc((100vw - 1180px) / 2)) !important;
+  }
+
+  .card,
+  .feed-post-card,
+  .journal-entry,
+  .price-card,
+  .tarot-item,
+  .reader-face,
+  .case-option {
+    box-shadow: 0 10px 26px rgba(17, 17, 17, 0.055);
+  }
+
+  .card {
+    padding: 24px !important;
+    margin-bottom: 18px !important;
+  }
+
+  .card h1 {
+    font-size: 34px !important;
+  }
+
+  .card h2 {
+    font-size: 26px !important;
+  }
+
+  .card p {
+    font-size: 15px !important;
+  }
+
+  .quick-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+  }
+
+  .quick-card {
+    min-height: 116px !important;
+  }
+
+  .featured {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+  }
+
+  .featured img {
+    height: 176px !important;
+  }
+
+  .cards-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+  }
+
+  .tarot-flip-card,
+  .tarot-flip-inner {
+    min-height: 420px !important;
+  }
+
+  .tarot-flip-front img {
+    height: 306px !important;
+  }
+
+  .manual-drawn-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+  }
+
+  .manual-card-visual {
+    height: 310px !important;
+  }
+
+  .manual-card-visual .manual-front img {
+    height: 230px !important;
+  }
+
+  .book-section {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+  }
+
+  .price-menu-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+  }
+
+  .feed-post-card,
+  .feed-profile-card,
+  .feed-composer {
+    max-width: 760px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .feed-image {
+    max-height: 520px !important;
+  }
+
+  .journal-card-row {
+    grid-template-columns: 92px 1fr !important;
+  }
+
+  .journal-card-row img {
+    width: 92px !important;
+  }
+
+  .auth-page {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 40px 20px !important;
+  }
+
+  .auth-card {
+    max-width: 430px !important;
+    margin: 0 auto !important;
+  }
+}
   </style>
 </head>
 
