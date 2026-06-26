@@ -1766,7 +1766,8 @@
   border-radius: 12px;
   margin-top: 9px;
 }
-    /* DESKTOP REAL LAYOUT: mobile giữ nguyên, desktop bung ngang */
+  
+/* DESKTOP REAL LAYOUT: mobile giữ nguyên, desktop bung ngang */
 @media (min-width: 900px) {
   html,
   body {
@@ -1959,7 +1960,9 @@
     margin: 0 auto !important;
   }
 }
-    .comment-head {
+
+  
+.comment-head {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -1983,6 +1986,7 @@
   background: #111;
   color: #fff;
 }
+
   </style>
 </head>
 
@@ -4768,12 +4772,26 @@ function renderCommentTree(comments, postId, parentId = null, depth = 0) {
 
       return `
         <div class="comment-item ${depth > 0 ? "is-reply" : ""}">
-          <button class="comment-author" onclick="openPublicProfile('${esc(comment.user_id)}')">
-            <span class="comment-avatar">
-              ${avatar ? `<img src="${esc(avatar)}" alt="Avatar">` : esc(name.charAt(0).toUpperCase())}
-            </span>
-            <strong>${esc(name)}</strong>
-          </button>
+          <div class="comment-head">
+            <button class="comment-author" onclick="openPublicProfile('${esc(comment.user_id)}')">
+              <span class="comment-avatar">
+                ${avatar ? `<img src="${esc(avatar)}" alt="Avatar">` : esc(name.charAt(0).toUpperCase())}
+              </span>
+              <strong>${esc(name)}</strong>
+            </button>
+
+            ${
+              comment.user_id === currentUser.id
+                ? `<button
+                    type="button"
+                    class="comment-delete-btn js-delete-comment"
+                    data-comment-id="${comment.id}"
+                    data-post-id="${postId}"
+                  >Xoá</button>`
+                : ""
+            }
+          </div>
+
           <p>${esc(comment.content)}</p>
           <div class="comment-meta">
             <span>${new Date(comment.created_at).toLocaleString("vi-VN")}</span>
@@ -4809,6 +4827,19 @@ function bindCommentForms(container) {
         : null;
 
       window.createComment(postId, parentId);
+    });
+  });
+
+  container.querySelectorAll(".js-delete-comment[data-comment-id]").forEach(button => {
+    button.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const commentId = Number(button.dataset.commentId);
+      const postId = Number(button.dataset.postId);
+
+      if (!commentId || !postId) return;
+      window.deleteComment(commentId, postId);
     });
   });
 }
@@ -4878,6 +4909,26 @@ window.createComment = async function(postId, parentId = null) {
 
   input.value = "";
   if (status) status.textContent = "Đã gửi bình luận.";
+  await loadFeedPosts();
+};
+
+
+window.deleteComment = async function(commentId, postId) {
+  const ok = confirm("Xoá bình luận này?");
+  if (!ok) return;
+
+  const { error } = await db
+    .from("feed_comments")
+    .delete()
+    .eq("id", Number(commentId))
+    .eq("user_id", currentUser.id);
+
+  if (error) {
+    alert("Không xoá được bình luận: " + error.message);
+    return;
+  }
+
+  expandedCommentsPostId = Number(postId);
   await loadFeedPosts();
 };
 
