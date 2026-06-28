@@ -2087,6 +2087,71 @@
   outline-offset: 2px;
 }
 
+
+/* Social OAuth login */
+.social-auth {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.social-login-btn {
+  width: 100%;
+  min-height: 50px;
+  border: 1px solid #111;
+  border-radius: 18px;
+  background: #fff;
+  color: #111;
+  font-size: 15px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 12px;
+}
+
+.social-login-btn:hover {
+  background: #fafafa;
+}
+
+.social-login-mark {
+  width: 26px;
+  height: 26px;
+  border: 1px solid #111;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1;
+  background: #fff;
+  color: #111;
+}
+
+.social-login-mark.facebook {
+  background: #111;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.auth-divider {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 14px;
+  color: #777;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  height: 1px;
+  background: #d8d8d8;
+}
   </style>
 </head>
 
@@ -2539,25 +2604,50 @@ Trả lời bằng tiếng Việt.
     async function loadProfile() {
       if (!currentUser) return null;
 
-      const { data, error } = await db
+      const metadata = currentUser.user_metadata || {};
+      const oauthName =
+        metadata.display_name ||
+        metadata.full_name ||
+        metadata.name ||
+        metadata.user_name ||
+        "Người dùng FreshSpirit";
+
+      const oauthAvatar = metadata.avatar_url || metadata.picture || null;
+
+      let { data, error } = await db
         .from("profiles")
         .select("*")
         .eq("id", currentUser.id)
         .maybeSingle();
 
       if (!data && !error) {
-        await db.from("profiles").upsert({
+        const profilePayload = {
           id: currentUser.id,
           email: currentUser.email,
-          display_name: "Người dùng FreshSpirit",
+          display_name: oauthName,
           updated_at: new Date().toISOString()
-        });
+        };
+
+        if (oauthAvatar) {
+          profilePayload.avatar_url = oauthAvatar;
+        }
+
+        await db.from("profiles").upsert(profilePayload);
+
+        const profileResult = await db
+          .from("profiles")
+          .select("*")
+          .eq("id", currentUser.id)
+          .maybeSingle();
+
+        data = profileResult.data;
       }
 
       currentProfile = data || {
         id: currentUser.id,
         email: currentUser.email,
-        display_name: "Người dùng FreshSpirit"
+        display_name: oauthName,
+        avatar_url: oauthAvatar
       };
 
       return currentProfile;
@@ -2719,6 +2809,20 @@ else if (currentView === "room") renderRoom();
               <button class="${authMode === "signup" ? "active" : ""}" onclick="setAuthMode('signup')">Sign up</button>
             </div>
 
+            <div class="social-auth">
+              <button class="social-login-btn" type="button" onclick="signInWithProvider('google')">
+                <span class="social-login-mark">G</span>
+                <span>Tiếp tục với Google</span>
+              </button>
+
+              <button class="social-login-btn" type="button" onclick="signInWithProvider('facebook')">
+                <span class="social-login-mark facebook">f</span>
+                <span>Tiếp tục với Facebook</span>
+              </button>
+            </div>
+
+            <div class="auth-divider"><span>hoặc dùng email</span></div>
+
             <form id="authForm" class="form">
               ${authMode === "signup" ? `<input id="displayName" type="text" placeholder="Tên hiển thị" required>` : ""}
 
@@ -2741,6 +2845,27 @@ else if (currentView === "room") renderRoom();
     window.setAuthMode = function(mode) {
       authMode = mode;
       renderAuth();
+    };
+
+    window.signInWithProvider = async function(provider) {
+      const authMessage = document.getElementById("authMessage");
+
+      if (authMessage) {
+        authMessage.textContent = provider === "google" ? "Đang chuyển sang Google..." : "Đang chuyển sang Facebook...";
+      }
+
+      const redirectTo = `${window.location.origin}${window.location.pathname}`;
+
+      const { error } = await db.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo
+        }
+      });
+
+      if (error && authMessage) {
+        authMessage.textContent = error.message;
+      }
     };
 
     async function handleAuth(event) {
